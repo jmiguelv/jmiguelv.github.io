@@ -126,6 +126,10 @@ footer a {
   text-decoration: underline;
 }
 
+a.icon_link {
+  margin-right: 1em;
+}
+
 em {
   font-style: italic;
 }
