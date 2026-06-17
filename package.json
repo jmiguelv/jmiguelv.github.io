@@ -1,0 +1,23 @@
+{
+  "name": "jmiguelv-portfolio",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "6.4.4",
+    "@fontsource/inter": "5.2.5",
+    "@fontsource/eb-garamond": "5.2.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.4",
+    "typescript": "5.7.3"
+  },
+  "packageManager": "pnpm@11.0.4"
+}

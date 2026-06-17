@@ -1,0 +1,16 @@
+---
+interface Props {
+  title: string;
+  authors: string[];
+  year: number;
+  venue: string;
+  url?: string;
+}
+
+const { title, authors, year, venue, url } = Astro.props;
+---
+
+<li>
+  {url ? <a href={url} rel="noopener">{title}</a> : <span>{title}</span>}
+  <span class="meta">{authors.join(', ')} · {venue} · {year}</span>
+</li>

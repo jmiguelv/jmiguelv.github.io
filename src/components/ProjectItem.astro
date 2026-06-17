@@ -1,0 +1,34 @@
+---
+interface Props {
+  title: string;
+  url: string;
+  startYear: number | null;
+  endYear: number | null;
+  partners: string[];
+  summary: string;
+}
+
+const { title, url, startYear, endYear, partners, summary } = Astro.props;
+
+function yearRange(start: number | null, end: number | null): string {
+  if (start === null && end === null) return '—';
+  if (start === null) return `→ ${end}`;
+  if (end === null) return `${start} →`;
+  if (start === end) return `${start}`;
+  return `${start} – ${end}`;
+}
+---
+
+<details>
+  <summary>
+    <span class="title">{title}</span>
+    <span class="years">{yearRange(startYear, endYear)}</span>
+  </summary>
+  <div class="body">
+    <p>{summary}</p>
+    <p><a href={url} rel="noopener">Visit project →</a></p>
+    {partners.length > 0 && (
+      <p class="partners">{partners.join(' · ')}</p>
+    )}
+  </div>
+</details>
