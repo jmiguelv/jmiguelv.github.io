@@ -11,12 +11,12 @@ importers:
 
   .:
     dependencies:
-      '@fontsource/eb-garamond':
-        specifier: 5.2.5
-        version: 5.2.5
-      '@fontsource/inter':
-        specifier: 5.2.5
-        version: 5.2.5
+      '@fontsource-variable/space-grotesk':
+        specifier: 5.2.10
+        version: 5.2.10
+      '@fontsource/ibm-plex-mono':
+        specifier: 5.2.7
+        version: 5.2.7
       astro:
         specifier: 6.4.4
         version: 6.4.4(rollup@4.61.1)(yaml@2.9.0)
@@ -280,11 +280,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@fontsource/eb-garamond@5.2.5':
-    resolution: {integrity: sha512-1c2I2QjDu7sEzs7Pb/fc3aX8mKrVwlBm05KttfrAQK11GYBXLSBS7KpcGB8IgQj/b/WH7sxP1XtYRsKTfNpvWQ==}
+  '@fontsource-variable/space-grotesk@5.2.10':
+    resolution: {integrity: sha512-yJQO/o35/hAP3CFnpdFTwQku2yzJOae2HIpBmqkOVoxhhXJaQP3g+b6Jrz7u+eI7A5ZdCIf88uMWpBJdFiGr5w==}
 
-  '@fontsource/inter@5.2.5':
-    resolution: {integrity: sha512-kbsPKj0S4p44JdYRFiW78Td8Ge2sBVxi/PIBwmih+RpSXUdvS9nbs1HIiuUSPtRMi14CqLEZ/fbk7dj7vni1Sg==}
+  '@fontsource/ibm-plex-mono@5.2.7':
+    resolution: {integrity: sha512-MKAb8qV+CaiMQn2B0dIi1OV3565NYzp3WN5b4oT6LTkk+F0jR6j0ZN+5BKJiIhffDC3rtBULsYZE65+0018z9w==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -1989,9 +1989,9 @@ snapshots:
   '@esbuild/win32-x64@0.27.7':
     optional: true
 
-  '@fontsource/eb-garamond@5.2.5': {}
+  '@fontsource-variable/space-grotesk@5.2.10': {}
 
-  '@fontsource/inter@5.2.5': {}
+  '@fontsource/ibm-plex-mono@5.2.7': {}
 
   '@img/colour@1.1.0':
     optional: true

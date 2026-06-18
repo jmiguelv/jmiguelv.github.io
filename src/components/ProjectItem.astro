@@ -6,27 +6,31 @@ interface Props {
   endYear: number | null;
   partners: string[];
   summary: string;
+  index: number;
 }
 
-const { title, url, startYear, endYear, partners, summary } = Astro.props;
+const { title, url, startYear, endYear, partners, summary, index } = Astro.props;
 
 function yearRange(start: number | null, end: number | null): string {
   if (start === null && end === null) return '—';
-  if (start === null) return `→ ${end}`;
-  if (end === null) return `${start} →`;
+  if (start === null) return `→${end}`;
+  if (end === null) return `${start}→`;
   if (start === end) return `${start}`;
-  return `${start} – ${end}`;
+  return `${start}–${end}`;
 }
+
+const num = String(index).padStart(2, '0');
 ---
 
 <details>
   <summary>
+    <span class="marker">+</span>
     <span class="title">{title}</span>
-    <span class="years">{yearRange(startYear, endYear)}</span>
   </summary>
   <div class="body">
+    <p class="years">{yearRange(startYear, endYear)}</p>
     <p>{summary}</p>
-    <p><a href={url} rel="noopener">Visit project →</a></p>
+    <p><a class="visit" href={url} rel="noopener">Visit project</a></p>
     {partners.length > 0 && (
       <p class="partners">{partners.join(' · ')}</p>
     )}
