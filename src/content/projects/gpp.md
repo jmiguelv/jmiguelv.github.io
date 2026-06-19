@@ -1,7 +1,11 @@
 ---
 title: "Georgian Papers Programme"
 slug: "gpp"
-url: "https://kdl.kcl.ac.uk/projects/gpp/"
+links:
+  - url: "https://georgianpapers.com/"
+    label: "Project site"
+  - url: "https://kdl.kcl.ac.uk/projects/gpp/"
+    label: "More information"
 startYear: 2018
 endYear: 2026
 partners:

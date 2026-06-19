@@ -1,7 +1,12 @@
 ---
+interface Link {
+  url: string;
+  label: string;
+}
+
 interface Props {
   title: string;
-  url: string;
+  links: Link[];
   startYear: number | null;
   endYear: number | null;
   partners: string[];
@@ -9,7 +14,7 @@ interface Props {
   index: number;
 }
 
-const { title, url, startYear, endYear, partners, summary, index } = Astro.props;
+const { title, links, startYear, endYear, partners, summary, index } = Astro.props;
 
 function yearRange(start: number | null, end: number | null): string {
   if (start === null && end === null) return '—';
@@ -30,7 +35,15 @@ const num = String(index).padStart(2, '0');
   <div class="body">
     <p class="years">{yearRange(startYear, endYear)}</p>
     <p>{summary}</p>
-    <p><a class="visit" href={url} rel="noopener">Visit project</a></p>
+    <ul class="links">
+      {links.map((l) => (
+        <li>
+          <a class="visit" href={l.url} rel="noopener" aria-label={`${title} — ${l.label}`}>
+            {l.label}
+          </a>
+        </li>
+      ))}
+    </ul>
     {partners.length > 0 && (
       <p class="partners">{partners.join(' · ')}</p>
     )}

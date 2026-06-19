@@ -1,7 +1,13 @@
 ---
 title: "King's Past"
 slug: "king-s-past"
-url: "https://kdl.kcl.ac.uk/projects/king-s-past/"
+links:
+  - url: "https://kingspast.kcl.ac.uk/"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/kings-past"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/king-s-past/"
+    label: "More information"
 startYear: 2023
 endYear: 2025
 partners:

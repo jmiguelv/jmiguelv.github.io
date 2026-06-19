@@ -1,7 +1,13 @@
 ---
 title: "Language Acts and Worldmaking"
 slug: "owri"
-url: "https://kdl.kcl.ac.uk/projects/owri/"
+links:
+  - url: "https://languageacts.org/"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/owri-holding-page"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/owri/"
+    label: "More information"
 startYear: 2016
 endYear: 2021
 partners:

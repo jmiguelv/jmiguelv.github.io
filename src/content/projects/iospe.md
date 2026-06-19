@@ -1,7 +1,11 @@
 ---
 title: "Ancient Inscriptions of the Northern Black Sea"
 slug: "iospe"
-url: "https://kdl.kcl.ac.uk/projects/iospe/"
+links:
+  - url: "http://iospe.kcl.ac.uk/index.html"
+    label: "Project site"
+  - url: "https://kdl.kcl.ac.uk/projects/iospe/"
+    label: "More information"
 startYear: 2011
 endYear: 2017
 partners:

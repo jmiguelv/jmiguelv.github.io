@@ -1,7 +1,11 @@
 ---
 title: "Digital Humanities Laboratory: Studying the Entanglement of Infrastructure and Technology in Knowledge Production"
 slug: "marie-curie-fellowship-dhlab"
-url: "https://kdl.kcl.ac.uk/projects/marie-curie-fellowship-dhlab/"
+links:
+  - url: "https://dhinfra-org.github.io/"
+    label: "Project site"
+  - url: "https://kdl.kcl.ac.uk/projects/marie-curie-fellowship-dhlab/"
+    label: "More information"
 startYear: 2020
 endYear: 2023
 partners:

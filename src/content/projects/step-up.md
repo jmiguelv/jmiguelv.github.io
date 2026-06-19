@@ -1,7 +1,13 @@
 ---
 title: "STEP-UP: a Strategic TEchnical Platform for University technical Professionals"
 slug: "step-up"
-url: "https://kdl.kcl.ac.uk/projects/step-up/"
+links:
+  - url: "https://step-up.ac.uk/"
+    label: "Project site"
+  - url: "https://www.kcl.ac.uk/research/step-up-a-strategic-technical-platform-for-university-technical-professionals"
+    label: "Faculty page"
+  - url: "https://kdl.kcl.ac.uk/projects/step-up/"
+    label: "More information"
 startYear: 2024
 endYear: 2027
 partners:

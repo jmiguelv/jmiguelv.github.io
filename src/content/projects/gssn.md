@@ -1,7 +1,13 @@
 ---
 title: "German Screen Studies Network"
 slug: "gssn"
-url: "https://kdl.kcl.ac.uk/projects/gssn/"
+links:
+  - url: "http://www.germanscreenstudies.eu/"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/gssn-django"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/gssn/"
+    label: "More information"
 startYear: 2016
 endYear: 2016
 partners:

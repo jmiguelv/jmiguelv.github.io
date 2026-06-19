@@ -1,7 +1,13 @@
 ---
 title: "CROSSREADS: Text, materiality, and multiculturalism at the crossroads of the ancient Mediterranean"
 slug: "crossreads"
-url: "https://kdl.kcl.ac.uk/projects/crossreads/"
+links:
+  - url: "https://sicily.classics.ox.ac.uk/"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/corpus-building"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/crossreads/"
+    label: "More information"
 startYear: 2020
 endYear: 2026
 partners:

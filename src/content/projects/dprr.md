@@ -1,7 +1,13 @@
 ---
 title: "Digital Prosopography of the Roman Republic"
 slug: "dprr"
-url: "https://kdl.kcl.ac.uk/projects/dprr/"
+links:
+  - url: "https://romanrepublic.ac.uk/"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/dprr-django"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/dprr/"
+    label: "More information"
 startYear: 2013
 endYear: 2017
 partners:

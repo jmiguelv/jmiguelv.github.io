@@ -1,7 +1,11 @@
 ---
 title: "Language of Landscape"
 slug: "langscape"
-url: "https://kdl.kcl.ac.uk/projects/langscape/"
+links:
+  - url: "http://www.langscape.org.uk/index.html"
+    label: "Project site"
+  - url: "https://kdl.kcl.ac.uk/projects/langscape/"
+    label: "More information"
 startYear: 2004
 endYear: 2008
 partners:

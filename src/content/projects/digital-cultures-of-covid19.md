@@ -1,7 +1,11 @@
 ---
 title: "Digital Methods for Investigating Online Engagement with Coronavirus"
 slug: "digital-cultures-of-covid19"
-url: "https://kdl.kcl.ac.uk/projects/digital-cultures-of-covid19/"
+links:
+  - url: "https://journals.sagepub.com/doi/10.1177/20563051231196538"
+    label: "Paper"
+  - url: "https://kdl.kcl.ac.uk/projects/digital-cultures-of-covid19/"
+    label: "More information"
 startYear: 2020
 endYear: 2022
 partners: []

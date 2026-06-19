@@ -1,7 +1,11 @@
 ---
 title: "The Redress of the Past: Historical Pageants in Britain"
 slug: "hp"
-url: "https://kdl.kcl.ac.uk/projects/hp/"
+links:
+  - url: "http://www.historicalpageants.ac.uk/"
+    label: "Project site"
+  - url: "https://kdl.kcl.ac.uk/projects/hp/"
+    label: "More information"
 startYear: 2013
 endYear: 2020
 partners:

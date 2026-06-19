@@ -1,7 +1,11 @@
 ---
 title: "Slavery in War"
 slug: "slavery-in-war"
-url: "https://kdl.kcl.ac.uk/projects/slavery-in-war/"
+links:
+  - url: "https://www.slaveryinwar.org/"
+    label: "Project site"
+  - url: "https://kdl.kcl.ac.uk/projects/slavery-in-war/"
+    label: "More information"
 startYear: 2025
 endYear: 2030
 partners:

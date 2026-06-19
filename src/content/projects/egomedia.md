@@ -1,7 +1,13 @@
 ---
 title: "Ego Media: Life Writing and Online Affordances"
 slug: "egomedia"
-url: "https://kdl.kcl.ac.uk/projects/egomedia/"
+links:
+  - url: "https://www.egomedia.org"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/egomedia-django"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/egomedia/"
+    label: "More information"
 startYear: 2018
 endYear: 2023
 partners:

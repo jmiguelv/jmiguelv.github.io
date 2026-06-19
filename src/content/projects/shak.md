@@ -1,7 +1,13 @@
 ---
 title: "Shakespeare400"
 slug: "shak"
-url: "https://kdl.kcl.ac.uk/projects/shak/"
+links:
+  - url: "https://shakespeare400.kcl.ac.uk/"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/shakespeare400-django"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/shak/"
+    label: "More information"
 startYear: 2016
 endYear: 2016
 partners:

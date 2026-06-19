@@ -13,7 +13,7 @@
   --site-link-hover: #0047ab;
   --site-mark: #d4521c;
   --font-serif: 'Space Grotesk Variable', system-ui, -apple-system, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --font-mono: 'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 }
 
 :root:has(.theme-input:checked) {
@@ -281,6 +281,15 @@ details .body p {
   text-wrap: pretty;
 }
 
+details .body .links {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.65rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 1.25rem;
+}
+
 details .body .visit {
   font-family: var(--font-mono);
   font-size: 0.75rem;
@@ -302,11 +311,6 @@ details .partners {
   line-height: 1.7;
   margin-block-start: 0.6rem;
   letter-spacing: 0.02em;
-}
-
-details .partners::before {
-  content: 'with: ';
-  color: var(--site-mark);
 }
 
 /* ────────────────────────── publications ────────────────────────── */

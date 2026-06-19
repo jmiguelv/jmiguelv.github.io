@@ -1,7 +1,13 @@
 ---
 title: "Intelligent Systems for Screen Archives"
 slug: "intelligent-systems-for-screen-archivesv-issa"
-url: "https://kdl.kcl.ac.uk/projects/intelligent-systems-for-screen-archivesv-issa/"
+links:
+  - url: "https://www.kcl.ac.uk/research/issa"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/issa/wiki/"
+    label: "Project wiki"
+  - url: "https://kdl.kcl.ac.uk/projects/intelligent-systems-for-screen-archivesv-issa/"
+    label: "More information"
 startYear: 2025
 endYear: 2027
 partners:

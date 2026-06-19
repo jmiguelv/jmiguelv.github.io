@@ -1,7 +1,13 @@
 ---
 title: "Farm-level Interdisciplinary Approaches to Endemic Livestock Disease"
 slug: "field"
-url: "https://kdl.kcl.ac.uk/projects/field/"
+links:
+  - url: "https://field-wt.co.uk/"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/field-django"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/field/"
+    label: "More information"
 startYear: 2018
 endYear: 2023
 partners:

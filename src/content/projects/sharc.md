@@ -1,7 +1,13 @@
 ---
 title: "Shakespeare Holdings in the Royal Collection"
 slug: "sharc"
-url: "https://kdl.kcl.ac.uk/projects/sharc/"
+links:
+  - url: "https://sharc.kcl.ac.uk/"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/autharch_sharc"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/sharc/"
+    label: "More information"
 startYear: 2018
 endYear: 2022
 partners:

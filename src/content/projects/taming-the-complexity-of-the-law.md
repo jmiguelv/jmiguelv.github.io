@@ -1,7 +1,13 @@
 ---
 title: "Taming the Complexity of the Law"
 slug: "taming-the-complexity-of-the-law"
-url: "https://kdl.kcl.ac.uk/projects/taming-the-complexity-of-the-law/"
+links:
+  - url: "https://kingsdigitallab.github.io/tcl/"
+    label: "Prototype visualisation"
+  - url: "https://zenodo.org/records/10213701"
+    label: "Hackathon report"
+  - url: "https://kdl.kcl.ac.uk/projects/taming-the-complexity-of-the-law/"
+    label: "More information"
 startYear: 2018
 endYear: 2018
 partners:

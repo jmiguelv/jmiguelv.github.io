@@ -6,7 +6,14 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     slug: z.string(),
-    url: z.string().url(),
+    links: z
+      .array(
+        z.object({
+          url: z.string().url(),
+          label: z.string(),
+        }),
+      )
+      .min(1),
     startYear: z.number().nullable(),
     endYear: z.number().nullable(),
     partners: z.array(z.string()).default([]),

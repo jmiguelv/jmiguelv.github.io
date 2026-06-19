@@ -1,7 +1,11 @@
 ---
 title: "African Rock Art"
 slug: "african-rock-art"
-url: "https://kdl.kcl.ac.uk/projects/african-rock-art/"
+links:
+  - url: "https://africanrockart.britishmuseum.org/"
+    label: "Project site"
+  - url: "https://kdl.kcl.ac.uk/projects/african-rock-art/"
+    label: "More information"
 startYear: 2018
 endYear: 2023
 partners:

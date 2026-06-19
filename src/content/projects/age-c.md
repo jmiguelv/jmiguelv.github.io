@@ -1,11 +1,15 @@
 ---
 title: "AGE-C: Ageing and Gender in European Cinema"
 slug: "age-c"
-url: "https://kdl.kcl.ac.uk/projects/age-c/"
+links:
+  - url: "https://kingsdigitallab.github.io/age-c"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/age-c"
+    label: "Source code"
 startYear: 2025
 endYear: 2026
 partners:
-  - "FAH Department of Film Studies, Faculty of Arts and Humanities"
+  - "Department of Film Studies, Faculty of Arts and Humanities"
   - "Goethe-Universität"
   - "Universitatea Babeș-Bolyai"
   - "Università degli Studi di Udine"

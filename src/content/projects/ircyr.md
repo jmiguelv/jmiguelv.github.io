@@ -1,7 +1,13 @@
 ---
 title: "Inscriptions of Roman Cyrenaica"
 slug: "ircyr"
-url: "https://kdl.kcl.ac.uk/projects/ircyr/"
+links:
+  - url: "https://ircyr2020.inslib.kcl.ac.uk/"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/ircyr-efes"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/ircyr/"
+    label: "More information"
 startYear: 2020
 endYear: 2020
 partners:

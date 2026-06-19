@@ -1,7 +1,13 @@
 ---
 title: "A Publishing and Communication History of the Ministry of Information, 1939-45"
 slug: "moi"
-url: "https://kdl.kcl.ac.uk/projects/moi/"
+links:
+  - url: "https://moidigital.ac.uk/"
+    label: "Project site"
+  - url: "https://gitlab.kdl.kcl.ac.uk/legacy_projects/moi"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/moi/"
+    label: "More information"
 startYear: 2013
 endYear: 2017
 partners:

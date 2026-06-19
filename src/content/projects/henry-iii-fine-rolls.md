@@ -1,7 +1,11 @@
 ---
 title: "Henry III Fine Rolls"
 slug: "henry-iii-fine-rolls"
-url: "https://kdl.kcl.ac.uk/projects/henry-iii-fine-rolls/"
+links:
+  - url: "https://finerollshenry3.org.uk/"
+    label: "Project site"
+  - url: "https://kdl.kcl.ac.uk/projects/henry-iii-fine-rolls/"
+    label: "More information"
 startYear: 2008
 endYear: 2011
 partners:

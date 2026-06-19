@@ -1,7 +1,13 @@
 ---
 title: "État Civil: French expatriates in Ottoman Egypt"
 slug: "etat-civil"
-url: "https://kdl.kcl.ac.uk/projects/etat-civil/"
+links:
+  - url: "https://histecon.fas.harvard.edu/visualizing/egypt/index.html"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/etat-civil-django"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/etat-civil/"
+    label: "More information"
 startYear: 2019
 endYear: 2020
 partners:

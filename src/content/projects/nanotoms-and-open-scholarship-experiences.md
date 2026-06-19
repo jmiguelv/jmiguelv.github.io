@@ -1,7 +1,11 @@
 ---
 title: "Narrative Atoms and Open Scholarship Experiences"
 slug: "nanotoms-and-open-scholarship-experiences"
-url: "https://kdl.kcl.ac.uk/projects/nanotoms-and-open-scholarship-experiences/"
+links:
+  - url: "https://github.com/kingsdigitallab/nanotoms"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/nanotoms-and-open-scholarship-experiences/"
+    label: "More information"
 startYear: 2018
 endYear: 2018
 partners:

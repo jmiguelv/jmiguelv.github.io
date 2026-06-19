@@ -1,7 +1,13 @@
 ---
 title: "Radical Translations: The Transfer of Revolutionary Culture between Britain, France and Italy"
 slug: "radical-translations"
-url: "https://kdl.kcl.ac.uk/projects/radical-translations/"
+links:
+  - url: "https://radicaltranslations.org/"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/radical_translations"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/radical-translations/"
+    label: "More information"
 startYear: 2019
 endYear: 2024
 partners:

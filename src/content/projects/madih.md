@@ -1,7 +1,13 @@
 ---
 title: "Mapping Digital Cultural Heritage in Jordan"
 slug: "madih"
-url: "https://kdl.kcl.ac.uk/projects/madih/"
+links:
+  - url: "http://madih-jordan.org/"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/ckanext-kdl_madih"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/madih/"
+    label: "More information"
 startYear: 2019
 endYear: 2021
 partners:

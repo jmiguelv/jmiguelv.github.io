@@ -1,7 +1,11 @@
 ---
 title: "Nineteenth-Century Serials Edition"
 slug: "nineteenth-century-serials-edition"
-url: "https://kdl.kcl.ac.uk/projects/nineteenth-century-serials-edition/"
+links:
+  - url: "https://ncse.ac.uk/"
+    label: "Project site"
+  - url: "https://kdl.kcl.ac.uk/projects/nineteenth-century-serials-edition/"
+    label: "More information"
 startYear: 2017
 endYear: 2021
 partners:

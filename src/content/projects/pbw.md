@@ -1,7 +1,13 @@
 ---
 title: "Prosopography of the Byzantine World"
 slug: "pbw"
-url: "https://kdl.kcl.ac.uk/projects/pbw/"
+links:
+  - url: "https://pbw2016.kdl.kcl.ac.uk/"
+    label: "Project site"
+  - url: "https://github.com/kingsdigitallab/pbw-django"
+    label: "Source code"
+  - url: "https://kdl.kcl.ac.uk/projects/pbw/"
+    label: "More information"
 startYear: 2000
 endYear: 2016
 partners:

@@ -1,7 +1,13 @@
 ---
 title: "iREAL: Inclusive Requirements Elicitation for AI in Libraries to support respectful management of Indigenous knowledges"
 slug: "ireal"
-url: "https://kdl.kcl.ac.uk/projects/ireal/"
+links:
+  - url: "https://irealrai.org/"
+    label: "Project site"
+  - url: "https://www.kcl.ac.uk/research/ireal"
+    label: "Faculty page"
+  - url: "https://kdl.kcl.ac.uk/projects/ireal/"
+    label: "More information"
 startYear: 2024
 endYear: 2024
 partners:

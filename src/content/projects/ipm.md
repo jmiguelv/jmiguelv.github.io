@@ -1,7 +1,11 @@
 ---
 title: "Mapping the Medieval Countryside: The Fifteenth-Century Inquisitions Post Mortem"
 slug: "ipm"
-url: "https://kdl.kcl.ac.uk/projects/ipm/"
+links:
+  - url: "https://inquisitionspostmortem.ac.uk/"
+    label: "Project site"
+  - url: "https://kdl.kcl.ac.uk/projects/ipm/"
+    label: "More information"
 startYear: 2011
 endYear: 2014
 partners:
