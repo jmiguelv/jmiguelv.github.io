@@ -56,10 +56,6 @@ label[for='theme-toggle']:hover {
 }
 
 html {
-  transition: background-color 220ms ease, color 220ms ease;
-}
-
-html {
   background: var(--site-bg);
   color: var(--site-fg);
   font-family: var(--font-serif);
@@ -68,6 +64,7 @@ html {
   font-feature-settings: 'liga' 1, 'kern' 1, 'onum' 1;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  transition: background-color 220ms ease, color 220ms ease;
 }
 
 body {
@@ -189,7 +186,8 @@ a:hover {
 
 /* ────────────────────────── projects ────────────────────────── */
 
-.projects-list {
+.projects-list,
+.publications-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -315,12 +313,6 @@ details .partners {
 }
 
 /* ────────────────────────── publications ────────────────────────── */
-
-.publications-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
 
 .publications-list > li {
   padding-block: 0.85rem;
