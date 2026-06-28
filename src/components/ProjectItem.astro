@@ -9,12 +9,11 @@ interface Props {
   links: Link[];
   startYear: number | null;
   endYear: number | null;
-  partners: string[];
   summary: string;
   index: number;
 }
 
-const { title, links, startYear, endYear, partners, summary, index } = Astro.props;
+const { title, links, startYear, endYear, summary, index } = Astro.props;
 
 function yearRange(start: number | null, end: number | null): string {
   if (start === null && end === null) return '—';
@@ -44,8 +43,5 @@ const num = String(index).padStart(2, '0');
         </li>
       ))}
     </ul>
-    {partners.length > 0 && (
-      <p class="partners">{partners.join(' · ')}</p>
-    )}
   </div>
 </details>
