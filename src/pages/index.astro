@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import ProjectItem from "../components/ProjectItem.astro";
 import PublicationItem from "../components/PublicationItem.astro";
+import { version } from "../../package.json";
 
 const projectEntries = await getCollection("projects");
 const projects = projectEntries
@@ -130,7 +131,7 @@ const publications = publicationEntries
         >
         <a href="https://github.com/jmiguelv" rel="noopener">GitHub</a>
         <span class="colophon">
-            Built with <a href="https://astro.build" rel="noopener">Astro</a>
+            v{version} — Built with <a href="https://astro.build" rel="noopener">Astro</a>
         </span>
     </footer>
 </Base>
