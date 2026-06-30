@@ -65,19 +65,72 @@
 }
 
 label[for='theme-toggle'] {
+  position: relative;
+  display: inline-block;
+  width: 0.14em;
+  height: 0.14em;
+  margin-inline: 0.05em;
+  vertical-align: middle;
   cursor: pointer;
   user-select: none;
-  transition: transform 200ms ease;
 }
 
-label[for='theme-toggle']:hover {
-  transform: rotate(-12deg);
+/*
+ * Theme toggle: the separator is a pure-CSS filled dot (no text glyph), with a
+ * wider ring as the hover affordance. Both are CSS circles centred on the
+ * label's box — which IS the dot's box — so the ring sits exactly on the dot
+ * with no font-metric drift. A faint resting ring hints the dot is
+ * interactive; hover and keyboard focus bloom it to full strength.
+ */
+
+/* The dot itself. */
+label[for='theme-toggle']::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.14em;
+  height: 0.14em;
+  transform: translate(-50%, -50%);
+  background: var(--site-mark);
+  border-radius: 50%;
 }
 
-.theme-input:focus-visible + .name label[for='theme-toggle'] {
-  outline: 2px solid var(--site-mark);
-  outline-offset: 4px;
-  border-radius: 0.1em;
+/* The enveloping ring. */
+label[for='theme-toggle']::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.28em;
+  height: 0.28em;
+  transform: translate(-50%, -50%) scale(0.7);
+  border: 1.5px solid var(--site-mark);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+label[for='theme-toggle']:hover::after {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+/* Keyboard focus: same bloom, thicker border for a robust indicator. */
+.theme-input:focus-visible + .name label[for='theme-toggle']::after {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  border-width: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  label[for='theme-toggle']::after {
+    transition:
+      transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 220ms ease,
+      border-width 180ms ease;
+  }
 }
 
 html {
@@ -126,13 +179,8 @@ header.site .name i {
   font-weight: 400;
 }
 
-header.site .name .sep {
-  color: var(--site-mark);
-  display: inline-block;
-  padding-inline: 0.05em;
-  font-weight: 400;
-  font-style: normal;
-}
+/* The name separator (.sep) is the theme-toggle dot, styled as a pure-CSS
+   circle in the `label[for='theme-toggle']` rules above. */
 
 header.site .role {
   display: block;
