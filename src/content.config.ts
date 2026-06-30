@@ -29,7 +29,7 @@ const publications = defineCollection({
     year: z.number(),
     venue: z.string(),
     url: z.url().optional(),
-    type: z.enum(['article', 'chapter', 'conference', 'report']),
+    type: z.enum(['article', 'chapter', 'conference', 'report', 'book', 'software', 'dataset', 'website']),
   }),
 });
 

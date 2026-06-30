@@ -147,7 +147,8 @@ header.site .role {
 header.site .role .sep {
   color: var(--site-mark);
   font-style: normal;
-  padding-inline: 0.4em;
+  font-family: var(--font-mono);
+  padding-inline: 0.35em;
 }
 
 /* ────────────────────────── sections + h2 ────────────────────────── */
@@ -177,9 +178,17 @@ p {
 
 .about p {
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 1.65;
+  text-align: justify;
+  hyphens: auto;
   text-wrap: pretty;
   hanging-punctuation: first;
+}
+
+/* Editorial flourish: small caps + light tracking on the opening line. */
+.about p:first-child::first-line {
+  font-variant-caps: small-caps;
+  letter-spacing: 0.04em;
 }
 
 /* ────────────────────────── links ────────────────────────── */
@@ -334,6 +343,37 @@ details .partners {
   letter-spacing: 0.02em;
 }
 
+/* ────────────────────────── publications by year ────────────────────────── */
+
+.publication-years > .year-group {
+  border-block-end: 1px solid var(--site-rule);
+}
+
+.year-group .publications-list > li:last-child {
+  border-block-end: none;
+  padding-block-end: 0;
+}
+
+details > summary .year-label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+details > summary .year-label .count {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--site-muted);
+  letter-spacing: 0.02em;
+}
+
+.year-group > .body {
+  padding-inline-start: 2.1rem;
+  padding-block-start: 0;
+}
+
 /* ────────────────────────── footer ────────────────────────── */
 
 footer.site {
@@ -363,8 +403,7 @@ footer.site a:hover {
 }
 
 footer.site .colophon {
-  flex-basis: 100%;
-  margin-block-start: 0.75rem;
+  margin-inline-start: auto;
   text-transform: none;
   letter-spacing: 0.02em;
   font-family: var(--font-serif);

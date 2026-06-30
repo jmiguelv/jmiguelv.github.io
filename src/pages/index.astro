@@ -21,6 +21,17 @@ const publicationEntries = await getCollection("publications");
 const publications = publicationEntries
     .map((e) => e.data)
     .sort((a, b) => b.year - a.year);
+
+// Group publications by year (descending) for collapsible year sections.
+const publicationsByYear = new Map<number, typeof publications>();
+for (const pub of publications) {
+    const group = publicationsByYear.get(pub.year) ?? [];
+    group.push(pub);
+    publicationsByYear.set(pub.year, group);
+}
+const publicationGroups = [...publicationsByYear.entries()]
+    .sort((a, b) => b[0] - a[0])
+    .map(([year, items]) => ({ year, items }));
 ---
 
 <Base title="Miguel Vieira — Research Software Engineer">
@@ -40,7 +51,7 @@ const publications = publicationEntries
         </h1>
         <p class="role">
             Research Software Engineer
-            <span class="sep">✦</span>
+            <span class="sep">+</span>
             Digital Humanities
         </p>
     </header>
@@ -106,17 +117,38 @@ const publications = publicationEntries
                         .
                     </p>
                 ) : (
-                    <ul class="publications-list">
-                        {publications.map((p) => (
-                            <PublicationItem
-                                title={p.title}
-                                authors={p.authors}
-                                year={p.year}
-                                venue={p.venue}
-                                url={p.url}
-                            />
+                    <div class="publication-years">
+                        {publicationGroups.map((g, i) => (
+                            <details class="year-group" open={i === 0}>
+                                <summary>
+                                    <span class="marker">+</span>
+                                    <span class="year-label">
+                                        <span class="title">{g.year}</span>
+                                        <span class="count">
+                                            {" · "}
+                                            {g.items.length}{" "}
+                                            {g.items.length === 1
+                                                ? "publication"
+                                                : "publications"}
+                                        </span>
+                                    </span>
+                                </summary>
+                                <div class="body">
+                                    <ul class="publications-list">
+                                        {g.items.map((p) => (
+                                            <PublicationItem
+                                                title={p.title}
+                                                authors={p.authors}
+                                                year={p.year}
+                                                venue={p.venue}
+                                                url={p.url}
+                                            />
+                                        ))}
+                                    </ul>
+                                </div>
+                            </details>
                         ))}
-                    </ul>
+                    </div>
                 )
             }
         </section>
@@ -128,7 +160,7 @@ const publications = publicationEntries
         >
         <a href="https://github.com/jmiguelv" rel="noopener">GitHub</a>
         <span class="colophon">
-            Set in Space Grotesk &amp; Space Mono · Built with <a href="https://astro.build" rel="noopener">Astro</a> · No tracking
+            Built with <a href="https://astro.build" rel="noopener">Astro</a>
         </span>
     </footer>
 </Base>
