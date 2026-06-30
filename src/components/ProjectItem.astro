@@ -10,10 +10,9 @@ interface Props {
   startYear: number | null;
   endYear: number | null;
   summary: string;
-  index: number;
 }
 
-const { title, links, startYear, endYear, summary, index } = Astro.props;
+const { title, links, startYear, endYear, summary } = Astro.props;
 
 function yearRange(start: number | null, end: number | null): string {
   if (start === null && end === null) return '—';
@@ -22,8 +21,6 @@ function yearRange(start: number | null, end: number | null): string {
   if (start === end) return `${start}`;
   return `${start}–${end}`;
 }
-
-const num = String(index).padStart(2, '0');
 ---
 
 <details>

@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
 const projects = defineCollection({
@@ -9,7 +10,7 @@ const projects = defineCollection({
     links: z
       .array(
         z.object({
-          url: z.string().url(),
+          url: z.url(),
           label: z.string(),
         }),
       )
@@ -28,7 +29,7 @@ const publications = defineCollection({
     authors: z.array(z.string()),
     year: z.number(),
     venue: z.string(),
-    url: z.string().url().optional(),
+    url: z.url().optional(),
     type: z.enum(['article', 'chapter', 'conference', 'report']),
   }),
 });

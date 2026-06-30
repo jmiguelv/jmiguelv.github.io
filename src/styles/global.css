@@ -27,6 +27,31 @@
   --site-mark: #ff8a4c;
 }
 
+/* Respect OS dark-mode preference: checkbox inverts the default */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --site-bg: #0a1a35;
+    --site-fg: #e8ecf5;
+    --site-fg-deep: #ffffff;
+    --site-muted: #8a96a8;
+    --site-rule: #1f2d4a;
+    --site-link: #ff8a4c;
+    --site-link-hover: #6b9aff;
+    --site-mark: #ff8a4c;
+  }
+
+  :root:has(.theme-input:checked) {
+    --site-bg: #f6f3ed;
+    --site-fg: #143a86;
+    --site-fg-deep: #0a2466;
+    --site-muted: #5a6b82;
+    --site-rule: #c9c2b3;
+    --site-link: #d4521c;
+    --site-link-hover: #0047ab;
+    --site-mark: #d4521c;
+  }
+}
+
 .theme-input {
   position: absolute;
   width: 1px;
@@ -88,7 +113,7 @@ header.site .name {
   display: block;
   font-family: var(--font-serif);
   font-weight: 500;
-  font-size: clamp(3.5rem, 12vw, 6.25rem);
+  font-size: clamp(2.5rem, 12vw, 6.25rem);
   letter-spacing: -0.04em;
   line-height: 0.95;
   margin: 0;
@@ -212,14 +237,6 @@ details > summary {
 
 details > summary::-webkit-details-marker {
   display: none;
-}
-
-details > summary .index {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--site-muted);
-  letter-spacing: 0.05em;
-  font-variant-numeric: tabular-nums;
 }
 
 details > summary .title {

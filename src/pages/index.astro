@@ -70,7 +70,7 @@ const publications = publicationEntries
             <h2 id="projects">Projects</h2>
             <ul class="projects-list">
                 {
-                    projects.map((p, i) => (
+                    projects.map((p) => (
                         <li>
                             <ProjectItem
                                 title={p.title}
@@ -78,7 +78,6 @@ const publications = publicationEntries
                                 startYear={p.startYear}
                                 endYear={p.endYear}
                                 summary={p.summary}
-                                index={i + 1}
                             />
                         </li>
                     ))
