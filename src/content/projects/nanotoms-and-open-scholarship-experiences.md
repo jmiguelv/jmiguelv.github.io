@@ -1,6 +1,5 @@
 ---
 title: "Narrative Atoms and Open Scholarship Experiences"
-slug: "nanotoms-and-open-scholarship-experiences"
 links:
   - url: "https://github.com/kingsdigitallab/nanotoms"
     label: "Source code"

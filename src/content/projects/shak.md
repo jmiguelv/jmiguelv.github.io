@@ -1,6 +1,5 @@
 ---
 title: "Shakespeare400"
-slug: "shak"
 links:
   - url: "https://shakespeare400.kcl.ac.uk/"
     label: "Project site"

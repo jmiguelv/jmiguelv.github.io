@@ -1,6 +1,5 @@
 ---
 title: "Digital Humanities Laboratory: Studying the Entanglement of Infrastructure and Technology in Knowledge Production"
-slug: "marie-curie-fellowship-dhlab"
 links:
   - url: "https://dhinfra-org.github.io/"
     label: "Project site"

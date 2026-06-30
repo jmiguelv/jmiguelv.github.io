@@ -1,6 +1,5 @@
 ---
 title: "Slavery in War"
-slug: "slavery-in-war"
 links:
   - url: "https://www.slaveryinwar.org/"
     label: "Project site"

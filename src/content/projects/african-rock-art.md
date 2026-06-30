@@ -1,6 +1,5 @@
 ---
 title: "African Rock Art"
-slug: "african-rock-art"
 links:
   - url: "https://africanrockart.britishmuseum.org/"
     label: "Project site"

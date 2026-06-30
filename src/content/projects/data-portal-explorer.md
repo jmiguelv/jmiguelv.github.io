@@ -1,6 +1,5 @@
 ---
 title: "Data Portal Explorer"
-slug: "data-portal-explorer"
 links:
   - url: "https://dataportalexplorer.readthedocs.io/en/latest/index.html"
     label: "Documentation"

@@ -1,6 +1,5 @@
 ---
 title: "The Values of French Language and Literature in the European Middle Ages"
-slug: "tvof"
 links:
   - url: "https://tvof.ac.uk/"
     label: "Project site"

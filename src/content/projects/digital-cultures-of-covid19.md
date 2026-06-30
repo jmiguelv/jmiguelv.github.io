@@ -1,6 +1,5 @@
 ---
 title: "Digital Methods for Investigating Online Engagement with Coronavirus"
-slug: "digital-cultures-of-covid19"
 links:
   - url: "https://journals.sagepub.com/doi/10.1177/20563051231196538"
     label: "Paper"

@@ -1,6 +1,5 @@
 ---
 title: "REF 2021 impact data analysis"
-slug: "refida"
 links:
   - url: "https://github.com/kingsdigitallab/refida/"
     label: "Source code"

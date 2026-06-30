@@ -1,6 +1,5 @@
 ---
 title: "Shakespeare Holdings in the Royal Collection"
-slug: "sharc"
 links:
   - url: "https://sharc.kcl.ac.uk/"
     label: "Project site"

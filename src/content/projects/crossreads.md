@@ -1,6 +1,5 @@
 ---
 title: "CROSSREADS: Text, materiality, and multiculturalism at the crossroads of the ancient Mediterranean"
-slug: "crossreads"
 links:
   - url: "https://sicily.classics.ox.ac.uk/"
     label: "Project site"

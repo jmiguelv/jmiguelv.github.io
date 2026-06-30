@@ -1,6 +1,5 @@
 ---
 title: "Mapping Digital Cultural Heritage in Jordan"
-slug: "madih"
 links:
   - url: "http://madih-jordan.org/"
     label: "Project site"

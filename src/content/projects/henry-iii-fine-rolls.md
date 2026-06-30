@@ -1,6 +1,5 @@
 ---
 title: "Henry III Fine Rolls"
-slug: "henry-iii-fine-rolls"
 links:
   - url: "https://finerollshenry3.org.uk/"
     label: "Project site"

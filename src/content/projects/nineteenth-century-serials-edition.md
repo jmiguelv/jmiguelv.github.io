@@ -1,6 +1,5 @@
 ---
 title: "Nineteenth-Century Serials Edition"
-slug: "nineteenth-century-serials-edition"
 links:
   - url: "https://ncse.ac.uk/"
     label: "Project site"

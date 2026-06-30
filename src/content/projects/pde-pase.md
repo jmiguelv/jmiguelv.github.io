@@ -1,6 +1,5 @@
 ---
 title: "Profile of a Doomed Elite: The Structure of English Landed Society in 1066/Prosopography of Anglo-Saxon England"
-slug: "pde-pase"
 links:
   - url: "https://pase.ac.uk/"
     label: "Project site"

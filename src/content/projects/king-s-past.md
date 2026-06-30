@@ -1,6 +1,5 @@
 ---
 title: "King's Past"
-slug: "king-s-past"
 links:
   - url: "https://kingspast.kcl.ac.uk/"
     label: "Project site"

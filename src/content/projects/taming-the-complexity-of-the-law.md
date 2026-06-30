@@ -1,6 +1,5 @@
 ---
 title: "Taming the Complexity of the Law"
-slug: "taming-the-complexity-of-the-law"
 links:
   - url: "https://kingsdigitallab.github.io/tcl/"
     label: "Prototype visualisation"

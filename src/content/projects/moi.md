@@ -1,6 +1,5 @@
 ---
 title: "A Publishing and Communication History of the Ministry of Information, 1939-45"
-slug: "moi"
 links:
   - url: "https://moidigital.ac.uk/"
     label: "Project site"

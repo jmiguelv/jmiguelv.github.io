@@ -1,8 +1,7 @@
 ---
 title: "The Redress of the Past: Historical Pageants in Britain"
-slug: "hp"
 links:
-  - url: "http://www.historicalpageants.ac.uk/"
+  - url: "https://www.historicalpageants.ac.uk/"
     label: "Project site"
   - url: "https://kdl.kcl.ac.uk/projects/hp/"
     label: "More information"

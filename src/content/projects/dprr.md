@@ -1,6 +1,5 @@
 ---
 title: "Digital Prosopography of the Roman Republic"
-slug: "dprr"
 links:
   - url: "https://romanrepublic.ac.uk/"
     label: "Project site"

@@ -1,6 +1,5 @@
 ---
 title: "Prosopography of the Byzantine World"
-slug: "pbw"
 links:
   - url: "https://pbw2016.kdl.kcl.ac.uk/"
     label: "Project site"

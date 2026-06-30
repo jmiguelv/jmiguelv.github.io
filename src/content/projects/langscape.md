@@ -1,8 +1,7 @@
 ---
 title: "Language of Landscape"
-slug: "langscape"
 links:
-  - url: "http://www.langscape.org.uk/index.html"
+  - url: "https://www.langscape.org.uk/index.html"
     label: "Project site"
   - url: "https://kdl.kcl.ac.uk/projects/langscape/"
     label: "More information"

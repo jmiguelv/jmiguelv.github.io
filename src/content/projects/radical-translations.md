@@ -1,6 +1,5 @@
 ---
 title: "Radical Translations: The Transfer of Revolutionary Culture between Britain, France and Italy"
-slug: "radical-translations"
 links:
   - url: "https://radicaltranslations.org/"
     label: "Project site"

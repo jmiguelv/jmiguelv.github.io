@@ -1,6 +1,5 @@
 ---
 title: "German Screen Studies Network"
-slug: "gssn"
 links:
   - url: "http://www.germanscreenstudies.eu/"
     label: "Project site"

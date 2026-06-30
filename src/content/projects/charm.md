@@ -1,8 +1,7 @@
 ---
 title: "The AHRC Research Centre for the History and Analysis of Recorded Music"
-slug: "charm"
 links:
-  - url: "http://www.charm.kcl.ac.uk/"
+  - url: "https://www.charm.kcl.ac.uk/"
     label: "Project site"
   - url: "https://kdl.kcl.ac.uk/projects/charm/"
     label: "More information"

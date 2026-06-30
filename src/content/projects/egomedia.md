@@ -1,6 +1,5 @@
 ---
 title: "Ego Media: Life Writing and Online Affordances"
-slug: "egomedia"
 links:
   - url: "https://www.egomedia.org"
     label: "Project site"

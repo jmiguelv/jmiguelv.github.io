@@ -1,6 +1,5 @@
 ---
 title: "Georgian Papers Programme"
-slug: "gpp"
 links:
   - url: "https://georgianpapers.com/"
     label: "Project site"

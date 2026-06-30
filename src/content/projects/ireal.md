@@ -1,6 +1,5 @@
 ---
 title: "iREAL: Inclusive Requirements Elicitation for AI in Libraries to support respectful management of Indigenous knowledges"
-slug: "ireal"
 links:
   - url: "https://irealrai.org/"
     label: "Project site"

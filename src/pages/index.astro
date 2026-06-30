@@ -32,9 +32,7 @@ const publications = publicationEntries
             Miguel<label
                 for="theme-toggle"
                 class="sep"
-                title="Toggle dark mode"
-                role="button"
-                tabindex="0">·</label
+                title="Toggle dark mode">·</label
             ><i>Vieira</i>
         </h1>
         <p class="role">
@@ -46,7 +44,7 @@ const publications = publicationEntries
 
     <main>
         <section class="about" aria-labelledby="about">
-            <h2 id="about">About <small>a brief bio</small></h2>
+            <h2 id="about">About <span class="subtitle">a brief bio</span></h2>
             <p>
                 I am a Research Software Engineer with over fifteen years of
                 experience building computational tools for the humanities and
@@ -87,7 +85,7 @@ const publications = publicationEntries
 
         <section aria-labelledby="research">
             <h2 id="research">
-                Research <small>publications &amp; essays</small>
+                Research <span class="subtitle">publications &amp; essays</span>
             </h2>
             {
                 publications.length === 0 ? (

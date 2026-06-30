@@ -1,6 +1,5 @@
 ---
 title: "Farm-level Interdisciplinary Approaches to Endemic Livestock Disease"
-slug: "field"
 links:
   - url: "https://field-wt.co.uk/"
     label: "Project site"

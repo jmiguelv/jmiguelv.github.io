@@ -1,6 +1,5 @@
 ---
 title: "Intelligent Systems for Screen Archives"
-slug: "intelligent-systems-for-screen-archivesv-issa"
 links:
   - url: "https://www.kcl.ac.uk/research/issa"
     label: "Project site"

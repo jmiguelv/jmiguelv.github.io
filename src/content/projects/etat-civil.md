@@ -1,6 +1,5 @@
 ---
 title: "État Civil: French expatriates in Ottoman Egypt"
-slug: "etat-civil"
 links:
   - url: "https://histecon.fas.harvard.edu/visualizing/egypt/index.html"
     label: "Project site"

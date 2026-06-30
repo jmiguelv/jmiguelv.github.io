@@ -1,6 +1,5 @@
 ---
 title: "Mapping the Medieval Countryside: The Fifteenth-Century Inquisitions Post Mortem"
-slug: "ipm"
 links:
   - url: "https://inquisitionspostmortem.ac.uk/"
     label: "Project site"

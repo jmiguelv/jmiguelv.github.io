@@ -1,6 +1,5 @@
 ---
 title: "AGE-C: Ageing and Gender in European Cinema"
-slug: "age-c"
 links:
   - url: "https://kingsdigitallab.github.io/age-c"
     label: "Project site"

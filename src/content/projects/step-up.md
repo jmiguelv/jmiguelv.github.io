@@ -1,6 +1,5 @@
 ---
 title: "STEP-UP: a Strategic TEchnical Platform for University technical Professionals"
-slug: "step-up"
 links:
   - url: "https://step-up.ac.uk/"
     label: "Project site"

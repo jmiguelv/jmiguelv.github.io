@@ -1,6 +1,5 @@
 ---
 title: "Language Acts and Worldmaking"
-slug: "owri"
 links:
   - url: "https://languageacts.org/"
     label: "Project site"

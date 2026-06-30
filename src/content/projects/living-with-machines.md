@@ -1,6 +1,5 @@
 ---
 title: "Living with Machines"
-slug: "living-with-machines"
 links:
   - url: "https://www.zooniverse.org/projects/bldigital/living-with-machines/"
     label: "Crowdsourcing platform"

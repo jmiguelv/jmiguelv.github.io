@@ -1,6 +1,5 @@
 ---
 title: "Inscriptions of Roman Cyrenaica"
-slug: "ircyr"
 links:
   - url: "https://ircyr2020.inslib.kcl.ac.uk/"
     label: "Project site"
