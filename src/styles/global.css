@@ -167,20 +167,6 @@ h2 {
   padding-block-end: 0.75rem;
   border-block-end: 1px solid var(--site-rule);
   color: var(--site-fg-deep);
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-h2 .subtitle {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--site-muted);
 }
 
 /* ────────────────────────── prose ────────────────────────── */
