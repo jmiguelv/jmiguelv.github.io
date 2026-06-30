@@ -10,7 +10,22 @@ interface Props {
 const { title, authors, year, venue, url } = Astro.props;
 ---
 
-<li>
-  {url ? <a href={url} rel="noopener">{title}</a> : <span>{title}</span>}
-  <span class="meta">{authors.join(', ')} · {venue} · {year}</span>
-</li>
+<details>
+  <summary>
+    <span class="marker">+</span>
+    <span class="title">{title}</span>
+  </summary>
+  <div class="body">
+    <p class="years">{year} · {venue}</p>
+    <p>{authors.join(', ')}</p>
+    {url && (
+      <ul class="links">
+        <li>
+          <a class="visit" href={url} rel="noopener" aria-label={`${title} — ${venue}`}>
+            View publication
+          </a>
+        </li>
+      </ul>
+    )}
+  </div>
+</details>
