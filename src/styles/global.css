@@ -174,7 +174,7 @@ header.site .name {
   white-space: nowrap;
 }
 
-header.site .name i {
+header.site .name .surname {
   font-style: normal;
   font-weight: 400;
 }
@@ -392,6 +392,16 @@ footer.site {
   font-size: 0.78rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 1.25rem;
+}
+
+footer.site .social {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 1.25rem;

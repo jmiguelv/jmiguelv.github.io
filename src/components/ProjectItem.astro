@@ -21,20 +21,32 @@ function yearRange(start: number | null, end: number | null): string {
   if (start === end) return `${start}`;
   return `${start}–${end}`;
 }
+
+function yearDatetime(start: number | null, end: number | null): string | null {
+  if (start === null && end === null) return null;
+  if (start === null) return String(end);
+  if (end === null) return String(start);
+  if (start === end) return String(start);
+  return `${start}/${end}`;
+}
+
+const dt = yearDatetime(startYear, endYear);
 ---
 
 <details>
   <summary>
-    <span class="marker">+</span>
+    <span class="marker" aria-hidden="true">+</span>
     <span class="title">{title}</span>
   </summary>
   <div class="body">
-    <p class="years">{yearRange(startYear, endYear)}</p>
+    <p class="years">
+      {dt ? <time datetime={dt}>{yearRange(startYear, endYear)}</time> : '—'}
+    </p>
     <p>{summary}</p>
     <ul class="links">
       {links.map((l) => (
         <li>
-          <a class="visit" href={l.url} rel="noopener" aria-label={`${title} — ${l.label}`}>
+          <a class="visit" href={l.url} rel="external" aria-label={`${title} — ${l.label}`}>
             {l.label}
           </a>
         </li>

@@ -12,16 +12,18 @@ const { title, authors, year, venue, url } = Astro.props;
 
 <details>
   <summary>
-    <span class="marker">+</span>
+    <span class="marker" aria-hidden="true">+</span>
     <span class="title">{title}</span>
   </summary>
   <div class="body">
-    <p class="years">{venue ? `${year} · ${venue}` : year}</p>
+    <p class="years">
+      <time datetime={String(year)}>{year}</time>{venue && ` · ${venue}`}
+    </p>
     <p>{authors.join(', ')}</p>
     {url && (
       <ul class="links">
         <li>
-          <a class="visit" href={url} rel="noopener" aria-label={`${title} — ${venue}`}>
+          <a class="visit" href={url} rel="external" aria-label={`View publication — ${title}${venue ? ` (${venue})` : ''}`}>
             View publication
           </a>
         </li>
