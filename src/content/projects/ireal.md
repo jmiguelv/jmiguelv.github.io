@@ -15,5 +15,5 @@ partners:
   - "University of Glasgow"
   - "King's College, London"
   - "Digital Preservation Coalition"
-summary: "Develops a model for responsible AI systems assessment and development in libraries that embeds Indigenous rights and perspectives. KDL created a web-based dashboard for workshop participants to explore data and apply machine learning models."
+summary: "Develops a model for responsible AI systems assessment and development in libraries that embeds Indigenous rights and perspectives. Created a web-based dashboard for workshop participants to explore data and apply machine learning models."
 ---

@@ -8,5 +8,5 @@ links:
 startYear: 2020
 endYear: 2022
 partners: []
-summary: "Develops digital methods to analyse the role of digital cultures, platforms, infrastructures and devices in public responses to the Coronavirus pandemic. KDL installed and maintained a DMI-TCAT server to collect and analyse Twitter data."
+summary: "Develops digital methods to analyse the role of digital cultures, platforms, infrastructures and devices in public responses to the Coronavirus pandemic. Installed and maintained a DMI-TCAT server to collect and analyse Twitter data."
 ---

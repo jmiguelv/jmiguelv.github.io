@@ -19,5 +19,5 @@ partners:
   - "King's College, London"
   - "British Library"
   - "Queen Mary University"
-summary: "Multidisciplinary collaboration investigating how machines changed the lives of ordinary people in nineteenth-century Britain. KDL produced reproducible notebooks for crowdsourcing visualisations, newspaper analysis and language change."
+summary: "Multidisciplinary collaboration investigating how machines changed the lives of ordinary people in nineteenth-century Britain. Produced reproducible notebooks for crowdsourcing visualisations, newspaper analysis and language change."
 ---

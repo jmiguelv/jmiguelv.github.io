@@ -11,5 +11,5 @@ partners:
   - "King's Digital Lab"
   - "FAH Department of Digital Humanities"
   - "King's College, London"
-summary: "Marie Skłodowska-Curie project by Dr Urszula Pawlicka-Deger providing critical analysis of digital humanities laboratory practices and infrastructural influences on knowledge production, using KDL as a case study."
+summary: "Marie Skłodowska-Curie project by Dr Urszula Pawlicka-Deger providing critical analysis of digital humanities laboratory practices and infrastructural influences on knowledge production, using the lab as a case study."
 ---

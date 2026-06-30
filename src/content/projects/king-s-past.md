@@ -12,5 +12,5 @@ endYear: 2025
 partners:
   - "FAH Department of History, Faculty of Arts and Humanities"
   - "King's College, London"
-summary: "Produces a critical, reflexive history of King's College London focusing on thirteen 'moments of making' over two centuries. KDL built a website on a foundational data model to expose linkages between entities and content."
+summary: "Produces a critical, reflexive history of King's College London focusing on thirteen 'moments of making' over two centuries. Built a website on a foundational data model to expose linkages between entities and content."
 ---

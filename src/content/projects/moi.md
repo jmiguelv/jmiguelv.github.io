@@ -13,5 +13,5 @@ partners:
   - "FAH Department of Digital Humanities"
   - "School of Advanced Study, University of London"
   - "King's College, London"
-summary: "Project studying the publishing and communication history of the Ministry of Information during the Second World War. KDL built a digital resource to explore the Ministry's publications and communication strategies."
+summary: "Project studying the publishing and communication history of the Ministry of Information during the Second World War. Built a digital resource to explore the Ministry's publications and communication strategies."
 ---

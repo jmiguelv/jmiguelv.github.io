@@ -14,5 +14,5 @@ partners:
   - "The Dickson Poon School of Law"
   - "Faculty of Social Science & Public Policy"
   - "King's Digital Lab"
-summary: "King's Together project exploring the complexity of legal systems through user interface design, network analysis, legal expertise, geography and informatics. KDL optimised a workflow to visualise amendments and citations in the Housing Act 1980."
+summary: "King's Together project exploring the complexity of legal systems through user interface design, network analysis, legal expertise, geography and informatics. Optimised a workflow to visualise amendments and citations in the Housing Act 1980."
 ---

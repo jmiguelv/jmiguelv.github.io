@@ -11,5 +11,5 @@ startYear: 2016
 endYear: 2016
 partners:
   - "FAH Department of Film Studies, Faculty of Arts and Humanities"
-summary: "Hub for knowledge and discussion about German-language film, supporting outreach, schools liaison and recruitment. KDL built a clean, minimalist website to convey the project rationale and arthouse heritage."
+summary: "Hub for knowledge and discussion about German-language film, supporting outreach, schools liaison and recruitment. Built a clean, minimalist website to convey the project rationale and arthouse heritage."
 ---

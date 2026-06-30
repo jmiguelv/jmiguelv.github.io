@@ -11,5 +11,5 @@ partners:
   - "FAH Department of Music, Faculty of Arts and Humanities"
   - "Royal Holloway University London"
   - "King's College, London"
-summary: "AHRC research centre studying the history and analysis of recorded music. KDL developed digital tools and resources to support research into recorded musical performances."
+summary: "AHRC research centre studying the history and analysis of recorded music. Developed digital tools and resources to support research into recorded musical performances."
 ---

@@ -13,5 +13,5 @@ partners:
   - "FAH Department of English, Faculty of Arts and Humanities"
   - "King's College, London"
   - "Birkbeck"
-summary: "Assesses Shakespeare-related holdings in the Royal Collection and Royal Archives to understand the relationship between the cultural afterlife of Shakespeare's works and the royal family from 1714 to the present. KDL built a customised backend and frontend for object records."
+summary: "Assesses Shakespeare-related holdings in the Royal Collection and Royal Archives to understand the relationship between the cultural afterlife of Shakespeare's works and the royal family from 1714 to the present. Built a customised backend and frontend for object records."
 ---

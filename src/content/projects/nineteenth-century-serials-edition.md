@@ -12,5 +12,5 @@ partners:
   - "Birkbeck"
   - "University of Leeds"
   - "King's College, London"
-summary: "Edition of six nineteenth-century periodicals and newspapers containing over 400,000 articles. The original AHRC-funded collaboration ran from 2005 to 2008; KDL later replaced the facsimile viewer and explored sustainability through archiving."
+summary: "Edition of six nineteenth-century periodicals and newspapers containing over 400,000 articles. The original AHRC-funded collaboration ran from 2005 to 2008; later replaced the facsimile viewer and explored sustainability through archiving."
 ---

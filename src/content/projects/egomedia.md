@@ -11,5 +11,5 @@ startYear: 2018
 endYear: 2023
 partners:
   - "FAH Department of English, Faculty of Arts and Humanities"
-summary: "A collaboratively written digital publication exploring how self-presentation has been affected by digital media. KDL developed the Django-based publication website for Stanford University Press Digital."
+summary: "A collaboratively written digital publication exploring how self-presentation has been affected by digital media. Developed the Django-based publication website for Stanford University Press Digital."
 ---

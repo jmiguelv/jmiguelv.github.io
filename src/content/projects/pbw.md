@@ -12,5 +12,5 @@ endYear: 2016
 partners:
   - "FAH Department of Classics, Faculty of Arts and Humanities"
   - "King's College, London"
-summary: "Prosopographical database of the Byzantine World. KDL developed and maintains a Django-based digital resource enabling research into persons and relationships in the Byzantine Empire."
+summary: "Prosopographical database of the Byzantine World. Developed and maintain a Django-based digital resource enabling research into persons and relationships in the Byzantine Empire."
 ---

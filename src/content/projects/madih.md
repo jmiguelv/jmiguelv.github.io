@@ -15,5 +15,5 @@ partners:
   - "Jordan Open Source Association"
   - "University of Oxford"
   - "Hashemite University"
-summary: "AHRC/Newton funded project to support long-term sustainable development of Jordan's digital cultural heritage. KDL hosted workshops, provided RSE training, produced white papers and developed a prototype National Data Catalogue using CKAN."
+summary: "AHRC/Newton funded project to support long-term sustainable development of Jordan's digital cultural heritage. Hosted workshops, provided RSE training, produced white papers and developed a prototype National Data Catalogue using CKAN."
 ---

@@ -14,5 +14,5 @@ partners:
   - "International Politics"
   - "University of Nottingham"
   - "King's College, London"
-summary: "The Leverhulme Centre for Research on Slavery in War is the first major initiative exploring the links between slavery and armed conflict. Over the next decade KDL will manage and harmonise data across disciplines and develop tools for analysis, visualisation and communication."
+summary: "The Leverhulme Centre for Research on Slavery in War is the first major initiative exploring the links between slavery and armed conflict. Over the next decade, will manage and harmonise data across disciplines and develop tools for analysis, visualisation and communication."
 ---
