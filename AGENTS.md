@@ -5,7 +5,7 @@ This is a small Astro 6 static site (personal portfolio) deployed to GitHub Page
 ## Toolchain
 
 - Package manager: `pnpm` 11.0.4 (pinned in `package.json#packageManager`).
-- Node: CI uses Node 20.
+- Node: CI uses Node 22.
 - No linter, formatter, or test runner is currently configured.
 
 ## Useful commands
