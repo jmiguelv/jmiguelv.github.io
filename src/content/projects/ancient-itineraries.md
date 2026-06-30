@@ -7,7 +7,7 @@ links:
     label: "Project site"
   - url: "https://kingsdigitallab.github.io/ancient-itineraries/"
     label: "Visualisations"
-startYear: 2026
+startYear: 2020
 endYear: null
 partners:
   - "King's Digital Lab"
