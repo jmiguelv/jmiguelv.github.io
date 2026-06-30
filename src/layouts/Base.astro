@@ -1,7 +1,4 @@
 ---
-import '@fontsource-variable/space-grotesk';
-import '@fontsource/space-mono/400.css';
-import '@fontsource/space-mono/400-italic.css';
 import '../styles/global.css';
 
 interface Props {
@@ -17,6 +14,8 @@ const { title, description = 'Miguel Vieira — Research Software Engineer.' } =
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preload" href="/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/space-mono-latin-400.woff2" as="font" type="font/woff2" crossorigin />
     <meta name="description" content={description} />
     <meta name="color-scheme" content="light dark" />
     <title>{title}</title>
