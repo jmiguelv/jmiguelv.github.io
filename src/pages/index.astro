@@ -8,9 +8,12 @@ const projectEntries = await getCollection("projects");
 const projects = projectEntries
     .map((e) => e.data)
     .sort((a, b) => {
-        const ay = a.startYear ?? -Infinity;
-        const by = b.startYear ?? -Infinity;
-        if (by !== ay) return by - ay;
+        const ae = a.endYear ?? a.startYear ?? -Infinity;
+        const be = b.endYear ?? b.startYear ?? -Infinity;
+        if (be !== ae) return be - ae;
+        const as = a.startYear ?? -Infinity;
+        const bs = b.startYear ?? -Infinity;
+        if (bs !== as) return bs - as;
         return a.title.localeCompare(b.title);
     });
 
