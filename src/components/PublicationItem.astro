@@ -5,15 +5,17 @@ interface Props {
   year: number;
   venue: string;
   url?: string;
+  type: string;
 }
 
-const { title, authors, year, venue, url } = Astro.props;
+const { title, authors, year, venue, url, type } = Astro.props;
 ---
 
 <details>
   <summary>
     <span class="marker" aria-hidden="true">+</span>
     <span class="title">{title}</span>
+    <span class="type">{type}</span>
   </summary>
   <div class="body">
     <p class="years">
