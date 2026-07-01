@@ -12,6 +12,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "test": "vitest run --exclude tests/links.test.ts",
+    "check:links": "NODE_NO_WARNINGS=1 vitest run tests/links.test.ts",
     "astro": "astro"
   },
   "dependencies": {
@@ -23,10 +25,12 @@
     "@eslint/js": "^10.0.1",
     "eslint": "^10.5.0",
     "eslint-plugin-astro": "^2.0.0",
+    "gray-matter": "^4.0.3",
     "prettier": "^3.8.4",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "5.7.3",
-    "typescript-eslint": "^8.62.0"
+    "typescript-eslint": "^8.62.0",
+    "vitest": "^4.1.9"
   },
   "packageManager": "pnpm@11.0.4"
 }

@@ -25,5 +25,6 @@ minimumReleaseAgeExclude:
   - "@rollup/rollup-win32-x64-msvc"
   - "@typescript-eslint/visitor-keys"
   - "postcss"
+  - "vite"
 overrides:
   rollup: 4.61.1

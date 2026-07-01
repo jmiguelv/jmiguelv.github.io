@@ -3,25 +3,16 @@ import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import ProjectItem from "../components/ProjectItem.astro";
 import PublicationItem from "../components/PublicationItem.astro";
+import { sortProjects, sortPublications } from "../utils/sort";
 import { version } from "../../package.json";
 
 const projectEntries = await getCollection("projects");
-const projects = projectEntries
-  .map((e) => e.data)
-  .sort((a, b) => {
-    const ae = a.endYear ?? a.startYear ?? -Infinity;
-    const be = b.endYear ?? b.startYear ?? -Infinity;
-    if (be !== ae) return be - ae;
-    const as = a.startYear ?? -Infinity;
-    const bs = b.startYear ?? -Infinity;
-    if (bs !== as) return bs - as;
-    return a.title.localeCompare(b.title);
-  });
+const projects = projectEntries.map((e) => e.data).sort(sortProjects);
 
 const publicationEntries = await getCollection("publications");
 const publications = publicationEntries
   .map((e) => e.data)
-  .sort((a, b) => b.year - a.year);
+  .sort(sortPublications);
 ---
 
 <Base title="Miguel Vieira — Research Software Engineer">
