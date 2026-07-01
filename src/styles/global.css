@@ -284,6 +284,25 @@ body {
     margin: 0;
 }
 
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    padding: 0.5em 1em;
+    background: var(--site-fg-deep);
+    color: var(--site-bg);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-decoration: none;
+    z-index: 100;
+    border-radius: 0 0 0.25rem 0.25rem;
+}
+
+.skip-link:focus {
+    top: 0;
+    color: var(--site-bg);
+}
+
 .wrap {
     max-inline-size: var(--site-max-inline);
     margin-inline: auto;
@@ -519,14 +538,7 @@ details .body .visit::after {
     content: " ↗";
 }
 
-details .partners {
-    font-family: var(--font-mono);
-    color: var(--site-muted);
-    font-size: 0.72rem;
-    line-height: 1.7;
-    margin-block-start: 0.6rem;
-    letter-spacing: 0.02em;
-}
+
 
 /* ────────────────────────── publications ────────────────────────── */
 

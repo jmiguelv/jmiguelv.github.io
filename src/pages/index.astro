@@ -47,7 +47,7 @@ const publications = publicationEntries
         </p>
     </header>
 
-    <main>
+    <main id="main">
         <section class="about" aria-labelledby="about">
             <h2 id="about">About</h2>
             <p>
@@ -94,36 +94,22 @@ const publications = publicationEntries
 
         <section aria-labelledby="publications">
             <h2 id="publications">Research Outputs</h2>
-            {
-                publications.length === 0 ? (
-                    <p>
-                        Selected publications will appear here. In the meantime,
-                        see my full{" "}
-                        <a
-                            href="https://kclpure.kcl.ac.uk/portal/en/persons/jose.m.vieira/publications/"
-                            rel="external"
-                        >
-                            profile on KCL Pure
-                        </a>
-                        .
-                    </p>
-                ) : (
-                    <ul class="publications-list">
-                        {publications.map((p) => (
-                            <li>
-                                <PublicationItem
-                                    title={p.title}
-                                    authors={p.authors}
-                                    year={p.year}
-                                    venue={p.venue}
-                                    url={p.url}
-                                    type={p.type}
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                )
-            }
+            <ul class="publications-list">
+                {
+                    publications.map((p) => (
+                        <li>
+                            <PublicationItem
+                                title={p.title}
+                                authors={p.authors}
+                                year={p.year}
+                                venue={p.venue}
+                                url={p.url}
+                                type={p.type}
+                            />
+                        </li>
+                    ))
+                }
+            </ul>
         </section>
     </main>
 
