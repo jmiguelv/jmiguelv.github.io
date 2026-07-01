@@ -7,121 +7,129 @@ import { version } from "../../package.json";
 
 const projectEntries = await getCollection("projects");
 const projects = projectEntries
-    .map((e) => e.data)
-    .sort((a, b) => {
-        const ae = a.endYear ?? a.startYear ?? -Infinity;
-        const be = b.endYear ?? b.startYear ?? -Infinity;
-        if (be !== ae) return be - ae;
-        const as = a.startYear ?? -Infinity;
-        const bs = b.startYear ?? -Infinity;
-        if (bs !== as) return bs - as;
-        return a.title.localeCompare(b.title);
-    });
+  .map((e) => e.data)
+  .sort((a, b) => {
+    const ae = a.endYear ?? a.startYear ?? -Infinity;
+    const be = b.endYear ?? b.startYear ?? -Infinity;
+    if (be !== ae) return be - ae;
+    const as = a.startYear ?? -Infinity;
+    const bs = b.startYear ?? -Infinity;
+    if (bs !== as) return bs - as;
+    return a.title.localeCompare(b.title);
+  });
 
 const publicationEntries = await getCollection("publications");
 const publications = publicationEntries
-    .map((e) => e.data)
-    .sort((a, b) => b.year - a.year);
+  .map((e) => e.data)
+  .sort((a, b) => b.year - a.year);
 ---
 
 <Base title="Miguel Vieira — Research Software Engineer">
-    <header class="site">
-        <input
-            type="checkbox"
-            id="theme-toggle"
-            class="theme-input"
-            aria-label="Toggle dark mode"
-        />
-        <h1 class="name">
-            M<label
-                for="theme-toggle"
-                class="tittle"
-                title="Toggle dark mode"
-                aria-label="Toggle dark mode">ı</label>guel
-            <span class="surname">Vieira</span>
-        </h1>
-        <p class="role">
-            Research Software Engineer
-            <span class="sep">+</span>
-            Digital Humanities
-        </p>
-    </header>
+  <header class="site">
+    <input
+      type="checkbox"
+      id="theme-toggle"
+      class="theme-input"
+      aria-label="Toggle dark mode"
+    />
+    <h1 class="name">
+      M<label
+        for="theme-toggle"
+        class="tittle"
+        title="Toggle dark mode"
+        aria-label="Toggle dark mode">ı</label
+      >guel
+      <span class="surname">Vieira</span>
+    </h1>
+    <p class="role">
+      Research Software Engineer
+      <span class="sep">+</span>
+      Digital Humanities
+    </p>
+  </header>
 
-    <main id="main">
-        <section class="about" aria-labelledby="about">
-            <h2 id="about">About</h2>
-            <p>
-                I am a Principal Research Software Engineer with over fifteen
-                years of experience building research software in academic and
-                cross-disciplinary settings. My work spans digital humanities
-                and computational social science.
-            </p>
-            <p>
-                I have contributed to editions, archives, prosopographies, and
-                computational projects across history, literature, classics,
-                and film studies — at the intersection of engineering and
-                humanistic inquiry. My technical work covers web applications,
-                data pipelines, natural language processing, applied machine
-                learning, multimodal AI, and retrieval-augmented generation.
-            </p>
-            <p>
-                I am also interested in open-source research tools, training
-                researchers in computational methods, and leading small
-                engineering teams on funded research projects with academic and
-                industry partners. I previously worked at King's Digital Lab,
-                King's College London, as Principal Research Software Engineer.
-            </p>
-        </section>
+  <main id="main">
+    <section class="about" aria-labelledby="about">
+      <h2 id="about">About</h2>
+      <p>
+        I am a Principal Research Software Engineer with over fifteen years of
+        experience building research software in academic and cross-disciplinary
+        settings. My work spans digital humanities and computational social
+        science.
+      </p>
+      <p>
+        I have contributed to editions, archives, prosopographies, and
+        computational projects across history, literature, classics, and film
+        studies — at the intersection of engineering and humanistic inquiry. My
+        technical work covers web applications, data pipelines, natural language
+        processing, applied machine learning, multimodal AI, and
+        retrieval-augmented generation.
+      </p>
+      <p>
+        I am also interested in open-source research tools, training researchers
+        in computational methods, and leading small engineering teams on funded
+        research projects with academic and industry partners. I previously
+        worked at King's Digital Lab, King's College London, as Principal
+        Research Software Engineer.
+      </p>
+    </section>
 
-        <section aria-labelledby="projects">
-            <h2 id="projects">Selected Work</h2>
-            <ul class="projects-list">
-                {
-                    projects.map((p) => (
-                        <li>
-                            <ProjectItem
-                                title={p.title}
-                                links={p.links}
-                                startYear={p.startYear}
-                                endYear={p.endYear}
-                                summary={p.summary}
-                            />
-                        </li>
-                    ))
-                }
-            </ul>
-        </section>
+    <section aria-labelledby="projects">
+      <h2 id="projects">Selected Work</h2>
+      <ul class="projects-list">
+        {
+          projects.map((p) => (
+            <li>
+              <ProjectItem
+                title={p.title}
+                links={p.links}
+                startYear={p.startYear}
+                endYear={p.endYear}
+                summary={p.summary}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </section>
 
-        <section aria-labelledby="publications">
-            <h2 id="publications">Research Outputs</h2>
-            <ul class="publications-list">
-                {
-                    publications.map((p) => (
-                        <li>
-                            <PublicationItem
-                                title={p.title}
-                                authors={p.authors}
-                                year={p.year}
-                                venue={p.venue}
-                                url={p.url}
-                                type={p.type}
-                            />
-                        </li>
-                    ))
-                }
-            </ul>
-        </section>
-    </main>
+    <section aria-labelledby="publications">
+      <h2 id="publications">Research Outputs</h2>
+      <ul class="publications-list">
+        {
+          publications.map((p) => (
+            <li>
+              <PublicationItem
+                title={p.title}
+                authors={p.authors}
+                year={p.year}
+                venue={p.venue}
+                url={p.url}
+                type={p.type}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
 
-    <footer class="site">
-        <nav aria-label="Social">
-            <ul class="social">
-                <li><a href="https://www.linkedin.com/in/jmiguelv/" rel="external">LinkedIn</a></li>
-                <li><a href="https://github.com/jmiguelv" rel="external">GitHub</a></li>
-            </ul>
-        </nav>
-        <span class="colophon">
-            <code>v{version}</code> — Built with <a href="https://astro.build" rel="external">Astro</a>
-        </span>
-    </footer>
+  <footer class="site">
+    <nav aria-label="Social">
+      <ul class="social">
+        <li>
+          <a href="https://www.linkedin.com/in/jmiguelv/" rel="external"
+            >LinkedIn</a
+          >
+        </li>
+        <li><a href="https://github.com/jmiguelv" rel="external">GitHub</a></li>
+      </ul>
+    </nav>
+    <span class="colophon">
+      <code>v{version}</code> — Built with <a
+        href="https://astro.build"
+        rel="external">Astro</a
+      >
+    </span>
+  </footer>
 </Base>

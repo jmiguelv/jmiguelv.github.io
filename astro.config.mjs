@@ -1,11 +1,11 @@
-import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
+import { defineConfig } from "astro/config";
+import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: 'https://jmiguelv.github.io',
-  trailingSlash: 'ignore',
+  site: "https://jmiguelv.github.io",
+  trailingSlash: "ignore",
   build: {
-    format: 'directory',
+    format: "directory",
   },
   integrations: [sitemap()],
 });

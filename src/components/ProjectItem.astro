@@ -15,7 +15,7 @@ interface Props {
 const { title, links, startYear, endYear, summary } = Astro.props;
 
 function yearRange(start: number | null, end: number | null): string {
-  if (start === null && end === null) return '—';
+  if (start === null && end === null) return "—";
   if (start === null) return `→${end}`;
   if (end === null) return `${start}→`;
   if (start === end) return `${start}`;
@@ -40,17 +40,24 @@ const dt = yearDatetime(startYear, endYear);
   </summary>
   <div class="body">
     <p class="years">
-      {dt ? <time datetime={dt}>{yearRange(startYear, endYear)}</time> : '—'}
+      {dt ? <time datetime={dt}>{yearRange(startYear, endYear)}</time> : "—"}
     </p>
     <p>{summary}</p>
     <ul class="links">
-      {links.map((l) => (
-        <li>
-          <a class="visit" href={l.url} rel="external" aria-label={`${title} — ${l.label}`}>
-            {l.label}
-          </a>
-        </li>
-      ))}
+      {
+        links.map((l) => (
+          <li>
+            <a
+              class="visit"
+              href={l.url}
+              rel="external"
+              aria-label={`${title} — ${l.label}`}
+            >
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </div>
 </details>

@@ -21,15 +21,22 @@ const { title, authors, year, venue, url, type } = Astro.props;
     <p class="years">
       <time datetime={String(year)}>{year}</time>{venue && ` · ${venue}`}
     </p>
-    <p>{authors.join(', ')}</p>
-    {url && (
-      <ul class="links">
-        <li>
-          <a class="visit" href={url} rel="external" aria-label={`View publication — ${title}${venue ? ` (${venue})` : ''}`}>
-            View publication
-          </a>
-        </li>
-      </ul>
-    )}
+    <p>{authors.join(", ")}</p>
+    {
+      url && (
+        <ul class="links">
+          <li>
+            <a
+              class="visit"
+              href={url}
+              rel="external"
+              aria-label={`View publication — ${title}${venue ? ` (${venue})` : ""}`}
+            >
+              View publication
+            </a>
+          </li>
+        </ul>
+      )
+    }
   </div>
 </details>

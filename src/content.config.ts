@@ -1,9 +1,9 @@
-import { defineCollection } from 'astro:content';
-import { z } from 'astro/zod';
-import { glob } from 'astro/loaders';
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
+import { glob } from "astro/loaders";
 
 const projects = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
   schema: z.object({
     title: z.string(),
     links: z
@@ -22,14 +22,23 @@ const projects = defineCollection({
 });
 
 const publications = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/publications' }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/publications" }),
   schema: z.object({
     title: z.string(),
     authors: z.array(z.string()),
     year: z.number(),
     venue: z.string(),
     url: z.url().optional(),
-    type: z.enum(['article', 'chapter', 'conference', 'report', 'book', 'software', 'dataset', 'website']),
+    type: z.enum([
+      "article",
+      "chapter",
+      "conference",
+      "report",
+      "book",
+      "software",
+      "dataset",
+      "website",
+    ]),
   }),
 });
 

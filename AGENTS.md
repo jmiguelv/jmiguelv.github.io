@@ -6,13 +6,18 @@ This is a small Astro 6 static site (personal portfolio) deployed to GitHub Page
 
 - Package manager: `pnpm` 11.0.4 (pinned in `package.json#packageManager`).
 - Node: CI uses Node 22.
-- No linter, formatter, or test runner is currently configured.
+- Linter: ESLint (`eslint.config.mjs`) with `@eslint/js`, `typescript-eslint`, and `eslint-plugin-astro`.
+- Formatter: Prettier (`.prettierrc`) with `prettier-plugin-astro`.
+- No test runner is currently configured.
 
 ## Useful commands
 
 - `pnpm dev` — start dev server.
 - `pnpm build` — runs `astro check && astro build`; type-checks and writes to `dist/`.
 - `pnpm preview` — serve the `dist/` build locally.
+- `pnpm lint` — run ESLint.
+- `pnpm format` — format with Prettier.
+- `pnpm format:check` — check formatting without writing.
 - `pnpm astro ...` — run Astro CLI commands directly.
 
 ## Deploy
