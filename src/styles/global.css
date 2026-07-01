@@ -123,28 +123,32 @@
 label[for='theme-toggle'] {
   position: relative;
   display: inline-block;
-  width: 0.14em;
-  height: 0.14em;
-  margin-inline: 0.05em;
-  vertical-align: middle;
   cursor: pointer;
   user-select: none;
 }
 
 /*
- * Theme toggle: the separator is a pure-CSS filled dot (no text glyph), with a
- * wider ring as the hover affordance. Both are CSS circles centred on the
- * label's box — which IS the dot's box — so the ring sits exactly on the dot
- * with no font-metric drift. A faint resting ring hints the dot is
- * interactive; hover and keyboard focus bloom it to full strength.
+ * Theme toggle: the <label> renders the dotless "ı" (U+0131) stem inside the
+ * word "Miguel". A pure-CSS filled dot (::before) sits where the tittle would
+ * be, and a wider ring (::after) is the hover/focus affordance. Both circles
+ * are anchored at `top: 0.19em; left: calc(50% + 0.02em)`:
+ *   - left: the stem and tittle are both centred at ~50% of the glyph advance,
+ *     but letter-spacing (-0.04em) narrows the inline box, shifting its centre
+ *     left by 0.02em — the +0.02em nudges the dot back onto the stem;
+ *   - top: 0.19em places the dot's centre on the original tittle centre
+ *     (0.630em above the baseline at weight 500; with line-height 0.95 the
+ *     label's box top is ~0.821em above the baseline, so the tittle sits
+ *     ~0.19em below it).
+ * A faint resting ring hints the dot is interactive; hover and keyboard focus
+ * bloom it to full strength.
  */
 
-/* The dot itself. */
+/* The dot itself: centred on the tittle position above the ı stem. */
 label[for='theme-toggle']::before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 0.19em;
+  left: calc(50% + 0.02em);
   width: 0.14em;
   height: 0.14em;
   transform: translate(-50%, -50%);
@@ -152,12 +156,12 @@ label[for='theme-toggle']::before {
   border-radius: 50%;
 }
 
-/* The enveloping ring. */
+/* The enveloping ring, centred on the same anchor as the dot. */
 label[for='theme-toggle']::after {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 0.19em;
+  left: calc(50% + 0.02em);
   width: 0.28em;
   height: 0.28em;
   transform: translate(-50%, -50%) scale(0.7);
@@ -235,8 +239,9 @@ header.site .name .surname {
   font-weight: 400;
 }
 
-/* The name separator (.sep) is the theme-toggle dot, styled as a pure-CSS
-   circle in the `label[for='theme-toggle']` rules above. */
+/* The dot above the ı in "Miguel" is the theme-toggle control, styled in the
+   `label[for='theme-toggle']` rules above. The `.tittle` label renders the
+   dotless-i stem and carries the toggle; clicking it flips dark mode. */
 
 header.site .role {
   display: block;
