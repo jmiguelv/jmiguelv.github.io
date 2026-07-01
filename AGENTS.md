@@ -8,7 +8,7 @@ This is a small Astro 6 static site (personal portfolio) deployed to GitHub Page
 - Node: CI uses Node 22.
 - Linter: ESLint (`eslint.config.mjs`) with `@eslint/js`, `typescript-eslint`, and `eslint-plugin-astro`.
 - Formatter: Prettier (`.prettierrc`) with `prettier-plugin-astro`.
-- No test runner is currently configured.
+- Test runner: Vitest 4 (`vitest`) with `gray-matter` for frontmatter parsing.
 
 ## Useful commands
 
@@ -18,12 +18,14 @@ This is a small Astro 6 static site (personal portfolio) deployed to GitHub Page
 - `pnpm lint` — run ESLint.
 - `pnpm format` — format with Prettier.
 - `pnpm format:check` — check formatting without writing.
+- `pnpm test` — run content schema and sort order tests (excludes link rot).
+- `pnpm check:links` — run link rot checker separately (fetches 100+ external URLs, slow).
 - `pnpm astro ...` — run Astro CLI commands directly.
 
 ## Deploy
 
 - GitHub Actions `.github/workflows/deploy.yml` builds and deploys on every push to `main`.
-- CI runs `pnpm install --frozen-lockfile` then `pnpm build`; upload path is `./dist`.
+- CI runs `pnpm install --frozen-lockfile`, then `pnpm lint`, `pnpm format:check`, `pnpm test`, and `pnpm build`; upload path is `./dist`. Link rot checks are excluded from CI (run manually via `pnpm check:links`).
 
 ## Project structure
 
@@ -33,7 +35,14 @@ This is a small Astro 6 static site (personal portfolio) deployed to GitHub Page
 - `src/content.config.ts`: two Astro content collections:
   - `projects` — Markdown in `src/content/projects/`
   - `publications` — Markdown in `src/content/publications/`
-- Content is rendered via `getCollection()` and passed to `ProjectItem.astro` / `PublicationItem.astro`. See `src/content.config.ts` for the Zod schema.
+- Zod schemas for both collections live in `src/schemas.ts` (imported by `content.config.ts` and tests).
+- Sort comparators for projects and publications live in `src/utils/sort.ts` (imported by `index.astro` and tests).
+- Content is rendered via `getCollection()` and passed to `ProjectItem.astro` / `PublicationItem.astro`. See `src/schemas.ts` for the Zod schema.
+- Tests live in `tests/`:
+  - `content.test.ts` — validates all collection entries against Zod schemas.
+  - `sort.test.ts` — unit tests for project and publication sort comparators.
+  - `links.test.ts` — link rot checker (run separately, not in CI).
+  - `helpers.ts` — shared test utilities (markdown file loading).
 - `tsconfig.json` extends `astro/tsconfigs/strict` and includes `.astro/types.d.ts` for generated collection types.
 
 ## pnpm workspace quirks
