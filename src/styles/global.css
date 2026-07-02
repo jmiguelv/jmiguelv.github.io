@@ -218,18 +218,20 @@ label[for="theme-toggle"]::before {
   label[for="theme-toggle"]::before {
     transition:
       box-shadow 300ms ease,
-      background-color 300ms ease;
+      background-color 300ms ease,
+      transform 250ms ease;
   }
 }
 
 /* ── tittle micro-interactions ──
    The dot doubles as the tittle of "ı" in "Miguel" and is easy to miss as a
-   control. Two subtle, consent-gated, one-shot scale pulses hint that it is
-   interactive: a "wink" shortly after load, and the same wink replayed each
-   time the name is hovered. Each keyframe chains onto the dot's centering
-   transform (translate(-50%, -50%)) so the dot never drifts off the stem,
-   and neither animation touches box-shadow or background-color, so the
-   circle↔crescent transition above keeps working. */
+   control. A consent-gated one-shot "wink" shortly after load hints that it
+   is interactive. On hover the dot enlarges and holds — a calm confirmation
+   rather than a repeated pulse. The wink keyframe chains onto the dot's
+   centering transform (translate(-50%, -50%)) so the dot never drifts off
+   the stem, and neither the animation nor the hover transition touches
+   box-shadow or background-color, so the circle↔crescent transition above
+   keeps working. */
 
 @keyframes tittle-wink {
   0% {
@@ -246,35 +248,21 @@ label[for="theme-toggle"]::before {
   }
 }
 
-/* Duplicate keyframes with a different name for hover. CSS won't restart an
-   animation when only the longhand properties change — the animation-name must
-   differ to trigger a replay. */
-@keyframes tittle-wink-hover {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  40% {
-    transform: translate(-50%, -50%) scale(1.35);
-  }
-  70% {
-    transform: translate(-50%, -50%) scale(1.1);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   /* One-time wink ~1.2s after load, once the entrance animations have
-       settled (last rise delay 440ms + 700ms ≈ 1140ms). */
+       settled (last rise delay 440ms + 700ms ≈ 1140ms). Uses `backwards`
+       fill so the dot is hidden during the delay; after the animation
+       ends the element returns to its base transform, letting the hover
+       transition below take over cleanly. */
   label[for="theme-toggle"]::before {
-    animation: tittle-wink 700ms cubic-bezier(0.2, 0.7, 0.2, 1) 1200ms both;
+    animation: tittle-wink 700ms cubic-bezier(0.2, 0.7, 0.2, 1) 1200ms backwards;
   }
 
-  /* Hover: replays the same wink motion, once per hover. Uses a separate
-       keyframe name so the browser restarts the animation on hover. */
+  /* Hover: enlarges the dot and holds for as long as the name is hovered,
+       then eases back on exit. A single calm state change rather than a
+       repeated pulse. */
   header.site .name:hover label[for="theme-toggle"]::before {
-    animation: tittle-wink-hover 700ms cubic-bezier(0.2, 0.7, 0.2, 1) 1;
+    transform: translate(-50%, -50%) scale(1.35);
   }
 }
 
