@@ -1,8 +1,8 @@
 ---
 title: "Mapping Digital Cultural Heritage in Jordan"
 links:
-  - url: "http://madih-jordan.org/"
-    label: "Project site"
+  - url: "https://web.archive.org/web/20241127100517/http://www.madih-jordan.org/"
+    label: "Project site (archived)"
   - url: "https://github.com/kingsdigitallab/ckanext-kdl_madih"
     label: "Source code"
   - url: "https://kdl.kcl.ac.uk/projects/madih/"
