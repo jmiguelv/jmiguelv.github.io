@@ -1,5 +1,7 @@
 ---
+import { getImage } from "astro:assets";
 import "../styles/global.css";
+import ogImageAsset from "../assets/og-image.jpg";
 
 interface Props {
   title: string;
@@ -13,7 +15,14 @@ const {
   canonical = true,
 } = Astro.props;
 
-const ogImage = new URL("/og-image.jpg", Astro.site);
+/* JPEG rather than WebP: not all social crawlers render WebP previews. */
+const optimizedOgImage = await getImage({
+  src: ogImageAsset,
+  width: 1200,
+  format: "jpg",
+  quality: 80,
+});
+const ogImage = new URL(optimizedOgImage.src, Astro.site);
 ---
 
 <!doctype html>
