@@ -37,11 +37,11 @@ const dt = yearDatetime(startYear, endYear);
   <summary>
     <span class="marker" aria-hidden="true">+</span>
     <span class="title">{title}</span>
+    <span class="type">
+      {dt ? <time datetime={dt}>{yearRange(startYear, endYear)}</time> : "—"}
+    </span>
   </summary>
   <div class="body">
-    <p class="years">
-      {dt ? <time datetime={dt}>{yearRange(startYear, endYear)}</time> : "—"}
-    </p>
     <p>{summary}</p>
     <ul class="links">
       {
