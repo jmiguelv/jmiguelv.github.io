@@ -36,12 +36,20 @@ interface FetchResult {
   error?: string;
 }
 
-async function rawFetch(url: string, timeoutMs: number): Promise<FetchResult> {
+const CHECKER_UA = "jmiguelv-portfolio-link-checker";
+const BROWSER_UA =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36";
+
+async function rawFetch(
+  url: string,
+  timeoutMs: number,
+  userAgent = CHECKER_UA,
+): Promise<FetchResult> {
   try {
     const response = await fetch(url, {
       redirect: "follow",
       signal: AbortSignal.timeout(timeoutMs),
-      headers: { "User-Agent": "jmiguelv-portfolio-link-checker" },
+      headers: { "User-Agent": userAgent },
     });
     return { status: response.status, ok: response.status < 400 };
   } catch (e) {
@@ -62,37 +70,30 @@ const TLS_ERRORS = [
   "DEPTH_ZERO_SELF_SIGNED_CERT",
 ];
 
-// Retry TLS errors with verification disabled — link checker verifies
-// reachability, not TLS configuration (browsers and curl are more lenient)
 async function fetchUrl(url: string, timeoutMs = 60_000): Promise<FetchResult> {
   const result = await rawFetch(url, timeoutMs);
 
   // 403 from bot protection (Cloudflare, etc.) — URL is reachable, not broken
   if (result.status === 403) return { status: 403, ok: true };
 
-  // On TLS cert errors, retry with verification disabled
-  const err = result.error ?? "";
-  if (TLS_ERRORS.some((code) => err === code)) {
-    const prev = process.env.NODE_TLS_REJECT_UNAUTHORIZED;
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-    const retry = await rawFetch(url, timeoutMs);
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = prev;
-    return retry;
+  // Some servers reject unfamiliar user agents outright — retry as a browser
+  if (result.status >= 400 && result.status < 500) {
+    return rawFetch(url, timeoutMs, BROWSER_UA);
   }
 
   return result;
 }
 
-async function checkUrls(
+interface CheckResult {
+  entry: UrlEntry;
+  result: FetchResult;
+}
+
+async function fetchBatched(
   entries: UrlEntry[],
-  concurrency = 5,
-): Promise<
-  { entry: UrlEntry; result: Awaited<ReturnType<typeof fetchUrl>> }[]
-> {
-  const results: {
-    entry: UrlEntry;
-    result: Awaited<ReturnType<typeof fetchUrl>>;
-  }[] = [];
+  concurrency: number,
+): Promise<CheckResult[]> {
+  const results: CheckResult[] = [];
   for (let i = 0; i < entries.length; i += concurrency) {
     const batch = entries.slice(i, i + concurrency);
     const batchResults = await Promise.all(
@@ -103,6 +104,37 @@ async function checkUrls(
     );
     results.push(...batchResults);
   }
+  return results;
+}
+
+async function checkUrls(
+  entries: UrlEntry[],
+  concurrency = 5,
+): Promise<CheckResult[]> {
+  const results = await fetchBatched(entries, concurrency);
+
+  // Retry TLS cert errors with verification disabled — link checker verifies
+  // reachability, not TLS configuration (browsers and curl are more lenient).
+  // Done as a separate pass so NODE_TLS_REJECT_UNAUTHORIZED only affects
+  // these retries, never the regular fetches running concurrently.
+  const tlsFailures = results.filter((r) =>
+    TLS_ERRORS.includes(r.result.error ?? ""),
+  );
+  if (tlsFailures.length > 0) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+    let retried: CheckResult[];
+    try {
+      retried = await fetchBatched(
+        tlsFailures.map((r) => r.entry),
+        concurrency,
+      );
+    } finally {
+      delete process.env.NODE_TLS_REJECT_UNAUTHORIZED;
+    }
+    const byUrl = new Map(retried.map((r) => [r.entry.url, r]));
+    return results.map((r) => byUrl.get(r.entry.url) ?? r);
+  }
+
   return results;
 }
 
