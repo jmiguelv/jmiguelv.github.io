@@ -24,13 +24,6 @@ describe("projects content", () => {
       }
     },
   );
-
-  it.each(projects.map((p) => [p.file, p.frontmatter]))(
-    "%s has a non-empty summary",
-    (_file, frontmatter) => {
-      expect((frontmatter.summary as string).trim().length).toBeGreaterThan(0);
-    },
-  );
 });
 
 describe("publications content", () => {

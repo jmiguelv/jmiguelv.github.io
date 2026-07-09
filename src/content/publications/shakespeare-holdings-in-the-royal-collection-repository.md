@@ -9,7 +9,6 @@ authors:
   - "Ong, T."
   - "Loboda, O."
 year: 2022
-venue: ""
 url: "https://kclpure.kcl.ac.uk/portal/en/publications/shakespeare-holdings-in-the-royal-collection-repository/"
 type: dataset
 ---

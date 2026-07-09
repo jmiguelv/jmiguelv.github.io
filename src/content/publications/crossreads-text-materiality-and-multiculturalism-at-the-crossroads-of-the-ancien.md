@@ -22,7 +22,6 @@ authors:
   - "Ong, T."
   - "Vieira, M."
 year: 2026
-venue: ""
 url: "https://kclpure.kcl.ac.uk/portal/en/publications/crossreads-text-materiality-and-multiculturalism-at-the-crossroad/"
 type: website
 ---

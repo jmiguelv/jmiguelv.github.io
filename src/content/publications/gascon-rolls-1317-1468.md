@@ -5,7 +5,6 @@ authors:
   - "Vieira, M."
   - "Litta Modignani Picozzi, E."
 year: 2011
-venue: ""
 url: "https://kclpure.kcl.ac.uk/portal/en/publications/gascon-rolls-1317-1468/"
 type: website
 ---

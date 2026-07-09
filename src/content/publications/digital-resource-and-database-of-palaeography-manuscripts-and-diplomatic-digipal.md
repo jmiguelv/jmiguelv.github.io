@@ -11,7 +11,6 @@ authors:
   - "Vieira, M."
   - "Caton, P."
 year: 2010
-venue: ""
 url: "https://kclpure.kcl.ac.uk/portal/en/publications/digital-resource-and-database-of-palaeography-manuscripts-and-dip/"
 type: website
 ---
