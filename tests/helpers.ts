@@ -10,7 +10,7 @@ export interface MarkdownFile {
 export function loadMarkdownFiles(dir: string): MarkdownFile[] {
   const dirPath = path.resolve(dir);
   return fs
-    .readdirSync(dirPath)
+    .readdirSync(dirPath, { recursive: true, encoding: "utf-8" })
     .filter((f) => f.endsWith(".md"))
     .map((f) => ({
       file: f,
