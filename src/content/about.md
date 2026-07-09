@@ -1,3 +1,7 @@
+---
+description: Principal Research Software Engineer building web applications, data pipelines, NLP, and machine learning for digital humanities and social science research.
+---
+
 I am a Principal Research Software Engineer with over fifteen years of
 experience building research software in academic and cross-disciplinary
 settings. My work spans digital humanities and computational social

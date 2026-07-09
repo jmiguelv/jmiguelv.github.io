@@ -1,8 +1,25 @@
+import fs from "node:fs";
+import matter from "gray-matter";
 import { describe, it, expect } from "vitest";
-import { projectSchema, publicationSchema } from "../src/schemas";
+import { aboutSchema, projectSchema, publicationSchema } from "../src/schemas";
 import { loadMarkdownFiles } from "./helpers";
 
 // ── Tests ──────────────────────────────────────────────────────────────────
+
+describe("about content", () => {
+  const about = matter(fs.readFileSync("src/content/about.md", "utf-8"));
+
+  it("frontmatter validates against schema", () => {
+    const result = aboutSchema.safeParse(about.data);
+    if (!result.success) {
+      throw new Error(
+        result.error.issues
+          .map((i) => `${i.path.join(".")}: ${i.message}`)
+          .join("\n"),
+      );
+    }
+  });
+});
 
 describe("projects content", () => {
   const projects = loadMarkdownFiles("src/content/projects");

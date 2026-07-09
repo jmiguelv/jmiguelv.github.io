@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { Content as About } from "../content/about.md";
+import { Content as About, frontmatter } from "../content/about.md";
 import Base from "../layouts/Base.astro";
 import ProjectItem from "../components/ProjectItem.astro";
 import PublicationItem from "../components/PublicationItem.astro";
@@ -16,7 +16,10 @@ const publications = publicationEntries
   .sort(sortPublications);
 ---
 
-<Base title="Miguel Vieira — Research Software Engineer">
+<Base
+  title="Miguel Vieira — Research Software Engineer"
+  description={frontmatter.description}
+>
   <header class="site">
     <input
       type="checkbox"

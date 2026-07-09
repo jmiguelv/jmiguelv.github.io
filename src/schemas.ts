@@ -24,6 +24,10 @@ export const projectSchema = z
     { message: "startYear must not be after endYear" },
   );
 
+export const aboutSchema = z.object({
+  description: nonEmptyString.max(160),
+});
+
 export const publicationSchema = z.object({
   title: nonEmptyString,
   authors: z.array(nonEmptyString),
