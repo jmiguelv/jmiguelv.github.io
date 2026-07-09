@@ -40,9 +40,10 @@ This is a small Astro 6 static site (personal portfolio) deployed to GitHub Page
 - Content is rendered via `getCollection()` and passed to `ProjectItem.astro` / `PublicationItem.astro`. See `src/schemas.ts` for the Zod schema.
 - Tests live in `tests/`:
   - `content.test.ts` — validates all collection entries against Zod schemas.
+  - `schemas.test.ts` — unit tests for the Zod schemas (non-empty strings, year ordering).
   - `sort.test.ts` — unit tests for project and publication sort comparators.
   - `links.test.ts` — link rot checker (run separately, not in CI).
-  - `helpers.ts` — shared test utilities (markdown file loading).
+  - `helpers.ts` / `helpers.test.ts` — shared test utilities (recursive markdown file loading) and their tests; fixtures in `tests/fixtures/`.
 - `tsconfig.json` extends `astro/tsconfigs/strict` and includes `.astro/types.d.ts` for generated collection types.
 
 ## pnpm workspace quirks
