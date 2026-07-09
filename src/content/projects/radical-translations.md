@@ -12,5 +12,5 @@ endYear: 2024
 partners:
   - "FAH Department of Languages, Literatures and Cultures, Faculty of Arts and Humanities"
   - "King's College, London"
-summary: "Studies the translation and circulation of democratic and free-thinking texts across Italy, France and Britain during the French Revolution and Napoleonic era. Designed a public website with national timelines showing co-occurrences of events and translation."
+summary: "Studies the translation and circulation of democratic and free-thinking texts across Italy, France and Britain during the French Revolution and Napoleonic era. Developed an online database with national timelines showing co-occurrences of events and translations."
 ---

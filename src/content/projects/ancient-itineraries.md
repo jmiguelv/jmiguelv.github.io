@@ -11,5 +11,5 @@ startYear: 2020
 endYear: null
 partners:
   - "King's Digital Lab"
-summary: "Documentation repository for visualisation prototypes from the Ancient Itineraries project, a Getty-funded research project exploring digital approaches to ancient travel and itineraries."
+summary: "Getty-funded research project exploring digital approaches to ancient travel and itineraries. Developed a prototype visualising the life cycles and journeys of artworks."
 ---
