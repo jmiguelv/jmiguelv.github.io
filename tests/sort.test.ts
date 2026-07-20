@@ -8,6 +8,7 @@ interface Project {
 }
 
 interface Publication {
+  title: string;
   year: number;
 }
 
@@ -67,9 +68,32 @@ describe("project sort order", () => {
 
 describe("publication sort order", () => {
   it("sorts by year descending", () => {
-    const publications: Publication[] = [{ year: 2018 }, { year: 2024 }];
+    const publications: Publication[] = [
+      { title: "Old", year: 2018 },
+      { title: "New", year: 2024 },
+    ];
     const sorted = [...publications].sort(sortPublications);
-    expect(sorted[0].year).toBe(2024);
-    expect(sorted[1].year).toBe(2018);
+    expect(sorted[0].title).toBe("New");
+    expect(sorted[1].title).toBe("Old");
+  });
+
+  it("sorts by title ascending within the same year", () => {
+    const publications: Publication[] = [
+      { title: "Bravo", year: 2024 },
+      { title: "Alpha", year: 2024 },
+    ];
+    const sorted = [...publications].sort(sortPublications);
+    expect(sorted[0].title).toBe("Alpha");
+    expect(sorted[1].title).toBe("Bravo");
+  });
+
+  it("keeps year descending before title tiebreaker", () => {
+    const publications: Publication[] = [
+      { title: "Zebra", year: 2020 },
+      { title: "Alpha", year: 2024 },
+      { title: "Bravo", year: 2024 },
+    ];
+    const sorted = [...publications].sort(sortPublications);
+    expect(sorted.map((p) => p.title)).toEqual(["Alpha", "Bravo", "Zebra"]);
   });
 });

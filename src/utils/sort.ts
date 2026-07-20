@@ -5,6 +5,7 @@ interface SortableProject {
 }
 
 interface SortablePublication {
+  title: string;
   year: number;
 }
 
@@ -22,5 +23,6 @@ export function sortPublications(
   a: SortablePublication,
   b: SortablePublication,
 ): number {
-  return b.year - a.year;
+  if (a.year !== b.year) return b.year - a.year;
+  return a.title.localeCompare(b.title);
 }
