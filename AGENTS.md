@@ -22,6 +22,10 @@ This is a small Astro 6 static site (personal portfolio) deployed to GitHub Page
 - `pnpm check:links` — run link rot checker separately (fetches 100+ external URLs, slow).
 - `pnpm astro ...` — run Astro CLI commands directly.
 
+## Pre-commit checklist
+
+Before committing, run `pnpm format` and `pnpm lint` to match CI. CI runs `pnpm format:check` (no auto-fix), so unformatted code will fail the pipeline.
+
 ## Deploy
 
 - GitHub Actions `.github/workflows/deploy.yml` builds and deploys on every push to `main`.
