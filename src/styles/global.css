@@ -587,6 +587,55 @@ footer.site .colophon {
   color: var(--site-muted);
 }
 
+/* ────────────────────────── qr code ────────────────────────── */
+
+.vcard-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding-block-start: 0;
+  padding-block-end: 0;
+}
+
+.vcard-page > .site {
+  margin-block: 0;
+}
+
+.vcard-page footer.site {
+  margin-block-start: 0;
+}
+
+.vcard-main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.qr-code {
+  display: block;
+  aspect-ratio: 1;
+  color: var(--site-fg-deep);
+}
+
+.qr-code svg {
+  max-width: 85vw;
+  max-height: 85vh;
+  width: auto;
+  height: auto;
+}
+
+.qr-caption {
+  margin-block-start: 0.5rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--site-muted);
+}
+
 /* ────────────────────────── motion ────────────────────────── */
 
 @media (prefers-reduced-motion: no-preference) {

@@ -1,0 +1,29 @@
+---
+import Base from "../layouts/Base.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { generateQrSvg } from "../utils/qr";
+
+const homepage = Astro.site?.href ?? "https://jmiguelv.github.io";
+const qrSvg = generateQrSvg(homepage, {
+  title: "Scan to visit jmiguelv.github.io",
+});
+---
+
+<Base
+  title="Contact — Miguel Vieira"
+  description="Contact card for Miguel Vieira — Research Software Engineer."
+>
+  <div class="vcard-page">
+    <SiteHeader />
+
+    <main id="main" class="vcard-main">
+      <figure class="qr-code" set:html={qrSvg} />
+      <figcaption class="qr-caption">
+        <a href="/">jmiguelv.github.io</a>
+      </figcaption>
+    </main>
+
+    <SiteFooter />
+  </div>
+</Base>

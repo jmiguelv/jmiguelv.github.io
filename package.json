@@ -18,11 +18,13 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "6.4.4"
+    "astro": "6.4.4",
+    "qrcode": "^1.5.4"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.4",
     "@eslint/js": "^10.0.1",
+    "@types/qrcode": "^1.5.6",
     "eslint": "^10.5.0",
     "eslint-plugin-astro": "^2.0.0",
     "gray-matter": "^4.0.3",
