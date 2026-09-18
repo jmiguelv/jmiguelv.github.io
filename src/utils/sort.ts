@@ -10,12 +10,12 @@ interface SortablePublication {
 }
 
 export function sortProjects(a: SortableProject, b: SortableProject): number {
-  const ae = a.endYear ?? a.startYear ?? -Infinity;
-  const be = b.endYear ?? b.startYear ?? -Infinity;
-  if (be !== ae) return be - ae;
   const as = a.startYear ?? -Infinity;
   const bs = b.startYear ?? -Infinity;
   if (bs !== as) return bs - as;
+  const ae = a.endYear ?? Infinity;
+  const be = b.endYear ?? Infinity;
+  if (be !== ae) return be - ae;
   return a.title.localeCompare(b.title);
 }
 

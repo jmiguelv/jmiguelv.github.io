@@ -15,24 +15,44 @@ interface Publication {
 // ── Tests ──────────────────────────────────────────────────────────────────
 
 describe("project sort order", () => {
-  it("sorts by endYear descending", () => {
+  it("sorts by startYear descending", () => {
     const projects: Project[] = [
-      { title: "Old", startYear: 2018, endYear: 2019 },
-      { title: "New", startYear: 2022, endYear: 2024 },
+      { title: "Long-running", startYear: 2018, endYear: 2026 },
+      { title: "Recent", startYear: 2022, endYear: 2024 },
     ];
     const sorted = [...projects].sort(sortProjects);
-    expect(sorted[0].title).toBe("New");
-    expect(sorted[1].title).toBe("Old");
+    expect(sorted[0].title).toBe("Recent");
+    expect(sorted[1].title).toBe("Long-running");
   });
 
-  it("falls back to startYear when endYear is equal", () => {
+  it("surfaces new work above earlier projects that end later", () => {
     const projects: Project[] = [
-      { title: "Early start", startYear: 2020, endYear: 2024 },
-      { title: "Late start", startYear: 2022, endYear: 2024 },
+      { title: "Started earlier, ends later", startYear: 2025, endYear: 2027 },
+      { title: "New work", startYear: 2026, endYear: null },
     ];
     const sorted = [...projects].sort(sortProjects);
-    expect(sorted[0].title).toBe("Late start");
-    expect(sorted[1].title).toBe("Early start");
+    expect(sorted[0].title).toBe("New work");
+    expect(sorted[1].title).toBe("Started earlier, ends later");
+  });
+
+  it("sorts by endYear descending within the same startYear", () => {
+    const projects: Project[] = [
+      { title: "Ends sooner", startYear: 2025, endYear: 2026 },
+      { title: "Ends later", startYear: 2025, endYear: 2027 },
+    ];
+    const sorted = [...projects].sort(sortProjects);
+    expect(sorted[0].title).toBe("Ends later");
+    expect(sorted[1].title).toBe("Ends sooner");
+  });
+
+  it("ranks ongoing projects above finished work within the same startYear", () => {
+    const projects: Project[] = [
+      { title: "Finished", startYear: 2026, endYear: 2026 },
+      { title: "Ongoing", startYear: 2026, endYear: null },
+    ];
+    const sorted = [...projects].sort(sortProjects);
+    expect(sorted[0].title).toBe("Ongoing");
+    expect(sorted[1].title).toBe("Finished");
   });
 
   it("falls back to title when years are equal", () => {
@@ -45,7 +65,7 @@ describe("project sort order", () => {
     expect(sorted[1].title).toBe("Bravo");
   });
 
-  it("uses startYear as endYear fallback for ongoing projects", () => {
+  it("sorts ongoing work above older finished work", () => {
     const projects: Project[] = [
       { title: "Finished", startYear: 2020, endYear: 2021 },
       { title: "Ongoing", startYear: 2023, endYear: null },
