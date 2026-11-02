@@ -50,6 +50,16 @@ Before committing, run `pnpm format` and `pnpm lint` to match CI. CI runs `pnpm 
   - `helpers.ts` / `helpers.test.ts` — shared test utilities (recursive markdown file loading) and their tests; fixtures in `tests/fixtures/`.
 - `tsconfig.json` extends `astro/tsconfigs/strict` and includes `.astro/types.d.ts` for generated collection types.
 
+## Prototypes (`/lab/`)
+
+Quick prototypes live at `public/lab/<name>/index.html` and are served verbatim at `/lab/<name>/` — no Astro processing, so inline CSS/JS stays intact. Files here are the source of truth (they were copied from `../sandbox/` once and then formatted).
+
+Because they are plain assets with no test coverage:
+
+- Prettier formats them; run `pnpm format` after editing, or CI's `pnpm format:check` fails.
+- After formatting, syntax-check inline scripts (extract the `<script>` body and run `node --check`) — a bad format pass can silently break the page.
+- They are not Astro pages, so the sitemap will not list them.
+
 ## pnpm workspace quirks
 
 - `pnpm-workspace.yaml` allows native builds for `esbuild` and `sharp` and pins `rollup` to `4.61.1` via `overrides`. Run `pnpm install` after changing this file.
