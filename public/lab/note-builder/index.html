@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Note Builder: make the price in different ways</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #fff6e0;
+        --ink: #1d2b3a;
+        --card: #ffffff;
+        --line: #1d2b3a;
+        --tag: #ffd23f;
+        --ok: #1fa768;
+        --bad: #e5484d;
+        --muted: #5b6b7b;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #14202c;
+          --ink: #f4efe2;
+          --card: #1f3042;
+          --line: #f4efe2;
+          --muted: #a9b8c6;
+        }
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Baloo 2", system-ui, "Segoe UI", sans-serif;
+        font-weight: 500;
+      }
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+      }
+      .pill {
+        background: var(--card);
+        border: 2px solid var(--line);
+        border-radius: 99px;
+        padding: 2px 14px;
+      }
+      .tag {
+        position: relative;
+        margin: 18px auto 8px;
+        max-width: 360px;
+        background: var(--tag);
+        color: #1d2b3a;
+        border: 3px solid #1d2b3a;
+        border-radius: 18px 18px 18px 4px;
+        padding: 6px 16px 10px;
+        text-align: center;
+        transform: rotate(-1.5deg);
+        box-shadow: 5px 5px 0 #1d2b3a;
+      }
+      .tag small {
+        display: block;
+        font-size: 1rem;
+        font-weight: 700;
+      }
+      .tag b {
+        font-size: 4rem;
+        line-height: 1;
+        font-weight: 800;
+      }
+      h2 {
+        font-size: 1.1rem;
+        margin: 18px 0 6px;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .note {
+        --c: #2e9e6b;
+        position: relative;
+        min-width: 104px;
+        height: 56px;
+        border: 3px solid #1d2b3a;
+        border-radius: 8px;
+        background: var(--c);
+        color: #fff;
+        font:
+          800 1.5rem "Baloo 2",
+          system-ui,
+          sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 3px 3px 0 #1d2b3a;
+        touch-action: manipulation;
+      }
+      .note::before,
+      .note::after {
+        content: "";
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        top: 50%;
+        margin-top: -7px;
+      }
+      .note::before {
+        left: 8px;
+      }
+      .note::after {
+        right: 8px;
+      }
+      .note:hover {
+        transform: translateY(-2px);
+      }
+      .note:focus-visible,
+      button:focus-visible {
+        outline: 4px solid #3b82f6;
+        outline-offset: 2px;
+      }
+      .note.small {
+        min-width: 64px;
+        height: 38px;
+        font-size: 1.05rem;
+        box-shadow: 2px 2px 0 #1d2b3a;
+      }
+      .note.small::before,
+      .note.small::after {
+        display: none;
+      }
+      .n1 {
+        --c: #8a6d3b;
+      }
+      .n2 {
+        --c: #e0457b;
+      }
+      .n5 {
+        --c: #2e9e6b;
+      }
+      .n10 {
+        --c: #d9480f;
+      }
+      .n20 {
+        --c: #8e44ad;
+      }
+      .n50 {
+        --c: #1c7ed6;
+      }
+      .n100 {
+        --c: #b8860b;
+      }
+      .wallet {
+        min-height: 70px;
+        background: var(--card);
+        border: 3px dashed var(--line);
+        border-radius: 14px;
+        padding: 10px;
+        align-items: center;
+      }
+      .wallet .hint {
+        color: var(--muted);
+      }
+      .meter {
+        height: 22px;
+        background: var(--card);
+        border: 3px solid var(--line);
+        border-radius: 99px;
+        overflow: hidden;
+        margin-top: 10px;
+      }
+      .meter i {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--ok);
+        transition: width 0.25s;
+      }
+      .sum {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 700;
+        margin-top: 4px;
+      }
+      #msg {
+        min-height: 3.2em;
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin: 10px 0;
+      }
+      #msg.ok {
+        color: var(--ok);
+      }
+      #msg.bad {
+        color: var(--bad);
+      }
+      .found {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .found li {
+        background: var(--card);
+        border: 2px solid var(--line);
+        border-radius: 12px;
+        padding: 6px 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+      }
+      .found .eq {
+        margin-left: auto;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      button.act {
+        font:
+          700 1.05rem "Baloo 2",
+          system-ui,
+          sans-serif;
+        background: var(--card);
+        color: var(--ink);
+        border: 3px solid var(--line);
+        border-radius: 12px;
+        padding: 6px 16px;
+        cursor: pointer;
+        box-shadow: 3px 3px 0 var(--line);
+      }
+      button.act.go {
+        background: var(--ok);
+        color: #fff;
+      }
+      .act[aria-pressed="true"] {
+        background: var(--tag);
+        color: #1d2b3a;
+      }
+      button.act:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .shake {
+        animation: sh 0.3s;
+      }
+      @keyframes sh {
+        25% {
+          transform: translateX(-6px);
+        }
+        75% {
+          transform: translateX(6px);
+        }
+      }
+      .pop {
+        animation: pop 0.5s;
+      }
+      @keyframes pop {
+        40% {
+          transform: scale(1.08) rotate(1deg);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <span class="pill" id="lvl">Level 1</span
+        ><span class="pill" id="done">✅ 0 solved</span
+        ><span class="pill" id="stars">⭐ 0</span
+        ><button
+          type="button"
+          class="pill"
+          id="snd"
+          aria-pressed="true"
+          style="font: inherit; color: inherit; cursor: pointer"
+        >
+          🔊 Sound on
+        </button>
+      </header>
+      <div class="tag" id="tag">
+        <small>The price is</small><b id="price">$0</b>
+      </div>
+      <p style="text-align: center; margin: 0" id="goal"></p>
+      <div class="row" style="justify-content: center; margin-top: 8px">
+        <button type="button" class="act" id="m3" aria-pressed="true">
+          Find 3 ways</button
+        ><button type="button" class="act" id="mall" aria-pressed="false">
+          Find all ways
+        </button>
+      </div>
+
+      <h2>
+        Tap notes to pay with
+        <span style="font-weight: 500; color: var(--muted)"
+          >(more kinds of notes = more ⭐)</span
+        >
+      </h2>
+      <div class="row" id="tray"></div>
+
+      <h2>
+        Your wallet
+        <span style="font-weight: 500; color: var(--muted)"
+          >(tap a note to take it back)</span
+        >
+      </h2>
+      <div class="row wallet" id="wallet"></div>
+      <div class="meter"><i id="bar"></i></div>
+      <div class="sum">
+        <span id="paid">Paid: $0</span><span id="left">Left: $0</span>
+      </div>
+      <div id="msg" role="status" aria-live="polite"></div>
+
+      <div class="row" style="margin-bottom: 6px">
+        <button class="act" id="clear">Empty wallet</button>
+        <button class="act" id="skip">New price</button>
+        <button class="act go" id="next" hidden>Next price</button>
+        <button class="act" id="hint">💡 Show amount left (2 ⭐)</button>
+        <button class="act" id="rest" hidden>Show missing ways</button>
+        <button class="act" id="reset">Reset progress</button>
+      </div>
+
+      <h2>Ways you found</h2>
+      <ul class="found" id="found"></ul>
+    </main>
+    <script>
+      (function () {
+        var ALL = [100, 50, 20, 10, 5, 2, 1];
+        var RANGES = [
+          [5, 15],
+          [16, 50],
+          [51, 120],
+          [121, 300],
+        ];
+        var S = {
+          target: 0,
+          wallet: [],
+          found: [],
+          stars: 0,
+          solved: 0,
+          goal: 3,
+          minCount: 0,
+          done: false,
+          all: false,
+          hint: false,
+        };
+        var HINT = 2;
+        var KEY = "noteBuilder.v1";
+        function save() {
+          try {
+            localStorage.setItem(
+              KEY,
+              JSON.stringify({
+                stars: S.stars,
+                solved: S.solved,
+                muted: muted,
+                all: S.all,
+              }),
+            );
+          } catch (e) {}
+        }
+        function load() {
+          try {
+            var d = JSON.parse(localStorage.getItem(KEY) || "null");
+            if (d) {
+              S.stars = +d.stars || 0;
+              S.solved = +d.solved || 0;
+              muted = !!d.muted;
+              S.all = !!d.all;
+            }
+          } catch (e) {}
+        }
+        function applySnd() {
+          var b = $("snd");
+          b.setAttribute("aria-pressed", String(!muted));
+          b.textContent = muted ? "🔇 Sound off" : "🔊 Sound on";
+        }
+        var $ = function (id) {
+          return document.getElementById(id);
+        };
+        var AC = null,
+          muted = false;
+        function tone(f, d, type, t0, vol) {
+          if (muted) return;
+          try {
+            AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+            if (AC.state === "suspended") AC.resume();
+            var o = AC.createOscillator(),
+              g = AC.createGain(),
+              s = AC.currentTime + (t0 || 0);
+            o.type = type || "sine";
+            o.frequency.value = f;
+            g.gain.setValueAtTime(vol || 0.15, s);
+            g.gain.exponentialRampToValueAtTime(0.001, s + d);
+            o.connect(g);
+            g.connect(AC.destination);
+            o.start(s);
+            o.stop(s + d);
+          } catch (e) {}
+        }
+        var snd = {
+          tap: function (v) {
+            tone(420 + Math.log(v + 1) * 110, 0.12, "triangle");
+            tone(900 + Math.log(v + 1) * 110, 0.08, "sine", 0.04, 0.06);
+          },
+          back: function () {
+            tone(300, 0.1, "triangle");
+          },
+          bad: function () {
+            tone(150, 0.25, "sawtooth", 0, 0.1);
+            tone(110, 0.25, "sawtooth", 0.1, 0.1);
+          },
+          dup: function () {
+            tone(260, 0.18, "square", 0, 0.07);
+            tone(220, 0.22, "square", 0.15, 0.07);
+          },
+          win: function () {
+            [523, 659, 784].forEach(function (f, i) {
+              tone(f, 0.18, "triangle", i * 0.1);
+            });
+          },
+          done: function () {
+            [523, 659, 784, 1047, 784, 1047].forEach(function (f, i) {
+              tone(f, 0.2, "triangle", i * 0.11);
+            });
+            tone(1319, 0.5, "sine", 0.7, 0.12);
+          },
+        };
+        function lvl() {
+          return Math.min(4, 1 + Math.floor(S.solved / 3));
+        }
+        function sum(a) {
+          return a.reduce(function (x, y) {
+            return x + y;
+          }, 0);
+        }
+        function ways(t, i) {
+          if (t === 0) return 1;
+          if (t < 0 || i >= ALL.length) return 0;
+          var n = 0,
+            v = ALL[i];
+          for (var k = 0; k * v <= t; k++) n += ways(t - k * v, i + 1);
+          return n;
+        }
+        function minNotes(t) {
+          var c = 0;
+          ALL.forEach(function (v) {
+            c += Math.floor(t / v);
+            t %= v;
+          });
+          return c;
+        }
+        function noteEl(v, small, fn) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.className = "note n" + v + (small ? " small" : "");
+          b.textContent = "$" + v;
+          b.setAttribute(
+            "aria-label",
+            (small ? "Remove " : "Add ") + "$" + v + " note",
+          );
+          if (fn) b.onclick = fn;
+          return b;
+        }
+        function newRound() {
+          var r = S.all ? [5, 20] : RANGES[lvl() - 1];
+          var t;
+          do {
+            t = r[0] + Math.floor(Math.random() * (r[1] - r[0] + 1));
+          } while (t === S.target);
+          S.target = t;
+          S.wallet = [];
+          S.found = [];
+          S.done = false;
+          S.hint = false;
+          S.goal = S.all ? ways(t, 0) : Math.min(3, ways(t, 0));
+          S.minCount = minNotes(t);
+          $("next").hidden = true;
+          msg(
+            "Pick notes that add up to exactly $" +
+              t +
+              "." +
+              (S.all ? " Prices stay small so every way can be found." : ""),
+            "",
+          );
+          render();
+          var tg = $("tag");
+          tg.classList.remove("pop");
+          void tg.offsetWidth;
+          tg.classList.add("pop");
+        }
+        function msg(t, c) {
+          var m = $("msg");
+          m.textContent = t;
+          m.className = c || "";
+        }
+        function render() {
+          var t = S.target,
+            p = sum(S.wallet);
+          $("lvl").textContent = "Level " + lvl();
+          $("stars").textContent = "⭐ " + S.stars;
+          $("done").textContent = "✅ " + S.solved + " solved";
+          save();
+          $("price").textContent = "$" + t;
+          $("goal").textContent =
+            (S.all
+              ? "Find all " + S.goal + " ways to pay."
+              : "Find " + S.goal + " different ways to pay.") +
+            " Found " +
+            S.found.length +
+            " of " +
+            S.goal +
+            ".";
+          $("m3").setAttribute("aria-pressed", String(!S.all));
+          $("mall").setAttribute("aria-pressed", String(S.all));
+          $("rest").hidden = !(S.all && !S.done);
+          var tray = $("tray");
+          tray.innerHTML = "";
+          ALL.forEach(function (v) {
+            if (v <= t)
+              tray.appendChild(
+                noteEl(v, false, function () {
+                  add(v, this);
+                }),
+              );
+          });
+          var w = $("wallet");
+          w.innerHTML = "";
+          if (!S.wallet.length) {
+            var h = document.createElement("span");
+            h.className = "hint";
+            h.textContent = "Empty. Tap a note above.";
+            w.appendChild(h);
+          }
+          S.wallet
+            .slice()
+            .sort(function (a, b) {
+              return b - a;
+            })
+            .forEach(function (v) {
+              w.appendChild(
+                noteEl(v, true, function () {
+                  remove(v);
+                }),
+              );
+            });
+          $("bar").style.width = Math.min(100, (p / t) * 100) + "%";
+          $("paid").textContent = "Paid: $" + p;
+          $("left").textContent = "Left: $" + (t - p);
+          $("left").hidden = !S.hint;
+          var hb = $("hint");
+          hb.hidden = S.hint || S.done;
+          hb.disabled = S.stars < HINT;
+          var f = $("found");
+          f.innerHTML = "";
+          S.found.forEach(function (c) {
+            var li = document.createElement("li");
+            c.slice()
+              .sort(function (a, b) {
+                return b - a;
+              })
+              .forEach(function (v) {
+                li.appendChild(noteEl(v, true));
+              });
+            var e = document.createElement("span");
+            e.className = "eq";
+            e.textContent = c.join(" + ") + " = " + t;
+            li.appendChild(e);
+            f.appendChild(li);
+          });
+        }
+        function add(v, el) {
+          if (S.done) return;
+          var p = sum(S.wallet);
+          if (p + v > S.target) {
+            el.classList.remove("shake");
+            void el.offsetWidth;
+            el.classList.add("shake");
+            snd.bad();
+            msg(
+              "$" +
+                v +
+                " is too much for this price. " +
+                (S.hint ? "You only have $" + (S.target - p) + " left. " : "") +
+                "Try a smaller note.",
+              "bad",
+            );
+            return;
+          }
+          S.wallet.push(v);
+          S.hint = false;
+          snd.tap(v);
+          render();
+          if (sum(S.wallet) === S.target) finish();
+          else
+            msg(
+              S.hint
+                ? "$" + (S.target - sum(S.wallet)) + " more to go."
+                : "Keep going!",
+              "",
+            );
+        }
+        function remove(v) {
+          if (S.done) return;
+          var i = S.wallet.indexOf(v);
+          if (i > -1) S.wallet.splice(i, 1);
+          S.hint = false;
+          snd.back();
+          render();
+          msg("Took back a $" + v + " note.", "");
+        }
+        function finish() {
+          var combo = S.wallet.slice().sort(function (a, b) {
+            return b - a;
+          });
+          var key = combo.join(",");
+          var dup = S.found.some(function (c) {
+            return (
+              c
+                .slice()
+                .sort(function (a, b) {
+                  return b - a;
+                })
+                .join(",") === key
+            );
+          });
+          if (dup) {
+            snd.dup();
+            msg(
+              "You already found that way! Try a different mix of notes.",
+              "bad",
+            );
+            setTimeout(function () {
+              S.wallet = [];
+              render();
+            }, 1100);
+            return;
+          }
+          S.found.push(combo);
+          var kinds = combo.filter(function (v, i) {
+            return combo.indexOf(v) === i;
+          }).length;
+          var gain = kinds;
+          S.stars += gain;
+          var extra = "";
+          if (combo.length === S.minCount && kinds > 1) {
+            S.stars += 2;
+            gain += 2;
+            extra = " Bonus! That uses the fewest notes possible (+2 ⭐).";
+          }
+          if (S.found.length >= S.goal) {
+            S.done = true;
+            S.solved++;
+            snd.done();
+            msg(
+              "Paid exactly $" +
+                S.target +
+                "! +" +
+                gain +
+                " ⭐ You found " +
+                S.goal +
+                " ways." +
+                extra,
+              "ok",
+            );
+            $("next").hidden = false;
+            $("next").focus();
+          } else {
+            snd.win();
+            msg(
+              "Paid exactly $" +
+                S.target +
+                "! +" +
+                gain +
+                " ⭐ " +
+                (S.goal - S.found.length) +
+                " more to find." +
+                extra,
+              "ok",
+            );
+            setTimeout(function () {
+              S.wallet = [];
+              render();
+            }, 1100);
+          }
+          render();
+        }
+        $("clear").onclick = function () {
+          if (!S.done) {
+            S.wallet = [];
+            S.hint = false;
+            render();
+            msg("Wallet emptied. Start again.", "");
+          }
+        };
+        $("skip").onclick = function () {
+          newRound();
+        };
+        $("next").onclick = function () {
+          newRound();
+        };
+        $("snd").onclick = function () {
+          muted = !muted;
+          save();
+          this.setAttribute("aria-pressed", String(!muted));
+          this.textContent = muted ? "🔇 Sound off" : "🔊 Sound on";
+          if (!muted) snd.tap(5);
+        };
+        function allCombos(t) {
+          var out = [];
+          function rec(i, rem, cur) {
+            if (rem === 0) {
+              out.push(cur);
+              return;
+            }
+            if (i >= ALL.length) return;
+            var v = ALL[i];
+            for (var k = 0; k * v <= rem; k++) {
+              var c = cur.slice();
+              for (var j = 0; j < k; j++) c.push(v);
+              rec(i + 1, rem - k * v, c);
+            }
+          }
+          rec(0, t, []);
+          return out;
+        }
+        function setMode(all) {
+          if (S.all === all) return;
+          S.all = all;
+          save();
+          newRound();
+        }
+        $("m3").onclick = function () {
+          setMode(false);
+        };
+        $("mall").onclick = function () {
+          setMode(true);
+        };
+        $("rest").onclick = function () {
+          if (S.done) return;
+          var have = {};
+          S.found.forEach(function (c) {
+            have[
+              c
+                .slice()
+                .sort(function (a, b) {
+                  return b - a;
+                })
+                .join(",")
+            ] = 1;
+          });
+          allCombos(S.target).forEach(function (c) {
+            if (!have[c.join(",")]) S.found.push(c);
+          });
+          S.done = true;
+          S.wallet = [];
+          msg("Here are all the ways. Study them, then try a new price!", "");
+          $("next").hidden = false;
+          render();
+        };
+        $("hint").onclick = function () {
+          if (S.hint || S.done || S.stars < HINT) return;
+          S.stars -= HINT;
+          S.hint = true;
+          render();
+          msg(
+            "Hint: $" +
+              (S.target - sum(S.wallet)) +
+              " left to pay. It hides again after your next move.",
+            "",
+          );
+        };
+        var rt = null;
+        $("reset").onclick = function () {
+          var b = this;
+          if (!b.dataset.arm) {
+            b.dataset.arm = "1";
+            b.textContent = "Tap again to reset";
+            rt = setTimeout(function () {
+              delete b.dataset.arm;
+              b.textContent = "Reset progress";
+            }, 3000);
+          } else {
+            clearTimeout(rt);
+            delete b.dataset.arm;
+            b.textContent = "Reset progress";
+            S.stars = 0;
+            S.solved = 0;
+            newRound();
+          }
+        };
+        load();
+        applySnd();
+        newRound();
+      })();
+    </script>
+  </body>
+</html>
