@@ -1,0 +1,1092 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Clock Quest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Preahvihear&family=Fredoka:wght@400..700&family=Atkinson+Hyperlegible:wght@400;700&display=swap"
+    />
+    <style>
+      :root {
+        --bg: #fff7e6;
+        --card: #ffffff;
+        --ink: #2b2a4c;
+        --muted: #6b6a8a;
+        --accent: #ff6b6b;
+        --good: #2fb574;
+        --bad: #e8590c;
+        --face: #fffdf5;
+        --ring: #ffb703;
+        --hour: #2b2a4c;
+        --min: #ff6b6b;
+        --pip: #e6dfcf;
+        --star: #ffb703;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #1d1b3a;
+          --card: #2a2850;
+          --ink: #f4f1ff;
+          --muted: #b3b0d6;
+          --face: #35326a;
+          --hour: #f4f1ff;
+          --pip: #4a4780;
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #1d1b3a;
+        --card: #2a2850;
+        --ink: #f4f1ff;
+        --muted: #b3b0d6;
+        --face: #35326a;
+        --hour: #f4f1ff;
+        --pip: #4a4780;
+        color-scheme: dark;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          "DynaPuff", "Trebuchet MS", "Comic Sans MS", system-ui, sans-serif;
+        font-synthesis: none;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        padding: 16px;
+      }
+      .app {
+        width: 100%;
+        max-width: 440px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 700;
+      }
+      .chip {
+        background: var(--card);
+        border-radius: 999px;
+        padding: 6px 14px;
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12);
+        font-size: 15px;
+      }
+      .card {
+        background: var(--card);
+        border-radius: 24px;
+        padding: 16px;
+        box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
+        text-align: center;
+      }
+      h1 {
+        margin: 0;
+        font-size: 26px;
+      }
+      .lvl {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 14px;
+        margin-top: 2px;
+      }
+      .pips {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin: 10px 0 2px;
+      }
+      .pip {
+        width: 26px;
+        height: 10px;
+        border-radius: 6px;
+        background: var(--pip);
+        transition: background 0.3s;
+      }
+      .pip.on {
+        background: var(--good);
+      }
+      svg {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        display: block;
+        margin: 6px auto;
+      }
+      .hand {
+        transition: transform 0.8s cubic-bezier(0.3, 1.4, 0.5, 1);
+        transform-origin: 100px 100px;
+      }
+      .legend {
+        font-size: 13px;
+        color: var(--muted);
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+      }
+      .dot {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        vertical-align: -1px;
+        margin-right: 4px;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      input {
+        flex: 1;
+        min-width: 0;
+        font: inherit;
+        font-size: 34px;
+        font-weight: 700;
+        text-align: center;
+        border: 3px solid var(--ring);
+        border-radius: 16px;
+        padding: 6px;
+        background: var(--face);
+        color: var(--ink);
+        letter-spacing: 2px;
+      }
+      input:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(255, 183, 3, 0.35);
+      }
+      button {
+        font: inherit;
+        font-weight: 700;
+        font-size: 20px;
+        border: 0;
+        border-radius: 16px;
+        padding: 10px 20px;
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+        box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+      }
+      button:active {
+        transform: translateY(3px);
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+      }
+      button.alt {
+        background: var(--good);
+      }
+      #msg {
+        min-height: 52px;
+        margin-top: 10px;
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+      .good {
+        color: var(--good);
+      }
+      .bad {
+        color: var(--bad);
+      }
+      .shake {
+        animation: sh 0.35s;
+      }
+      @keyframes sh {
+        25% {
+          transform: translateX(-8px);
+        }
+        75% {
+          transform: translateX(8px);
+        }
+      }
+      .pop {
+        animation: pop 0.5s;
+      }
+      @keyframes pop {
+        40% {
+          transform: scale(1.06);
+        }
+      }
+      #confetti {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .bit {
+        position: absolute;
+        top: -30px;
+        font-size: 26px;
+        animation: fall 1.6s ease-in forwards;
+      }
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(540deg);
+          opacity: 0.9;
+        }
+      }
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+        text-align: center;
+      }
+      button.link {
+        background: none;
+        box-shadow: none;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: underline;
+        padding: 6px 10px;
+      }
+      button.link.sure {
+        color: var(--bad);
+      }
+      select {
+        font: inherit;
+        font-size: 14px;
+        border: 2px solid var(--ring);
+        border-radius: 10px;
+        background: var(--face);
+        color: var(--ink);
+        padding: 2px 6px;
+      }
+      .buddy {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-align: left;
+        margin-bottom: 6px;
+      }
+      .owl {
+        font-size: 46px;
+        line-height: 1;
+      }
+      .owl.hop {
+        animation: hop 0.6s;
+      }
+      @keyframes hop {
+        30% {
+          transform: translateY(-14px) rotate(-10deg);
+        }
+        60% {
+          transform: translateY(0) rotate(8deg);
+        }
+      }
+      .bubble {
+        position: relative;
+        background: var(--face);
+        border: 2px solid var(--ring);
+        border-radius: 12px;
+        padding: 8px 12px;
+        font-size: 15px;
+        line-height: 1.3;
+        flex: 1;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+      }
+      .bubble:before {
+        content: "";
+        position: absolute;
+        left: -9px;
+        top: 50%;
+        margin-top: -7px;
+        border: 7px solid transparent;
+        border-right-color: var(--ring);
+        border-left: 0;
+      }
+      .banner {
+        position: fixed;
+        left: 50%;
+        top: 32%;
+        transform: translate(-50%, -50%) scale(0);
+        background: var(--accent);
+        color: #fff;
+        border-radius: 28px;
+        padding: 18px 26px;
+        font-size: 30px;
+        text-align: center;
+        box-shadow: 0 8px 0 rgba(0, 0, 0, 0.25);
+        z-index: 9;
+        pointer-events: none;
+        line-height: 1.3;
+      }
+      .banner.show {
+        animation: ban 2.4s forwards;
+      }
+      @keyframes ban {
+        15% {
+          transform: translate(-50%, -50%) scale(1.15) rotate(-3deg);
+        }
+        25%,
+        80% {
+          transform: translate(-50%, -50%) scale(1);
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(0);
+        }
+      }
+      .eye {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: blink 4s infinite;
+      }
+      @keyframes blink {
+        0%,
+        94%,
+        100% {
+          transform: scaleY(1);
+        }
+        97% {
+          transform: scaleY(0.1);
+        }
+      }
+      .chip.hot {
+        animation: pulse 1s infinite;
+      }
+      @keyframes pulse {
+        50% {
+          transform: scale(1.12);
+        }
+      }
+      .event {
+        background: var(--face);
+        border: 2px dashed var(--ring);
+        border-radius: 16px;
+        padding: 10px 12px;
+        font-size: 17px;
+        font-weight: 700;
+        margin-top: 6px;
+        line-height: 1.3;
+      }
+      .ampm {
+        display: flex;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 3px solid var(--ring);
+        margin-top: 10px;
+      }
+      .ampm button {
+        flex: 1;
+        border-radius: 0;
+        box-shadow: none;
+        background: var(--face);
+        color: var(--ink);
+        font-size: 18px;
+        padding: 6px 12px;
+      }
+      .ampm button.sel {
+        background: var(--ring);
+        color: #2b2a4c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="top">
+        <span class="chip" id="stars">⭐ 0</span>
+        <h1>🕒 Clock Quest</h1>
+        <span class="chip" id="streak">🔥 0</span>
+      </div>
+      <div class="card" id="lvlcard">
+        <div class="lvl" id="lvl"></div>
+        <div class="sub" id="lvlsub"></div>
+        <div class="pips" id="pips"></div>
+      </div>
+      <div class="card" id="play">
+        <div class="buddy">
+          <div class="owl" id="owl">🦉</div>
+          <div class="bubble" id="say">Hi! I am Tick the owl!</div>
+        </div>
+        <svg viewBox="0 0 200 200" aria-label="Analogue clock">
+          <circle cx="100" cy="100" r="96" fill="var(--ring)" />
+          <circle cx="100" cy="100" r="88" fill="var(--face)" />
+          <g id="ticks"></g>
+          <g
+            id="nums"
+            font-size="17"
+            font-weight="700"
+            text-anchor="middle"
+            fill="var(--ink)"
+          ></g>
+          <g class="hand" id="hh">
+            <line
+              x1="100"
+              y1="100"
+              x2="100"
+              y2="56"
+              stroke="var(--hour)"
+              stroke-width="7"
+              stroke-linecap="round"
+            />
+          </g>
+          <g class="hand" id="mh">
+            <line
+              x1="100"
+              y1="100"
+              x2="100"
+              y2="30"
+              stroke="var(--min)"
+              stroke-width="4"
+              stroke-linecap="round"
+            />
+          </g>
+          <circle cx="100" cy="100" r="6" fill="var(--ink)" />
+        </svg>
+        <div class="legend">
+          <span
+            ><i class="dot" style="background: var(--hour)"></i>short =
+            hours</span
+          ><span
+            ><i class="dot" style="background: var(--min)"></i>long =
+            minutes</span
+          >
+        </div>
+        <div class="ampm" role="group" aria-label="AM or PM">
+          <button id="am" type="button">AM</button
+          ><button id="pm" type="button">PM</button>
+        </div>
+        <div class="row">
+          <input
+            id="ans"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="3:30"
+            maxlength="5"
+            aria-label="Type the time"
+          />
+          <button id="go">Check</button>
+        </div>
+        <div id="msg"></div>
+      </div>
+      <div class="small">
+        Type the numbers only. The colon appears by itself! For 3:30 type 330.
+      </div>
+      <div class="small">
+        <button id="reset" class="link">Reset progress</button>
+        <button id="mute" class="link" type="button">🔊 Sound on</button
+        ><br /><label
+          >Font:
+          <select id="font">
+            <option>DynaPuff</option>
+            <option>Preahvihear</option>
+            <option>Fredoka</option>
+            <option>Atkinson Hyperlegible</option>
+          </select></label
+        >
+      </div>
+    </div>
+    <div id="confetti"></div>
+    <div class="banner" id="banner"></div>
+    <script>
+      var LEVELS = [
+        {
+          n: "Level 1: O’clock",
+          s: "The long hand points straight up at 12.",
+          m: [0],
+        },
+        {
+          n: "Level 2: Half past",
+          s: "Long hand at the bottom means 30 minutes.",
+          m: [0, 30],
+        },
+        {
+          n: "Level 3: Quarters",
+          s: "Quarter past is 15, quarter to is 45.",
+          m: [0, 15, 30, 45],
+        },
+        {
+          n: "Level 4: Five minutes",
+          s: "Each number is 5 more minutes. Count by 5s!",
+          step: 5,
+        },
+        {
+          n: "Level 5: Time master",
+          s: "Any minute at all. Count the little ticks!",
+          step: 1,
+        },
+      ];
+      var NEED = 5,
+        lvl = 0,
+        prog = 0,
+        stars = 0,
+        streak = 0,
+        cur = null,
+        tries = 0,
+        locked = false,
+        ans = document.getElementById("ans"),
+        msg = document.getElementById("msg");
+      var $ = function (i) {
+        return document.getElementById(i);
+      };
+      (function () {
+        var t = "",
+          n = "",
+          i;
+        for (i = 0; i < 60; i++) {
+          var a = (i * 6 * Math.PI) / 180,
+            big = i % 5 === 0,
+            r1 = big ? 78 : 82;
+          t +=
+            '<line x1="' +
+            (100 + Math.sin(a) * r1) +
+            '" y1="' +
+            (100 - Math.cos(a) * r1) +
+            '" x2="' +
+            (100 + Math.sin(a) * 86) +
+            '" y2="' +
+            (100 - Math.cos(a) * 86) +
+            '" stroke="var(--muted)" stroke-width="' +
+            (big ? 2.5 : 1) +
+            '"/>';
+        }
+        for (i = 1; i <= 12; i++) {
+          var b = (i * 30 * Math.PI) / 180;
+          n +=
+            '<text x="' +
+            (100 + Math.sin(b) * 66) +
+            '" y="' +
+            (100 - Math.cos(b) * 66 + 6) +
+            '">' +
+            i +
+            "</text>";
+        }
+        $("ticks").innerHTML = t;
+        $("nums").innerHTML = n;
+      })();
+      var angH = 0,
+        angM = 0;
+      function setHands(h, m) {
+        var th = (h % 12) * 30 + m * 0.5,
+          tm = m * 6;
+        // keep rotating forward so hands never spin backwards
+        angH += (((th - angH) % 360) + 360) % 360;
+        angM += (((tm - angM) % 360) + 360) % 360;
+        $("hh").style.transform = "rotate(" + angH + "deg)";
+        $("mh").style.transform = "rotate(" + angM + "deg)";
+      }
+      function pad(n) {
+        return n < 10 ? "0" + n : "" + n;
+      }
+      function fmt(h, m) {
+        return h + ":" + pad(m);
+      }
+      function pickMinute() {
+        var L = LEVELS[Math.min(lvl, LEVELS.length - 1)];
+        if (L.m) return L.m[Math.floor(Math.random() * L.m.length)];
+        var k = 60 / L.step;
+        return Math.floor(Math.random() * k) * L.step;
+      }
+      var EV = [
+        { t: "Sam is fast asleep in bed. The moon is out! 🌙", a: 0, b: 4 },
+        { t: "Mia wakes up early to watch the sunrise. 🌅", a: 5, b: 6 },
+        { t: "Leo eats breakfast before going to school. 🥣", a: 6, b: 8 },
+        { t: "Priya walks into school for assembly. 🏫", a: 7, b: 9 },
+        { t: "Ben goes for a run in the morning. 🏃", a: 9, b: 11 },
+        { t: "Aisha sits down to eat her lunch. 🥪", a: 12, b: 14 },
+        { t: "Kai plays football in the afternoon. ⚽", a: 13, b: 16 },
+        { t: "Nina reads books at the library after school. 📚", a: 14, b: 16 },
+        {
+          t: "Tom takes his dog for a walk in the late afternoon. 🐕",
+          a: 16,
+          b: 17,
+        },
+        { t: "The family sits down to eat dinner together. 🍽️", a: 17, b: 19 },
+        { t: "Zoe watches the sun set at the beach. 🌇", a: 18, b: 19 },
+        { t: "Max brushes his teeth and gets ready for bed. 🪥", a: 20, b: 21 },
+        {
+          t: "Lily is fast asleep and the stars are shining. ⭐",
+          a: 22,
+          b: 23,
+        },
+      ];
+      var sel = null;
+      function setSel(v) {
+        sel = v;
+        $("am").classList.toggle("sel", v === false);
+        $("pm").classList.toggle("sel", v === true);
+      }
+      function pickEvent(h, pm) {
+        var H = (h % 12) + (pm ? 12 : 0),
+          ok = EV.filter(function (e) {
+            return H >= e.a && H <= e.b;
+          });
+        return ok[Math.floor(Math.random() * ok.length)];
+      }
+      function newQ() {
+        var h,
+          m,
+          pm,
+          tries0 = 0;
+        do {
+          h = 1 + Math.floor(Math.random() * 12);
+          m = pickMinute();
+          pm = Math.random() < 0.5;
+          tries0++;
+        } while (
+          cur &&
+          cur.h === h &&
+          cur.m === m &&
+          cur.pm === pm &&
+          tries0 < 20
+        );
+        var ev = pickEvent(h, pm).t;
+        cur = { h: h, m: m, pm: pm, ev: ev };
+        tries = 0;
+        locked = false;
+        setHands(h, m);
+        setSel(null);
+        ans.value = "";
+        ans.focus({ preventScroll: true });
+        msg.className = "";
+        msg.textContent =
+          "Listen to Tick, then type the time and pick AM or PM.";
+        t0 = Date.now();
+        say(ev, "🦉", "calm");
+      }
+      function hud() {
+        var L = LEVELS[Math.min(lvl, LEVELS.length - 1)];
+        $("lvl").textContent = L.n;
+        $("lvlsub").textContent = L.s;
+        var p = "";
+        for (var i = 0; i < NEED; i++)
+          p += '<span class="pip' + (i < prog ? " on" : "") + '"></span>';
+        $("pips").innerHTML = p;
+        $("stars").textContent = "⭐ " + stars;
+        $("streak").textContent = "🔥 " + streak;
+        save();
+        theme();
+        $("streak").classList.toggle("hot", streak >= 3);
+      }
+      var muted = false;
+      try {
+        muted = localStorage.getItem("clockquest:muted") === "1";
+      } catch (e) {}
+      var AC = null;
+      function actx() {
+        if (muted) return null;
+        try {
+          if (!AC)
+            AC = new (window.AudioContext || window.webkitAudioContext)();
+          if (AC.state === "suspended") AC.resume();
+          return AC;
+        } catch (e) {
+          return null;
+        }
+      }
+      function tone(f, t0, d, type, vol, slideTo) {
+        var c = actx();
+        if (!c) return;
+        var o = c.createOscillator(),
+          g = c.createGain(),
+          s = c.currentTime + t0;
+        o.type = type || "sine";
+        o.frequency.setValueAtTime(f, s);
+        if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, s + d);
+        g.gain.setValueAtTime(0.0001, s);
+        g.gain.exponentialRampToValueAtTime(vol || 0.2, s + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, s + d);
+        o.connect(g);
+        g.connect(c.destination);
+        o.start(s);
+        o.stop(s + d + 0.05);
+      }
+      var SFX = {
+        tick: function () {
+          tone(660, 0, 0.07, "triangle", 0.15);
+        },
+        good: function () {
+          var k = 1 + Math.min(streak, 10) * 0.05;
+          [523, 659, 784, 1047].forEach(function (f, i) {
+            tone(f * k, i * 0.09, 0.22, "triangle", 0.2);
+          });
+        },
+        bad: function () {
+          tone(220, 0, 0.25, "sawtooth", 0.12, 130);
+        },
+        reveal: function () {
+          tone(330, 0, 0.18, "sine", 0.15);
+          tone(262, 0.16, 0.28, "sine", 0.15);
+        },
+        level: function () {
+          [523, 659, 784, 659, 784, 1047, 1319].forEach(function (f, i) {
+            tone(f, i * 0.11, 0.25, "square", 0.1);
+          });
+        },
+        next: function () {
+          tone(440, 0, 0.08, "sine", 0.12, 660);
+        },
+        reset: function () {
+          tone(880, 0, 0.35, "sine", 0.12, 220);
+        },
+      };
+      function sfx(n) {
+        try {
+          SFX[n]();
+        } catch (e) {}
+      }
+      var RANKS = [
+          "Tick-Tock Rookie",
+          "Minute Explorer",
+          "Quarter Captain",
+          "Time Wizard",
+          "Time Master",
+        ],
+        TH = ["#ffb703", "#4cc9f0", "#b388ff", "#ff8fab", "#2fb574"],
+        t0 = 0;
+      var MOUTH = {
+        happy: "M76 116 Q100 156 124 116",
+        calm: "M84 126 Q100 138 116 126",
+        sad: "M84 138 Q100 120 116 138",
+      };
+      var TIPS = [
+        "Short hand = hours, long hand = minutes!",
+        "Count by 5s around the clock!",
+        "Read the sentence: is it morning or night?",
+        "Take your time, you are doing great!",
+        "Where is the long hand pointing?",
+        "Look at the short hand first!",
+      ];
+      function face(m) {}
+      function say(t, e, m) {
+        $("say").textContent = t;
+        var o = $("owl");
+        o.textContent = e;
+        face(m);
+        o.classList.remove("hop");
+        void o.offsetWidth;
+        o.classList.add("hop");
+      }
+      function theme() {
+        document.documentElement.style.setProperty(
+          "--ring",
+          TH[Math.min(lvl, TH.length - 1)],
+        );
+      }
+      function cheer(fast, combo) {
+        var t = [
+          "Hooray!",
+          "You rock!",
+          "Wow, so clever!",
+          "Tick-tock, nailed it!",
+          "Super smart!",
+        ][Math.floor(Math.random() * 5)];
+        if (fast) t += " ⚡ Lightning fast! +1 star";
+        if (combo) t += " 🔥 " + streak + " in a row! Bonus star!";
+        say(t, streak >= 5 ? "🤩" : "🦉", "happy");
+      }
+      function levelUp() {
+        var r = RANKS[Math.min(lvl, RANKS.length - 1)],
+          b = $("banner");
+        b.innerHTML =
+          '⭐ LEVEL UP! ⭐<br><span style="font-size:18px">You are now a ' +
+          r +
+          "</span>";
+        b.classList.remove("show");
+        void b.offsetWidth;
+        b.classList.add("show");
+        theme();
+        say("Level " + (lvl + 1) + "! You are now a " + r + "!", "🥳", "happy");
+      }
+      var KEY = "clockquest:v1";
+      function save() {
+        try {
+          localStorage.setItem(
+            KEY,
+            JSON.stringify({
+              lvl: lvl,
+              prog: prog,
+              stars: stars,
+              streak: streak,
+            }),
+          );
+        } catch (e) {}
+      }
+      function load() {
+        try {
+          var s = JSON.parse(localStorage.getItem(KEY) || "null");
+          if (s && typeof s == "object") {
+            lvl = Math.max(0, +s.lvl || 0);
+            prog = Math.min(NEED - 1, Math.max(0, +s.prog || 0));
+            stars = Math.max(0, +s.stars || 0);
+            streak = Math.max(0, +s.streak || 0);
+          }
+        } catch (e) {}
+      }
+      function parse(v) {
+        var d = v.replace(/\D/g, "");
+        if (!d) return null;
+        var h, m;
+        if (d.length <= 2) {
+          h = +d;
+          m = 0;
+        } else {
+          m = +d.slice(-2);
+          h = +d.slice(0, -2);
+        }
+        if (h < 1 || h > 12 || m > 59) return null;
+        return { h: h, m: m };
+      }
+      ans.addEventListener("input", function () {
+        var d = ans.value.replace(/\D/g, "").slice(0, 4);
+        ans.value = d.length > 2 ? d.slice(0, -2) + ":" + d.slice(-2) : d;
+      });
+      ans.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") check();
+      });
+      $("go").addEventListener("click", function () {
+        if (locked) {
+          next();
+        } else check();
+      });
+      function hint() {
+        var near = cur.m >= 45 ? (cur.h % 12) + 1 : cur.h,
+          mm = cur.m / 5;
+        if (cur.m === 0)
+          return (
+            "Hint: the long hand is at 12, so it is exactly the hour. The short hand points to " +
+            cur.h +
+            "."
+          );
+        var s =
+          "Hint: the short hand is just past the " +
+          cur.h +
+          (cur.m >= 45 ? " (nearly at the " + ((cur.h % 12) + 1) + ")" : "") +
+          ". ";
+        if (cur.m % 5 === 0)
+          return (
+            s +
+            "The long hand points at " +
+            mm +
+            ", and " +
+            mm +
+            " × 5 = " +
+            cur.m +
+            " minutes."
+          );
+        var f = Math.floor(mm);
+        return (
+          s +
+          "The long hand is past the " +
+          (f || 12) +
+          " (" +
+          f * 5 +
+          " minutes), then count the little ticks."
+        );
+      }
+      function check() {
+        if (locked) return;
+        var g = parse(ans.value);
+        if (!g) {
+          msg.className = "bad";
+          msg.textContent = "Type the time like 330 for 3:30 🙂";
+          return;
+        }
+        if (sel === null) {
+          msg.className = "bad";
+          msg.textContent = "Pick AM or PM too! The sentence has clues 🙂";
+          return;
+        }
+        if (g.h === cur.h && g.m === cur.m && sel === cur.pm) {
+          streak++;
+          var fast = tries === 0 && Date.now() - t0 < 9000,
+            combo = streak % 5 === 0 ? 1 : 0;
+          stars += (tries === 0 ? 2 : 1) + (fast ? 1 : 0) + combo;
+          prog++;
+          sfx(prog >= NEED ? "level" : "good");
+          cheer(fast, combo);
+          var ok = [
+            "Brilliant! 🎉",
+            "You got it! 🌟",
+            "Time flies when you are this good! ⏰",
+            "Spot on! 🚀",
+            "Clock champion! 🏆",
+          ];
+          msg.className = "good";
+          msg.textContent =
+            ok[Math.floor(Math.random() * ok.length)] +
+            " It is " +
+            fmt(cur.h, cur.m) +
+            (cur.pm ? " PM" : " AM");
+          $("play").classList.remove("pop");
+          void $("play").offsetWidth;
+          $("play").classList.add("pop");
+          boom();
+          if (prog >= NEED) {
+            lvl++;
+            prog = 0;
+            var L = LEVELS[Math.min(lvl, LEVELS.length - 1)];
+            msg.textContent =
+              lvl < LEVELS.length
+                ? "LEVEL UP! 🎊 Next: " + L.n
+                : "You are a Time master! 🏅 Keep going!";
+            boom();
+            boom();
+            levelUp();
+          }
+          hud();
+          lock("Next ➜");
+        } else {
+          tries++;
+          streak = 0;
+          hud();
+          sfx(tries === 1 ? "bad" : "reveal");
+          say(
+            tries === 1
+              ? "Oops! Have another go! " + cur.ev + " 💪"
+              : "No worries! Mistakes help us learn. Next one!",
+            "🙈",
+            "sad",
+          );
+          $("play").classList.remove("shake");
+          void $("play").offsetWidth;
+          $("play").classList.add("shake");
+          if (tries === 1) {
+            msg.className = "bad";
+            msg.textContent =
+              "Not quite. Try again! " +
+              (g.h === cur.h && g.m === cur.m
+                ? "The time is right, but check AM or PM. AM is night and morning, PM is afternoon and evening."
+                : hint());
+            ans.select();
+          } else {
+            msg.className = "bad";
+            msg.textContent =
+              "The answer is " +
+              fmt(cur.h, cur.m) +
+              (cur.pm ? " PM" : " AM") +
+              ". You will get the next one!";
+            lock("Next ➜");
+          }
+        }
+      }
+      function lock(t) {
+        locked = true;
+        $("go").textContent = t;
+        $("go").className = "alt";
+        ans.blur();
+      }
+      function next() {
+        sfx("next");
+        $("go").textContent = "Check";
+        $("go").className = "";
+        hud();
+        newQ();
+      }
+      function boom() {
+        var e = ["⭐", "🎈", "✨", "🎉", "🌈", "🕒"],
+          c = $("confetti");
+        for (var i = 0; i < 22; i++) {
+          var s = document.createElement("span");
+          s.className = "bit";
+          s.textContent = e[i % e.length];
+          s.style.left = Math.random() * 100 + "vw";
+          s.style.animationDelay = Math.random() * 0.4 + "s";
+          c.appendChild(s);
+          (function (x) {
+            setTimeout(function () {
+              x.remove();
+            }, 2200);
+          })(s);
+        }
+      }
+      load();
+      hud();
+      newQ();
+      $("am").addEventListener("click", function () {
+        if (!locked) {
+          setSel(false);
+          sfx("tick");
+        }
+      });
+      $("pm").addEventListener("click", function () {
+        if (!locked) {
+          setSel(true);
+          sfx("tick");
+        }
+      });
+      function muteUI() {
+        $("mute").textContent = muted ? "🔇 Sound off" : "🔊 Sound on";
+      }
+      muteUI();
+      $("mute").addEventListener("click", function () {
+        muted = !muted;
+        try {
+          localStorage.setItem("clockquest:muted", muted ? "1" : "0");
+        } catch (e) {}
+        muteUI();
+        if (!muted) sfx("tick");
+      });
+      var FK = "clockquest:font";
+      function setFont(n) {
+        document.body.style.fontFamily =
+          '"' + n + '","Trebuchet MS","Comic Sans MS",system-ui,sans-serif';
+      }
+      try {
+        var sf = localStorage.getItem(FK);
+        if (sf) {
+          $("font").value = sf;
+          if (!$("font").value) $("font").selectedIndex = 0;
+        }
+      } catch (e) {}
+      setFont($("font").value);
+      $("font").addEventListener("change", function () {
+        setFont(this.value);
+        try {
+          localStorage.setItem(FK, this.value);
+        } catch (e) {}
+        sfx("tick");
+      });
+      var rt = null;
+      $("reset").addEventListener("click", function () {
+        var b = $("reset");
+        if (!b.classList.contains("sure")) {
+          b.classList.add("sure");
+          b.textContent = "Tap again to erase all progress";
+          rt = setTimeout(function () {
+            b.classList.remove("sure");
+            b.textContent = "Reset progress";
+          }, 4000);
+          return;
+        }
+        clearTimeout(rt);
+        b.classList.remove("sure");
+        b.textContent = "Reset progress";
+        lvl = 0;
+        prog = 0;
+        stars = 0;
+        streak = 0;
+        cur = null;
+        sfx("reset");
+        $("go").textContent = "Check";
+        $("go").className = "";
+        hud();
+        newQ();
+        msg.className = "good";
+        msg.textContent = "Fresh start! Let’s go 🚀";
+      });
+    </script>
+  </body>
+</html>
