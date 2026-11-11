@@ -1,0 +1,1372 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="robots" content="noindex" />
+    <title>now</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <style>
+      /* Fonts are the site's own files (public/fonts), so this page matches the
+   portfolio without third-party requests. */
+      @font-face {
+        font-family: "Space Grotesk Variable";
+        font-style: normal;
+        font-weight: 300 700;
+        font-display: swap;
+        src: url("/fonts/space-grotesk-latin.woff2") format("woff2-variations");
+      }
+      @font-face {
+        font-family: "Space Mono";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("/fonts/space-mono-latin-400.woff2") format("woff2");
+      }
+
+      /* Palette from the site, with the accent darkened per design-review.md so
+   every text pair clears 4.5:1 (ratios measured, see plan). */
+      :root {
+        --bg: #f6f3ed;
+        --fg: #143a86;
+        --deep: #0a2466;
+        --muted: #5a6b82;
+        --rule: #c9c2b3;
+        --mark: #b03c0d;
+        --panel: #fffdf8;
+        --aqi-good: #1e8e3e;
+        --aqi-elev: #b45309;
+        --aqi-high: #b91c1c;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0a1a35;
+          --fg: #e8ecf5;
+          --deep: #ffffff;
+          --muted: #8a96a8;
+          --rule: #1f2d4a;
+          --mark: #ff8a4c;
+          --panel: #0e2140;
+          --aqi-good: #34d399;
+          --aqi-elev: #fbbf24;
+          --aqi-high: #f87171;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        background: var(--bg);
+        color: var(--fg);
+        font-family: "Space Grotesk Variable", system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.55;
+      }
+      body {
+        margin: 0;
+      }
+      .wrap {
+        max-width: 38rem;
+        margin: 0 auto;
+        padding: 1.4rem 1.5rem 3rem;
+        padding-top: max(1.4rem, env(safe-area-inset-top));
+      }
+      header.masthead h1 {
+        font-size: 1.35rem;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        color: var(--deep);
+        margin: 0 0 0.15rem;
+      }
+      header.masthead .dateline {
+        font-family: "Space Mono", monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 0 0 0.9rem;
+      }
+      section {
+        margin-block: 2.1rem;
+        padding-block-start: 0.85rem;
+        border-block-start: 1px solid var(--rule);
+      }
+      h2 {
+        font-family: "Space Mono", monospace;
+        font-size: 0.68rem;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 0 0 0.85rem;
+      }
+      .status {
+        font-family: "Space Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--muted);
+        margin: 0.5rem 0 0;
+      }
+      .status.err {
+        color: var(--mark);
+      }
+      #verdict-big {
+        font-size: clamp(1.5rem, 6vw, 2.25rem);
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        line-height: 1.18;
+        color: var(--deep);
+        margin: 0;
+      }
+      #verdict-guide {
+        font-size: 1.05rem;
+        color: var(--fg);
+        margin: 0.6rem 0 0;
+      }
+      .meta {
+        font-family: "Space Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin: 0.4rem 0 0;
+      }
+      .meta button {
+        font: inherit;
+        color: var(--mark);
+        background: none;
+        border: 0;
+        padding: 0;
+        cursor: pointer;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1.2rem;
+        margin: 0.3rem 0 0;
+      }
+      .chip {
+        font-family: "Space Mono", monospace;
+        font-size: 0.78rem;
+        color: var(--fg);
+      }
+      .chip b {
+        color: var(--deep);
+      }
+      .chip small {
+        display: block;
+        font-size: 0.64rem;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--muted);
+      }
+      .dot {
+        display: inline-block;
+        width: 0.62em;
+        height: 0.62em;
+        border-radius: 50%;
+        margin-right: 0.3em;
+        vertical-align: baseline;
+        background: var(--rule);
+      }
+      .dot.g {
+        background: var(--aqi-good);
+      }
+      .dot.e {
+        background: var(--aqi-elev);
+      }
+      .dot.h {
+        background: var(--aqi-high);
+      }
+      .stop {
+        border: 2px solid var(--rule);
+        border-radius: 12px;
+        background: var(--panel);
+        padding: 0.75rem 0.9rem;
+        margin-block-end: 0.6rem;
+      }
+      .stop h3 {
+        font-size: 0.95rem;
+        font-weight: 500;
+        margin: 0 0 0.3rem;
+        color: var(--deep);
+      }
+      .stop .svcs {
+        font-family: "Space Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--muted);
+        margin: 0 0 0.5rem;
+      }
+      .stop ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 1rem;
+      }
+      .stop ol li {
+        font-family: "Space Mono", monospace;
+        font-size: 0.85rem;
+        color: var(--fg);
+      }
+      .stop ol li b {
+        color: var(--deep);
+      }
+      .empty {
+        font-size: 0.9rem;
+        color: var(--muted);
+        margin: 0.2rem 0 0;
+      }
+      .btn,
+      select,
+      input {
+        font-family: "Space Mono", monospace;
+        font-size: 0.82rem;
+        color: var(--fg);
+        background: var(--panel);
+        border: 2px solid var(--rule);
+        border-radius: 10px;
+        min-height: 44px;
+        padding: 0.45em 0.8em;
+        cursor: pointer;
+      }
+      .btn:hover {
+        border-color: var(--mark);
+      }
+      .btn:focus-visible,
+      select:focus-visible,
+      input:focus-visible {
+        outline: 3px solid var(--mark);
+        outline-offset: 2px;
+      }
+      .btn.danger {
+        color: var(--mark);
+      }
+      .settings {
+        margin-block: 2.4rem;
+      }
+      .settings summary {
+        font-family: "Space Mono", monospace;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--muted);
+        cursor: pointer;
+        padding: 0 0 0.5rem;
+        min-height: 44px;
+      }
+      .settings[open] summary {
+        margin-block-end: 1rem;
+      }
+      .settings .field {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem 0.6rem;
+        align-items: center;
+        margin-block-end: 0.8rem;
+      }
+      .settings label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+      }
+      .settings select,
+      .settings input {
+        flex: 1 1 10rem;
+        min-width: 0;
+      }
+      form#stopform {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-block-end: 0.6rem;
+      }
+      form#stopform input {
+        flex: 1 1 8rem;
+        min-width: 0;
+      }
+      .settings textarea {
+        font-family: "Space Mono", monospace;
+        font-size: 0.76rem;
+        line-height: 1.45;
+        width: 100%;
+        min-height: 9rem;
+        background: var(--panel);
+        color: var(--fg);
+        border: 2px solid var(--rule);
+        border-radius: 10px;
+        padding: 0.6em;
+        margin-block-end: 0.6rem;
+      }
+      #stops-list {
+        list-style: none;
+        margin: 0.4rem 0 1rem;
+        padding: 0;
+      }
+      #stops-list li {
+        display: flex;
+        gap: 0.6rem;
+        align-items: baseline;
+        font-family: "Space Mono", monospace;
+        font-size: 0.82rem;
+        margin-block-end: 0.45rem;
+      }
+      #stops-list .rm {
+        min-height: 24px;
+        border: 0;
+        background: none;
+        color: var(--mark);
+        font: inherit;
+        cursor: pointer;
+        padding: 0;
+      }
+      .hint {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin: 0.8rem 0 0;
+      }
+      footer.site {
+        margin-block-start: 2.4rem;
+        font-family: "Space Mono", monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.05em;
+        color: var(--muted);
+      }
+      [hidden] {
+        display: none !important;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="masthead">
+        <h1>now</h1>
+        <p class="dateline" id="dateline"></p>
+        <button class="btn" id="refresh" type="button">Refresh</button>
+        <p class="status" id="global" role="status" aria-live="polite"></p>
+      </header>
+
+      <main>
+        <section id="sec-now">
+          <h2>heading out</h2>
+          <p id="verdict-big">Loading…</p>
+          <p id="verdict-guide"></p>
+          <p class="meta" id="now-meta"></p>
+          <p class="status" id="now-status" role="status"></p>
+        </section>
+
+        <section>
+          <h2>buses</h2>
+          <div id="buses"></div>
+          <p class="status" id="buses-status" role="status"></p>
+        </section>
+
+        <section>
+          <h2>air / haze</h2>
+          <div id="air"></div>
+          <p class="status" id="air-status" role="status"></p>
+        </section>
+
+        <section>
+          <h2>today</h2>
+          <div id="today"></div>
+          <p class="status" id="today-status" role="status"></p>
+        </section>
+
+        <section>
+          <h2>outlook</h2>
+          <div id="days"></div>
+        </section>
+
+        <details class="settings" id="settings">
+          <summary>settings</summary>
+          <div class="field">
+            <label for="setq-area">weather area</label>
+            <select id="setq-area">
+              <option value="">Select area…</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="setq-region">psi + 24h region</label>
+            <select id="setq-region">
+              <option value="central">central</option>
+              <option value="east">east</option>
+              <option value="north">north</option>
+              <option value="south">south</option>
+              <option value="west">west</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="setq-proxy">bus proxy url</label>
+            <input
+              id="setq-proxy"
+              type="url"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="https://your-bus-proxy.example"
+            />
+          </div>
+          <form id="stopform">
+            <input
+              id="stop-code"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]{4,5}"
+              autocomplete="off"
+              placeholder="Bus stop code, e.g. 17009"
+            />
+            <input
+              id="stop-services"
+              type="text"
+              autocomplete="off"
+              placeholder="Services, e.g. 96, 197 — optional"
+            />
+            <button class="btn" type="submit">Add stop</button>
+          </form>
+          <textarea
+            id="conf-box"
+            rows="8"
+            spellcheck="false"
+            aria-label="config export/import"
+          ></textarea>
+          <div class="field">
+            <button class="btn" id="conf-export" type="button">Export</button>
+            <button class="btn" id="conf-import" type="button">Import</button>
+            <input
+              id="conf-file"
+              type="file"
+              accept=".json,.txt"
+              aria-label="Load config file"
+            />
+          </div>
+          <p class="status" id="conf-status"></p>
+          <ul id="stops-list"></ul>
+          <button class="btn danger" id="wipe" type="button">
+            Clear saved data
+          </button>
+          <p class="hint">
+            Area, region, stops and the proxy URL are saved in this browser
+            only. Export/import moves the conf between devices. The LTA key
+            lives on the proxy, never in this page.
+          </p>
+        </details>
+      </main>
+
+      <footer class="site" id="footline">
+        data: NEA / data.gov.sg · fetched in-browser · cached locally
+      </footer>
+    </div>
+    <noscript
+      ><div class="wrap">
+        <p>This dashboard needs JavaScript to fetch live data.</p>
+      </div></noscript
+    >
+    <script>
+      (function () {
+        "use strict";
+        /* Data: api.data.gov.sg environment endpoints (no key, CORS *).
+   Payload shapes verified 2026-11-10 — see now-plan.md. */
+        var API = "https://api.data.gov.sg/v1/environment";
+        var LS_SETTINGS = "now.settings.v1";
+        var LS_CACHE = "now.cache.v1";
+        /* Bus arrivals: LTA DataMall (BusArrivalv2) needs an AccountKey and
+   sends no CORS headers, so the page calls a key-holding proxy whose
+   URL the user pastes in settings. The key never reaches this page.
+   Proxy lives at api/bus.js (Vercel serverless function) — see now-plan.md */
+        var REFRESH_MS = 5 * 60 * 1000;
+        var BUS_FETCH_MS = 60 * 1000;
+
+        var settings = loadLS(LS_SETTINGS, {
+          area: "",
+          region: "west",
+          stops: [],
+          proxy: "",
+        });
+        var store = loadLS(LS_CACHE, {});
+        /* errs: panel id -> last failure message, cleared on the next success */
+        var errs = {};
+        var lastFetch = 0;
+        var busLastFetch = 0;
+        /* stop code -> { d: LTA payload, at: fetched-at ms } — populated by
+           fetchBuses, rendered by renderBuses without new requests */
+        /* stop code -> human name, learned from proxy Stop enrichment */
+        var busCache = {};
+        var stopNames = {};
+        var areaFilled = false;
+
+        function $(id) {
+          return document.getElementById(id);
+        }
+        function loadLS(key, fallback) {
+          try {
+            var raw = localStorage.getItem(key);
+            return raw ? JSON.parse(raw) : fallback;
+          } catch (e) {
+            console.warn("localStorage read failed", key, e);
+            return fallback;
+          }
+        }
+        function saveLS(key, value) {
+          try {
+            localStorage.setItem(key, JSON.stringify(value));
+          } catch (e) {
+            console.warn("localStorage write failed", key, e);
+          }
+        }
+        function persist() {
+          saveLS(LS_SETTINGS, settings);
+          saveLS(LS_CACHE, store);
+        }
+        function hhmm(iso) {
+          if (!iso) return "—";
+          return new Date(iso).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+        }
+        function ago(ts) {
+          if (!ts) return "never";
+          var m = Math.round((Date.now() - ts) / 60000);
+          if (m < 1) return "just now";
+          if (m < 60) return m + " min ago";
+          return Math.round(m / 60) + " h ago";
+        }
+        function clearNode(el) {
+          while (el.firstChild) el.removeChild(el.firstChild);
+        }
+        function addLine(parent, cls, text) {
+          var p = document.createElement("p");
+          if (cls) p.className = cls;
+          p.textContent = text;
+          parent.appendChild(p);
+          return p;
+        }
+        function addChip(parent, label, value) {
+          var d = document.createElement("span");
+          d.className = "chip";
+          var s = document.createElement("small");
+          s.textContent = label;
+          var b = document.createElement("b");
+          b.textContent = value;
+          d.appendChild(s);
+          d.appendChild(b);
+          parent.appendChild(d);
+          return d;
+        }
+        function fetchJson(url, timeoutMs) {
+          var ctrl = new AbortController();
+          var timer = setTimeout(function () {
+            ctrl.abort();
+          }, timeoutMs || 12000);
+          return fetch(url, { signal: ctrl.signal }).then(
+            function (r) {
+              clearTimeout(timer);
+              if (!r.ok) throw new Error("HTTP " + r.status);
+              return r.json();
+            },
+            function (e) {
+              clearTimeout(timer);
+              throw e && e.name === "AbortError" ? new Error("timed out") : e;
+            },
+          );
+        }
+        function statusOf(elId, panel, label) {
+          var s = $(elId);
+          var entry = store[panel];
+          if (errs[panel]) {
+            s.textContent =
+              "unavailable: " +
+              errs[panel] +
+              " — showing data from " +
+              ago(entry && entry.at);
+            s.className = "status err";
+          } else {
+            s.textContent = label + " " + ago(entry && entry.at);
+            s.className = "status";
+          }
+        }
+        function psiBand(v) {
+          return v <= 50
+            ? "Good"
+            : v <= 100
+              ? "Moderate"
+              : v <= 200
+                ? "Unhealthy"
+                : v <= 300
+                  ? "Very Unhealthy"
+                  : "Hazardous";
+        }
+        /* NEA 1-hourly PM2.5 bands (2024 refresh, from memory — verify once) */
+        function pm25Band(v) {
+          return v <= 55 ? "Normal" : v <= 150 ? "Elevated" : "High";
+        }
+        function pm25Dot(v) {
+          return v <= 55 ? "g" : v <= 150 ? "e" : "h";
+        }
+        function psiDot(v) {
+          return v <= 50 ? "g" : v <= 100 ? "e" : "h";
+        }
+        function umbrellaFor(text) {
+          return /(shower|rain|thunder|storm)/i.test(text)
+            ? "Bring an umbrella."
+            : "No umbrella needed.";
+        }
+
+        function fillAreaSelect() {
+          var w2h = store.w2h && store.w2h.d;
+          if (!w2h || areaFilled) return;
+          var sel = $("setq-area");
+          w2h.items[0].forecasts.forEach(function (f) {
+            var o = document.createElement("option");
+            o.value = f.area;
+            o.textContent = f.area;
+            sel.appendChild(o);
+          });
+          sel.value = settings.area || "";
+          areaFilled = true;
+        }
+
+        function renderNow() {
+          fillAreaSelect();
+          var entry = store.w2h;
+          var item = entry && entry.d && entry.d.items && entry.d.items[0];
+          var big = $("verdict-big"),
+            guide = $("verdict-guide"),
+            meta = $("now-meta");
+          if (!item) {
+            big.textContent = errs.w2h ? "Weather unavailable" : "Loading…";
+            guide.textContent = "";
+            meta.textContent = "";
+            statusOf("now-status", "w2h", "forecast fetched");
+            return;
+          }
+          var forecasts = item.forecasts || [];
+          var mine = null;
+          for (var i = 0; i < forecasts.length; i++) {
+            if (forecasts[i].area === settings.area) {
+              mine = forecasts[i];
+              break;
+            }
+          }
+          if (mine) {
+            big.textContent = mine.forecast;
+            guide.textContent = umbrellaFor(mine.forecast);
+            meta.textContent =
+              settings.area +
+              " · valid until " +
+              hhmm(item.valid_period && item.valid_period.end);
+          } else {
+            big.textContent = "Pick your area";
+            guide.textContent = settings.area
+              ? "Saved area '" +
+                settings.area +
+                "' is missing from this forecast — repick in settings."
+              : "The 2-hour nowcast needs an area — choose one in settings.";
+            meta.textContent = "";
+          }
+          statusOf("now-status", "w2h", "forecast fetched");
+        }
+
+        function renderToday() {
+          var entry = store.w24;
+          var item = entry && entry.d && entry.d.items && entry.d.items[0];
+          var el = $("today");
+          clearNode(el);
+          if (!item) {
+            addLine(
+              el,
+              "empty",
+              errs.w24 ? "Today's forecast unavailable." : "Loading…",
+            );
+            statusOf("today-status", "w24", "fetched");
+            return;
+          }
+          var g = item.general || {};
+          addLine(el, "", g.forecast || "—");
+          var chips = document.createElement("div");
+          chips.className = "chips";
+          if (g.temperature)
+            addChip(
+              chips,
+              "temp",
+              g.temperature.low + "–" + g.temperature.high + "°C",
+            );
+          if (g.relative_humidity)
+            addChip(
+              chips,
+              "humidity",
+              g.relative_humidity.low + "–" + g.relative_humidity.high + "%",
+            );
+          if (g.wind && g.wind.speed)
+            addChip(
+              chips,
+              "wind",
+              g.wind.speed.low +
+                "–" +
+                g.wind.speed.high +
+                " km/h" +
+                (g.wind.direction && g.wind.direction !== "VARIABLE"
+                  ? " " + g.wind.direction
+                  : ""),
+            );
+          el.appendChild(chips);
+          (item.periods || []).forEach(function (p) {
+            var start = new Date(p.time.start).getTime(),
+              end = new Date(p.time.end).getTime(),
+              now = Date.now();
+            if (
+              now >= start &&
+              now <= end &&
+              p.regions &&
+              p.regions[settings.region]
+            ) {
+              addLine(
+                el,
+                "meta",
+                hhmm(p.time.start) +
+                  "–" +
+                  hhmm(p.time.end) +
+                  " · " +
+                  settings.region +
+                  ": " +
+                  p.regions[settings.region],
+              );
+            }
+          });
+          statusOf("today-status", "w24", "fetched");
+        }
+
+        function renderDays() {
+          var entry = store.w4;
+          var item = entry && entry.d && entry.d.items && entry.d.items[0];
+          var forecasts = item && item.forecasts;
+          var el = $("days");
+          clearNode(el);
+          if (!forecasts || !forecasts.length) {
+            addLine(el, "empty", errs.w4 ? "Outlook unavailable." : "Loading…");
+            return;
+          }
+          forecasts.slice(0, 2).forEach(function (d) {
+            var day = new Date(d.date + "T00:00:00+08:00").toLocaleDateString(
+              [],
+              { weekday: "short", day: "numeric", month: "short" },
+            );
+            addLine(
+              el,
+              "",
+              day +
+                " · " +
+                (d.forecast || "—") +
+                (d.temperature
+                  ? " · " + d.temperature.low + "–" + d.temperature.high + "°C"
+                  : ""),
+            );
+          });
+        }
+
+        function renderAir() {
+          var psiEntry = store.aqiPsi,
+            pmEntry = store.aqiPm;
+          var psiRead =
+            psiEntry &&
+            psiEntry.d &&
+            psiEntry.d.items &&
+            psiEntry.d.items[0] &&
+            psiEntry.d.items[0].readings;
+          var pmRead =
+            pmEntry &&
+            pmEntry.d &&
+            pmEntry.d.items &&
+            pmEntry.d.items[0] &&
+            pmEntry.d.items[0].readings;
+          var el = $("air");
+          clearNode(el);
+          if (!psiRead) {
+            addLine(el, "empty", errs.aqiPsi ? "PSI unavailable." : "Loading…");
+            statusOf("air-status", "aqiPsi", "fetched");
+            return;
+          }
+          var region = settings.region;
+          var psi =
+            psiRead.psi_twenty_four_hourly &&
+            psiRead.psi_twenty_four_hourly[region];
+          var lead = addLine(el, "", "");
+          var dot = document.createElement("span");
+          dot.className = "dot " + psiDot(psi == null ? 999 : psi);
+          dot.setAttribute("aria-hidden", "true");
+          lead.appendChild(dot);
+          lead.appendChild(
+            document.createTextNode(
+              region +
+                " PSI(24h) " +
+                (psi == null ? "—" : psi + " · " + psiBand(psi)),
+            ),
+          );
+          var pm1 =
+            pmRead && pmRead.pm25_one_hourly && pmRead.pm25_one_hourly[region];
+          var pmLine = addLine(el, "", "");
+          if (pm1 != null) {
+            var pdot = document.createElement("span");
+            pdot.className = "dot " + pm25Dot(pm1);
+            pdot.setAttribute("aria-hidden", "true");
+            pmLine.appendChild(pdot);
+            pmLine.appendChild(
+              document.createTextNode(
+                "PM2.5(1h) " + pm1 + " · " + pm25Band(pm1),
+              ),
+            );
+          } else {
+            pmLine.textContent = "PM2.5(1h) —";
+          }
+          var strip = document.createElement("p");
+          strip.className = "meta";
+          var names = ["central", "east", "north", "south", "west"];
+          var parts = [];
+          names.forEach(function (n) {
+            var v =
+              psiRead.psi_twenty_four_hourly &&
+              psiRead.psi_twenty_four_hourly[n];
+            parts.push(n + " " + (v == null ? "—" : v));
+          });
+          strip.textContent = parts.join(" · ");
+          el.appendChild(strip);
+          statusOf("air-status", "aqiPsi", "psi fetched");
+          if (errs.aqiPm) $("air-status").textContent += " · pm2.5 unavailable";
+        }
+
+        /* Cache-only render: countdown minutes re-derive on every 30s tick
+           from whatever fetchBuses last stored; no requests are made here. */
+        function renderBuses() {
+          var el = $("buses");
+          clearNode(el);
+          if (!settings.stops.length) {
+            addLine(
+              el,
+              "empty",
+              "No stops saved yet — add your bus stop in settings.",
+            );
+            $("buses-status").textContent = "";
+            return;
+          }
+          settings.stops.forEach(function (stop) {
+            var box = document.createElement("div");
+            box.className = "stop";
+            var cached = busCache[stop.code];
+            var err = errs["bus:" + stop.code];
+            var h = document.createElement("h3");
+            var h3name =
+              cached && cached.d && cached.d.Stop && cached.d.Stop.Name;
+            h.textContent = h3name
+              ? stop.code + " · " + h3name
+              : "Stop " + stop.code;
+            box.appendChild(h);
+            var s = document.createElement("p");
+            s.className = "svcs";
+            s.textContent =
+              stop.services && stop.services.length
+                ? "services: " + stop.services.join(", ")
+                : "all services";
+            box.appendChild(s);
+            if (!settings.proxy) {
+              addLine(
+                box,
+                "empty",
+                "Arrivals come through your proxy URL — set it in settings. Your stop is saved.",
+              );
+            } else if (err && !cached) {
+              addLine(box, "empty", "Arrivals unavailable: " + err);
+            } else if (!cached) {
+              addLine(box, "empty", "Loading arrivals…");
+            } else {
+              var list = document.createElement("ol");
+              var wanted =
+                stop.services && stop.services.length ? stop.services : null;
+              var shown = 0;
+              (cached.d.Services || []).forEach(function (svc) {
+                if (wanted && wanted.indexOf(svc.ServiceNo) === -1) return;
+                shown++;
+                /* BusArrivalv2 names the next three buses NextBus / NextBus2 /
+                   NextBus3 — verify against the first live payload (now-plan.md) */
+                var times = ["NextBus", "NextBus2", "NextBus3"]
+                  .map(function (k) {
+                    return svc[k] && svc[k].EstimatedArrival
+                      ? minsTo(svc[k].EstimatedArrival)
+                      : null;
+                  })
+                  .filter(Boolean);
+                var li = document.createElement("li");
+                li.textContent = svc.ServiceNo + ": ";
+                var b = document.createElement("b");
+                b.textContent = times.length
+                  ? times.join(", ")
+                  : "no buses yet";
+                li.appendChild(b);
+                list.appendChild(li);
+              });
+              if (!shown) list.textContent = "no services matched";
+              box.appendChild(list);
+              addLine(
+                box,
+                "meta",
+                "arrivals fetched " +
+                  ago(cached.at) +
+                  (err ? " · last retry failed" : ""),
+              );
+            }
+            el.appendChild(box);
+          });
+          $("buses-status").textContent =
+            settings.stops.length + " stop(s) saved on this device";
+        }
+
+        function fetchBuses() {
+          if (!settings.proxy || !settings.stops.length) return;
+          busLastFetch = Date.now();
+          settings.stops.forEach(function (stop) {
+            fetchJson(
+              settings.proxy + "?BusStopCode=" + encodeURIComponent(stop.code),
+            )
+              .then(function (d) {
+                busCache[stop.code] = { d: d, at: Date.now() };
+                if (d && d.Stop && d.Stop.Name)
+                  stopNames[stop.code] = d.Stop.Name;
+                delete errs["bus:" + stop.code];
+              })
+              .catch(function (e) {
+                errs["bus:" + stop.code] =
+                  e && e.message ? e.message : String(e);
+                console.warn("bus:" + stop.code + " fetch failed", e);
+              })
+              .then(function () {
+                renderBuses();
+                renderStopsList();
+              });
+          });
+        }
+
+        function busesDue() {
+          return (
+            settings.proxy &&
+            settings.stops.length &&
+            document.visibilityState === "visible" &&
+            Date.now() - busLastFetch >= BUS_FETCH_MS
+          );
+        }
+        function minsTo(iso) {
+          var d = new Date(iso).getTime(),
+            now = Date.now();
+          if (d <= now) return "arriving";
+          var m = Math.round((d - now) / 60000);
+          return m + " min";
+        }
+
+        function renderStopsList() {
+          var ul = $("stops-list");
+          clearNode(ul);
+          settings.stops.forEach(function (stop, i) {
+            var li = document.createElement("li");
+            var bits = [stop.code];
+            if (stopNames[stop.code]) bits.push(stopNames[stop.code]);
+            if (stop.services && stop.services.length)
+              bits.push(stop.services.join(", "));
+            var t = document.createElement("span");
+            t.textContent = bits.join(" · ");
+            li.appendChild(t);
+            var rm = document.createElement("button");
+            rm.type = "button";
+            rm.className = "rm";
+            rm.textContent = "remove";
+            rm.onclick = function () {
+              settings.stops.splice(i, 1);
+              persist();
+              renderStopsList();
+              renderBuses();
+            };
+            li.appendChild(rm);
+            ul.appendChild(li);
+          });
+        }
+
+        /* ── conf export/import ────────────────────────────────
+           The saved settings (area, region, stops, proxy) live device-bound
+           in localStorage. Export/import moves them between devices as strict
+           JSON (versioned, so future format changes can migrate). Anything
+           ambiguous is rejected loudly by validateConf, never guessed at. */
+        function confObj() {
+          return {
+            version: 1,
+            area: settings.area,
+            region: settings.region,
+            stops: settings.stops.map(function (s) {
+              return { code: s.code, services: (s.services || []).slice() };
+            }),
+            proxy: settings.proxy || "",
+          };
+        }
+        function validateConf(raw) {
+          var errors = [];
+          if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+            return { ok: false, errors: ["conf must be an object"] };
+          }
+          var allowed = ["version", "area", "region", "stops", "proxy"];
+          Object.keys(raw).forEach(function (k) {
+            if (allowed.indexOf(k) === -1) errors.push("unknown key: " + k);
+          });
+          if (raw.version !== 1) {
+            errors.push("version must be 1");
+          }
+          if (typeof raw.area !== "string")
+            errors.push("area must be a string");
+          if (
+            typeof raw.region !== "string" ||
+            ["central", "east", "north", "south", "west"].indexOf(
+              raw.region,
+            ) === -1
+          ) {
+            errors.push("region must be one of central/east/north/south/west");
+          }
+          if (typeof raw.proxy !== "string") {
+            errors.push("proxy must be a string");
+          } else if (raw.proxy !== "" && !/^https?:\/\//.test(raw.proxy)) {
+            errors.push('proxy must start with http:// or https:// or be ""');
+          }
+          var stops = [];
+          if (!Array.isArray(raw.stops)) {
+            errors.push("stops must be a list");
+          } else {
+            raw.stops.forEach(function (s, i) {
+              if (!s || typeof s !== "object" || Array.isArray(s)) {
+                errors.push("stop #" + (i + 1) + " must be a mapping");
+                return;
+              }
+              Object.keys(s).forEach(function (k) {
+                if (["code", "services"].indexOf(k) === -1)
+                  errors.push("stop #" + (i + 1) + ": unknown key " + k);
+              });
+              var code = String(s.code == null ? "" : s.code).trim();
+              if (!/^\d{4,5}$/.test(code)) {
+                errors.push(
+                  "stop #" +
+                    (i + 1) +
+                    ": code must be 4-5 digits (got " +
+                    code +
+                    ")",
+                );
+              }
+              var services = [];
+              if (s.services != null) {
+                if (Array.isArray(s.services)) {
+                  s.services.forEach(function (sv) {
+                    services.push(String(sv).trim());
+                  });
+                } else {
+                  errors.push("stop #" + (i + 1) + ": services must be a list");
+                }
+              }
+              stops.push({ code: code, services: services });
+            });
+          }
+          if (errors.length) return { ok: false, errors: errors };
+          return {
+            ok: true,
+            conf: {
+              version: 1,
+              area: (raw.area || "").trim(),
+              region: raw.region,
+              stops: stops,
+              proxy: (raw.proxy || "").trim(),
+            },
+          };
+        }
+        /* Single funnel for import: strict JSON, the format this page
+           exports. Parse errors carry the JSON engine's own message, and
+           everything semantic is judged by validateConf. */
+        function parseConfText(text) {
+          var trimmed = String(text).trim();
+          if (!trimmed) return { ok: false, errors: ["conf box is empty"] };
+          var parsed;
+          try {
+            parsed = JSON.parse(trimmed);
+          } catch (e) {
+            return {
+              ok: false,
+              errors: ["not valid JSON: " + (e && e.message ? e.message : e)],
+            };
+          }
+          return validateConf(parsed);
+        }
+
+        function applyConf(conf) {
+          settings.area = conf.area;
+          settings.region = conf.region;
+          settings.stops = conf.stops;
+          settings.proxy = conf.proxy;
+          errs = {}; /* a fresh conf gets a clean slate for bus errors */
+          busCache = {};
+          busLastFetch = 0;
+          persist();
+          syncSettingsUI();
+          renderAll();
+          renderBuses();
+          fetchBuses();
+        }
+        function syncSettingsUI() {
+          fillAreaSelect();
+          $("setq-area").value = settings.area || "";
+          $("setq-region").value = settings.region;
+          $("setq-proxy").value = settings.proxy || "";
+          $("conf-box").value = "";
+          $("conf-status").textContent = "";
+          $("conf-status").className = "status";
+          renderStopsList();
+        }
+        function downloadConf(text, fname) {
+          try {
+            var blob = new Blob([text], { type: "application/json" });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = fname;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(function () {
+              URL.revokeObjectURL(url);
+              a.remove();
+            }, 1000);
+          } catch (e) {
+            console.warn(
+              "download unavailable — the box still holds the conf",
+              e,
+            );
+          }
+        }
+        function importFromBox() {
+          var cs = $("conf-status");
+          var res = parseConfText($("conf-box").value);
+          if (!res.ok) {
+            cs.textContent = res.errors.join(" · ");
+            cs.className = "status err";
+            return false;
+          }
+          applyConf(res.conf);
+          cs.textContent =
+            "imported: " +
+            res.conf.stops.length +
+            " stop(s), area " +
+            (res.conf.area || "—");
+          cs.className = "status";
+          return true;
+        }
+        /* Test/dev hook: the smoke test (tests/now-lab.test.ts) reaches the
+           serializers through the sandbox global; also handy in devtools. */
+        globalThis.__nowConf = {
+          parse: parseConfText,
+          obj: confObj,
+          apply: applyConf,
+        };
+
+        function tickClock() {
+          var now = new Date();
+          $("dateline").textContent =
+            now.toLocaleDateString([], {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+            }) +
+            " · " +
+            now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        }
+        function renderAll() {
+          tickClock();
+          renderNow();
+          renderAir();
+          renderToday();
+          renderDays();
+          renderBuses();
+          var ok = Object.keys(errs).length === 0;
+          var g = $("global");
+          g.textContent =
+            "last check " +
+            hhmm(new Date().toISOString()) +
+            (ok ? " · all feeds ok" : " · some feeds failing");
+          g.className = ok ? "status" : "status err";
+        }
+
+        function grab(panel, url) {
+          return fetchJson(url)
+            .then(function (d) {
+              store[panel] = { d: d, at: Date.now() };
+              delete errs[panel];
+            })
+            .catch(function (e) {
+              errs[panel] = e && e.message ? e.message : String(e);
+              console.warn(panel + " fetch failed", e);
+            });
+        }
+
+        function refresh() {
+          lastFetch = Date.now();
+          $("global").textContent = "checking…";
+          fetchBuses();
+          return Promise.all([
+            grab("w2h", API + "/2-hour-weather-forecast"),
+            grab("w24", API + "/24-hour-weather-forecast"),
+            grab("w4", API + "/4-day-weather-forecast"),
+            grab("aqiPsi", API + "/psi"),
+            grab("aqiPm", API + "/pm25"),
+          ]).then(function () {
+            persist();
+            renderAll();
+          });
+        }
+
+        $("refresh").onclick = refresh;
+        $("setq-area").onchange = function () {
+          settings.area = this.value;
+          persist();
+          renderNow();
+        };
+        $("setq-region").onchange = function () {
+          settings.region = this.value;
+          persist();
+          renderAir();
+          renderToday();
+        };
+        $("setq-proxy").onchange = function () {
+          var v = this.value.trim();
+          if (v && !/^https?:\/\//.test(v)) {
+            $("buses-status").textContent =
+              "Proxy URL must start with http:// or https://";
+            return;
+          }
+          settings.proxy = v;
+          persist();
+          renderBuses();
+          fetchBuses();
+        };
+        $("conf-export").onclick = function () {
+          var text = JSON.stringify(confObj(), null, 2);
+          $("conf-box").value = text;
+          downloadConf(text, "now.settings.json");
+          $("conf-status").textContent =
+            "exported — downloaded, and in the box to copy";
+          $("conf-status").className = "status";
+        };
+        $("conf-import").onclick = importFromBox;
+        $("conf-file").onchange = function () {
+          var file = this.files && this.files[0];
+          if (!file) return;
+          var reader = new FileReader();
+          reader.onload = function () {
+            $("conf-box").value = String(reader.result);
+            importFromBox();
+          };
+          reader.onerror = function () {
+            var msg =
+              reader.error && reader.error.message ? reader.error.message : "?";
+            $("conf-status").textContent = "could not read file: " + msg;
+            $("conf-status").className = "status err";
+          };
+          reader.readAsText(file);
+        };
+        $("stopform").onsubmit = function (ev) {
+          ev.preventDefault();
+          var code = $("stop-code").value.replace(/\D/g, "");
+          if (!/^\d{4,5}$/.test(code)) {
+            $("buses-status").textContent = "Stop code must be 4–5 digits";
+            return;
+          }
+          if (
+            settings.stops.some(function (s) {
+              return s.code === code;
+            })
+          ) {
+            $("buses-status").textContent =
+              "Stop " + code + " is already saved";
+            return;
+          }
+          var svcs = $("stop-services")
+            .value.split(/[,;\s]+/)
+            .filter(Boolean);
+          settings.stops.push({ code: code, services: svcs });
+          persist();
+          $("stop-code").value = "";
+          $("stop-services").value = "";
+          renderStopsList();
+          renderBuses();
+        };
+        $("wipe").onclick = function () {
+          var b = this,
+            t;
+          if (!b.dataset.arm) {
+            b.dataset.arm = "1";
+            b.textContent = "Tap again to clear everything";
+            t = setTimeout(function () {
+              delete b.dataset.arm;
+              b.textContent = "Clear saved data";
+            }, 3000);
+          } else {
+            clearTimeout(t);
+            delete b.dataset.arm;
+            b.textContent = "Clear saved data";
+            try {
+              localStorage.removeItem(LS_SETTINGS);
+              localStorage.removeItem(LS_CACHE);
+            } catch (e) {
+              console.warn(e);
+            }
+            settings = { area: "", region: "west", stops: [], proxy: "" };
+            store = {};
+            errs = {};
+            busCache = {};
+            busLastFetch = 0;
+            stopNames = {};
+            areaFilled = false;
+            var sel = $("setq-area");
+            clearNode(sel);
+            var ph = document.createElement("option");
+            ph.value = "";
+            ph.textContent = "Select area…";
+            sel.appendChild(ph);
+            $("setq-region").value = "west";
+            $("setq-proxy").value = "";
+            renderAll();
+            renderStopsList();
+            renderBuses();
+          }
+        };
+
+        (function init() {
+          tickClock();
+          $("setq-proxy").value = settings.proxy || "";
+          renderAll();
+          renderStopsList();
+          renderBuses();
+          refresh();
+          setInterval(renderAll, 30000);
+          setInterval(function () {
+            if (Date.now() - lastFetch >= REFRESH_MS) refresh();
+            if (busesDue()) fetchBuses();
+          }, 30000);
+          document.addEventListener("visibilitychange", function () {
+            if (busesDue()) fetchBuses();
+            if (
+              document.visibilityState === "visible" &&
+              Date.now() - lastFetch >= REFRESH_MS
+            )
+              refresh();
+          });
+        })();
+      })();
+    </script>
+  </body>
+</html>
