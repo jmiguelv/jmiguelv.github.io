@@ -1,0 +1,209 @@
+---
+/* The settings drawer owns every input the board persists: area, region,
+   proxy URL, stop codes, the conf textarea, and the wipe button. Stops are
+   added to #stops-list by the controller at runtime — their styles sit in
+   the is:global block below for that reason. */
+---
+
+<details class="settings" id="settings">
+  <summary>settings</summary>
+  <div class="field">
+    <label for="setq-area">weather area</label>
+    <select id="setq-area">
+      <option value="">Select area…</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="setq-region">psi + 24h region</label>
+    <select id="setq-region">
+      <option value="central">central</option>
+      <option value="east">east</option>
+      <option value="north">north</option>
+      <option value="south">south</option>
+      <option value="west">west</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="setq-proxy">bus proxy url</label>
+    <input
+      id="setq-proxy"
+      type="url"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder="https://your-bus-proxy.example"
+    />
+  </div>
+  <form id="stopform">
+    <input
+      id="stop-code"
+      type="text"
+      inputmode="numeric"
+      pattern="[0-9]{4,5}"
+      autocomplete="off"
+      placeholder="Bus stop code, e.g. 17009"
+    />
+    <input
+      id="stop-services"
+      type="text"
+      autocomplete="off"
+      placeholder="Services, e.g. 96, 197 — optional"
+    />
+    <button class="btn" type="submit">Add stop</button>
+  </form>
+  <textarea
+    id="conf-box"
+    rows="8"
+    spellcheck="false"
+    aria-label="config export/import"></textarea>
+  <div class="field">
+    <button class="btn" id="conf-export" type="button">Export</button>
+    <button class="btn" id="conf-import" type="button">Import</button>
+    <input
+      id="conf-file"
+      type="file"
+      accept=".json,.txt"
+      aria-label="Load config file"
+    />
+  </div>
+  <p class="status" id="conf-status"></p>
+  <ul id="stops-list"></ul>
+  <button class="btn danger" id="wipe" type="button">Clear saved data</button>
+  <p class="hint">
+    Area, region, stops and the proxy URL are saved in this browser only.
+    Export/import moves the conf between devices. The LTA key lives on the
+    proxy, never in this page.
+  </p>
+</details>
+
+<style>
+  .settings {
+    margin-block: 2.4rem;
+  }
+
+  .settings summary {
+    font-family: "Space Mono", monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0 0 0.5rem;
+    min-height: 44px;
+  }
+
+  .settings[open] summary {
+    margin-block-end: 1rem;
+  }
+
+  .field {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.6rem;
+    align-items: center;
+    margin-block-end: 0.8rem;
+  }
+
+  label {
+    font-family: "Space Mono", monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+
+  select,
+  input {
+    font-family: "Space Mono", monospace;
+    font-size: 0.82rem;
+    color: var(--fg);
+    background: var(--panel);
+    border: 2px solid var(--rule);
+    border-radius: 10px;
+    min-height: 44px;
+    padding: 0.45em 0.8em;
+    flex: 1 1 10rem;
+    min-width: 0;
+  }
+
+  select:focus-visible,
+  input:focus-visible {
+    outline: 3px solid var(--mark);
+    outline-offset: 2px;
+  }
+
+  form#stopform {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-block-end: 0.6rem;
+  }
+
+  form#stopform input {
+    flex: 1 1 8rem;
+    min-width: 0;
+  }
+
+  textarea {
+    font-family: "Space Mono", monospace;
+    font-size: 0.76rem;
+    line-height: 1.45;
+    width: 100%;
+    min-height: 9rem;
+    background: var(--panel);
+    color: var(--fg);
+    border: 2px solid var(--rule);
+    border-radius: 10px;
+    padding: 0.6em;
+    margin-block-end: 0.6rem;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  /* global.css renders every details/summary as a publication entry (grid,
+     markers, padding); the drawer is a plain summary. These are template
+     elements, so a scoped re-declaration wins — the same reason the rest
+     of this block is scoped. */
+  details,
+  details > summary {
+    display: block;
+    padding-block: 0;
+    list-style: none;
+  }
+
+  .hint {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin: 0.8rem 0 0;
+  }
+</style>
+
+<style is:global>
+  /* #stops-list items are created by the controller at runtime, so scoping
+     cannot reach them. */
+  .now-board #stops-list {
+    list-style: none;
+    margin: 0.4rem 0 1rem;
+    padding: 0;
+  }
+
+  .now-board #stops-list li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+    font-family: "Space Mono", monospace;
+    font-size: 0.82rem;
+    margin-block-end: 0.45rem;
+  }
+
+  .now-board #stops-list .rm {
+    min-height: 24px;
+    border: 0;
+    background: none;
+    color: var(--mark);
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+  }
+</style>

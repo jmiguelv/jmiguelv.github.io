@@ -1,12 +1,17 @@
 ---
 import Base from "../../layouts/Base.astro";
+import AirPanel from "../../components/now/AirPanel.astro";
+import BusPanel from "../../components/now/BusPanel.astro";
+import OutlookPanel from "../../components/now/OutlookPanel.astro";
+import SettingsPanel from "../../components/now/SettingsPanel.astro";
+import TodayPanel from "../../components/now/TodayPanel.astro";
+import VerdictPanel from "../../components/now/VerdictPanel.astro";
 
-/* Converted from the public/lab/now prototype into a real page: the lab
-   index lists it like any other experiment (its <h1> is the display name
-   and Base carries the description). noindex stays live — the board is a
-   personal tool, not portfolio content — and astro.config.mjs keeps it
-   out of the sitemap. The Vercel proxy (api/bus.js) is untouched: static
-   pages cannot run per-request code, so the function stays standalone. */
+/* The board keeps the document landmarks — <h1>, <main>, the masthead —
+   and the controller script; each panel's markup and styles live in
+   src/components/now/. Runtime-markup styles sit next to the panel that
+   renders them, marked is:global so scoping cannot miss DOM the
+   controller builds. noindex: a personal tool, not portfolio content. */
 ---
 
 <Base
@@ -23,108 +28,12 @@ import Base from "../../layouts/Base.astro";
     </header>
 
     <main>
-      <section id="sec-now">
-        <h2>heading out</h2>
-        <p id="verdict-big">Loading…</p>
-        <p id="verdict-guide"></p>
-        <p class="meta" id="now-meta"></p>
-        <p class="status" id="now-status" role="status"></p>
-      </section>
-
-      <section>
-        <h2>buses</h2>
-        <div id="buses"></div>
-        <p class="status" id="buses-status" role="status"></p>
-      </section>
-
-      <section>
-        <h2>air / haze</h2>
-        <div id="air"></div>
-        <p class="status" id="air-status" role="status"></p>
-      </section>
-
-      <section>
-        <h2>today</h2>
-        <div id="today"></div>
-        <p class="status" id="today-status" role="status"></p>
-      </section>
-
-      <section>
-        <h2>outlook</h2>
-        <div id="days"></div>
-      </section>
-
-      <details class="settings" id="settings">
-        <summary>settings</summary>
-        <div class="field">
-          <label for="setq-area">weather area</label>
-          <select id="setq-area">
-            <option value="">Select area…</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="setq-region">psi + 24h region</label>
-          <select id="setq-region">
-            <option value="central">central</option>
-            <option value="east">east</option>
-            <option value="north">north</option>
-            <option value="south">south</option>
-            <option value="west">west</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="setq-proxy">bus proxy url</label>
-          <input
-            id="setq-proxy"
-            type="url"
-            autocomplete="off"
-            spellcheck="false"
-            placeholder="https://your-bus-proxy.example"
-          />
-        </div>
-        <form id="stopform">
-          <input
-            id="stop-code"
-            type="text"
-            inputmode="numeric"
-            pattern="[0-9]{4,5}"
-            autocomplete="off"
-            placeholder="Bus stop code, e.g. 17009"
-          />
-          <input
-            id="stop-services"
-            type="text"
-            autocomplete="off"
-            placeholder="Services, e.g. 96, 197 — optional"
-          />
-          <button class="btn" type="submit">Add stop</button>
-        </form>
-        <textarea
-          id="conf-box"
-          rows="8"
-          spellcheck="false"
-          aria-label="config export/import"></textarea>
-        <div class="field">
-          <button class="btn" id="conf-export" type="button">Export</button>
-          <button class="btn" id="conf-import" type="button">Import</button>
-          <input
-            id="conf-file"
-            type="file"
-            accept=".json,.txt"
-            aria-label="Load config file"
-          />
-        </div>
-        <p class="status" id="conf-status"></p>
-        <ul id="stops-list"></ul>
-        <button class="btn danger" id="wipe" type="button">
-          Clear saved data
-        </button>
-        <p class="hint">
-          Area, region, stops and the proxy URL are saved in this browser only.
-          Export/import moves the conf between devices. The LTA key lives on the
-          proxy, never in this page.
-        </p>
-      </details>
+      <VerdictPanel />
+      <BusPanel />
+      <AirPanel />
+      <TodayPanel />
+      <OutlookPanel />
+      <SettingsPanel />
     </main>
 
     <footer id="footline">
@@ -134,26 +43,49 @@ import Base from "../../layouts/Base.astro";
   <noscript><p>This board needs JavaScript to fetch live data.</p></noscript>
 </Base>
 
-<style is:global>
-  /* Fonts are the site's own files (public/fonts), so this page matches the
-   portfolio without third-party requests. */
-  @font-face {
-    font-family: "Space Grotesk Variable";
-    font-style: normal;
-    font-weight: 300 700;
-    font-display: swap;
-    src: url("/fonts/space-grotesk-latin.woff2") format("woff2-variations");
-  }
-  @font-face {
-    font-family: "Space Mono";
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url("/fonts/space-mono-latin-400.woff2") format("woff2");
+<style>
+  .now-board {
+    font-family: "Space Grotesk Variable", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--fg);
+    max-width: 38rem;
+    margin-inline: auto;
+    padding-block: max(1.4rem, env(safe-area-inset-top)) 3rem;
   }
 
-  /* Palette from the site, with the accent darkened per design-review.md so
-   every text pair clears 4.5:1 (ratios measured, see plan). */
+  header.masthead h1 {
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--deep);
+    margin: 0 0 0.15rem;
+  }
+
+  header.masthead .dateline {
+    font-family: "Space Mono", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 0.9rem;
+  }
+
+  footer#footline {
+    margin-block-start: 2.4rem;
+    font-family: "Space Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+</style>
+
+<style is:global>
+  /* Everything in this block styles either the page frame or DOM the
+     controller builds at runtime (status lines, meta lines, chips,
+     buttons shared across components) — it stays anchored under .now-board
+     so nothing can ship outside this page. This stylesheet ships solely
+     with src/pages/lab/now.astro. */
   :root {
     --bg: #f6f3ed;
     --fg: #143a86;
@@ -166,6 +98,9 @@ import Base from "../../layouts/Base.astro";
     --aqi-elev: #b45309;
     --aqi-high: #b91c1c;
   }
+
+  /* Palette from the site, with the accent darkened per design-review.md so
+     every text pair clears 4.5:1 (ratios measured, see plan). */
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #0a1a35;
@@ -180,79 +115,43 @@ import Base from "../../layouts/Base.astro";
       --aqi-high: #f87171;
     }
   }
-  * {
-    box-sizing: border-box;
+
+  /* frame overrides: the prototype was drawn against a 16px root (the site
+     runs 15px), sets its own page colour, and carries its own block
+     padding */
+  html {
+    font-size: 16px;
   }
+
   body {
     margin: 0;
     background: var(--bg);
   }
-  .now-board {
-    font-family: "Space Grotesk Variable", system-ui, sans-serif;
-    font-size: 16px;
-    line-height: 1.55;
-    color: var(--fg);
-    max-width: 38rem;
-    margin: 0 auto;
-    padding-block: max(1.4rem, env(safe-area-inset-top)) 3rem;
+
+  .wrap {
+    padding-block: 0;
   }
-  .now-board header.masthead h1 {
-    font-size: 1.35rem;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    color: var(--deep);
-    margin: 0 0 0.15rem;
-  }
-  .now-board header.masthead .dateline {
-    font-family: "Space Mono", monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin: 0 0 0.9rem;
-  }
-  .now-board section {
-    margin-block: 2.1rem;
-    padding-block-start: 0.85rem;
-    border-block-start: 1px solid var(--rule);
-  }
-  .now-board h2 {
-    font-family: "Space Mono", monospace;
-    font-size: 0.68rem;
-    font-weight: 400;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin: 0 0 0.85rem;
-  }
+
+  /* shared meta/status/empty lines — the controller creates these inside
+     panels at runtime */
   .now-board .status {
     font-family: "Space Mono", monospace;
     font-size: 0.72rem;
     color: var(--muted);
     margin: 0.5rem 0 0;
   }
+
   .now-board .status.err {
     color: var(--mark);
   }
-  .now-board #verdict-big {
-    font-size: clamp(1.5rem, 6vw, 2.25rem);
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 1.18;
-    color: var(--deep);
-    margin: 0;
-  }
-  .now-board #verdict-guide {
-    font-size: 1.05rem;
-    color: var(--fg);
-    margin: 0.6rem 0 0;
-  }
+
   .now-board .meta {
     font-family: "Space Mono", monospace;
     font-size: 0.75rem;
     color: var(--muted);
     margin: 0.4rem 0 0;
   }
+
   .now-board .meta button {
     font: inherit;
     color: var(--mark);
@@ -261,88 +160,23 @@ import Base from "../../layouts/Base.astro";
     padding: 0;
     cursor: pointer;
   }
-  .now-board .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.2rem;
-    margin: 0.3rem 0 0;
-  }
-  .now-board .chip {
-    font-family: "Space Mono", monospace;
-    font-size: 0.78rem;
-    color: var(--fg);
-  }
-  .now-board .chip b {
-    color: var(--deep);
-  }
-  .now-board .chip small {
-    display: block;
-    font-size: 0.64rem;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--muted);
-  }
-  .now-board .dot {
-    display: inline-block;
-    width: 0.62em;
-    height: 0.62em;
-    border-radius: 50%;
-    margin-right: 0.3em;
-    vertical-align: baseline;
-    background: var(--rule);
-  }
-  .now-board .dot.g {
-    background: var(--aqi-good);
-  }
-  .now-board .dot.e {
-    background: var(--aqi-elev);
-  }
-  .now-board .dot.h {
-    background: var(--aqi-high);
-  }
-  .now-board .stop {
-    border: 2px solid var(--rule);
-    border-radius: 12px;
-    background: var(--panel);
-    padding: 0.75rem 0.9rem;
-    margin-block-end: 0.6rem;
-  }
-  .now-board .stop h3 {
-    font-size: 0.95rem;
-    font-weight: 500;
-    margin: 0 0 0.3rem;
-    color: var(--deep);
-  }
-  .now-board .stop .svcs {
-    font-family: "Space Mono", monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin: 0 0 0.5rem;
-  }
-  .now-board .stop ol {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1rem;
-  }
-  .now-board .stop ol li {
-    font-family: "Space Mono", monospace;
-    font-size: 0.85rem;
-    color: var(--fg);
-  }
-  .now-board .stop ol li b {
-    color: var(--deep);
-  }
+
   .now-board .empty {
     font-size: 0.9rem;
     color: var(--muted);
     margin: 0.2rem 0 0;
   }
-  .now-board .btn,
-  .now-board select,
-  .now-board input {
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+  /* the button look is shared by the masthead refresh and the settings
+     drawer — one rule, anchored to the board */
+  .now-board .btn {
     font-family: "Space Mono", monospace;
     font-size: 0.82rem;
     color: var(--fg);
@@ -353,142 +187,18 @@ import Base from "../../layouts/Base.astro";
     padding: 0.45em 0.8em;
     cursor: pointer;
   }
+
   .now-board .btn:hover {
     border-color: var(--mark);
   }
-  .now-board .btn:focus-visible,
-  .now-board select:focus-visible,
-  .now-board input:focus-visible {
+
+  .now-board .btn:focus-visible {
     outline: 3px solid var(--mark);
     outline-offset: 2px;
   }
+
   .now-board .btn.danger {
     color: var(--mark);
-  }
-  .now-board .settings {
-    margin-block: 2.4rem;
-  }
-  .now-board .settings summary {
-    font-family: "Space Mono", monospace;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--muted);
-    cursor: pointer;
-    padding: 0 0 0.5rem;
-    min-height: 44px;
-  }
-  .now-board .settings[open] summary {
-    margin-block-end: 1rem;
-  }
-  .now-board .settings .field {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem 0.6rem;
-    align-items: center;
-    margin-block-end: 0.8rem;
-  }
-  .now-board .settings label {
-    font-family: "Space Mono", monospace;
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--muted);
-  }
-  .now-board .settings select,
-  .now-board .settings input {
-    flex: 1 1 10rem;
-    min-width: 0;
-  }
-  .now-board form#stopform {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-block-end: 0.6rem;
-  }
-  .now-board form#stopform input {
-    flex: 1 1 8rem;
-    min-width: 0;
-  }
-  .now-board .settings textarea {
-    font-family: "Space Mono", monospace;
-    font-size: 0.76rem;
-    line-height: 1.45;
-    width: 100%;
-    min-height: 9rem;
-    background: var(--panel);
-    color: var(--fg);
-    border: 2px solid var(--rule);
-    border-radius: 10px;
-    padding: 0.6em;
-    margin-block-end: 0.6rem;
-  }
-  .now-board #stops-list {
-    list-style: none;
-    margin: 0.4rem 0 1rem;
-    padding: 0;
-  }
-  .now-board #stops-list li {
-    display: flex;
-    gap: 0.6rem;
-    align-items: baseline;
-    font-family: "Space Mono", monospace;
-    font-size: 0.82rem;
-    margin-block-end: 0.45rem;
-  }
-  .now-board #stops-list .rm {
-    min-height: 24px;
-    border: 0;
-    background: none;
-    color: var(--mark);
-    font: inherit;
-    cursor: pointer;
-    padding: 0;
-  }
-  .now-board .hint {
-    font-size: 0.78rem;
-    color: var(--muted);
-    margin: 0.8rem 0 0;
-  }
-  footer#footline {
-    margin-block-start: 2.4rem;
-    font-family: "Space Mono", monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.05em;
-    color: var(--muted);
-  }
-  [hidden] {
-    display: none !important;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    * {
-      animation: none !important;
-      transition: none !important;
-    }
-  }
-
-  /* Page-only frame overrides: this stylesheet ships solely with
-         src/pages/lab/now.astro, so tweaking html/body/.wrap here cannot
-         leak onto the rest of the site. */
-  html {
-    /* the prototype was drawn against a 16px root, the site runs 15px */
-    font-size: 16px;
-  }
-  .wrap {
-    /* the board carries its own block padding (see .now-board) */
-    padding-block: 0;
-  }
-  /* neutralise site rules that would leak into the board: the rise
-         animation on sections, the details/summary grid from the
-         publications list (the settings drawer is a plain summary). */
-  .now-board section {
-    animation: none;
-  }
-  .now-board details,
-  .now-board details > summary {
-    display: block;
-    padding-block: 0;
-    list-style: none;
   }
 </style>
 

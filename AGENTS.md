@@ -72,21 +72,28 @@ Static-prototype gotchas:
 - After formatting, syntax-check inline scripts (extract the `<script>` body and run `node --check`) — a bad format pass can silently break the page.
 - They are not Astro pages, so the sitemap will not list them.
 
-`/lab/now/` is an Astro page (`src/pages/lab/now.astro`), converted from the
-prototype:
+`/lab/now/` is an Astro page (`src/pages/lab/now.astro`) split into
+`src/components/now/`:
 
-- It renders through `Base` like every site page (fonts, analytics, metadata)
-  and is `noindex` via Base's prop; `astro.config.mjs` filters it from the
-  sitemap.
-- Its stylesheet is `<style is:global>` scoped by hand under `.now-board` so
-  `global.css` rules (section animations, `details` grid, `.wrap`, fonts)
-  cannot leak in or out; `html`'s 15px root is re-pinned to 16px for that
-  page only.
-- The script stays one `<script>` block (Astro bundles it as an ES module;
-  `// @ts-nocheck` keeps `astro check` out of runtime-DOM code).
-- The VM boot smoke test (`tests/now-lab.test.ts`) still works: it runs the
-  first `<script>` block from the `.astro` source against a stub DOM and
-  feed fixtures. Extend it when changing that page.
+- The page owns the document landmarks (`<h1>`, masthead, `<main>`, footline),
+  the `// @ts-nocheck` controller `<script>` (one block so the VM smoke test
+  can extract it), and the shared-runtime styles (`.status`, `.meta`, `.btn`),
+  anchored under `.now-board` in an `is:global` block — that block also pins
+  this page's 16px root, body paint and `.wrap` padding.
+- `Panel.astro` renders the shell every panel shares (section, mono h2,
+  status line) — panels are `VerdictPanel`, `BusPanel`, `AirPanel`,
+  `TodayPanel`, `OutlookPanel`, `SettingsPanel`.
+- Scoping convention: styles for template-owned DOM are plain scoped
+  `<style>`s; styles for DOM the controller builds at runtime (stop cards,
+  dots, chips, stops-list entries) live in that panel's `is:global`
+  `<style>`, still anchored under `.now-board` so they cannot ship elsewhere.
+- It renders through `Base` (fonts — `global.css` already declares the same
+  `@font-face`s, metadata, analytics) and is `noindex` via Base's prop;
+  `astro.config.mjs` filters it from the sitemap.
+- The VM boot smoke test (`tests/now-lab.test.ts`) boots the first
+  `<script>` block from the page source against a stub DOM and feed
+  fixtures — the controller's element-id contract is the reason the built
+  markup must keep ids/classes stable. Extend it when changing the page.
 
 ## pnpm workspace quirks
 
