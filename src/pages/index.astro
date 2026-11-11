@@ -1,11 +1,11 @@
 ---
 import { getCollection } from "astro:content";
-import { Content as About, frontmatter } from "../content/about.md";
-import Base from "../layouts/Base.astro";
-import SiteHeader from "../components/SiteHeader.astro";
-import SiteFooter from "../components/SiteFooter.astro";
 import ProjectItem from "../components/ProjectItem.astro";
 import PublicationItem from "../components/PublicationItem.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { Content as About, frontmatter } from "../content/about.md";
+import Base from "../layouts/Base.astro";
 import { sortProjects, sortPublications } from "../utils/sort";
 
 const projectEntries = await getCollection("projects");

@@ -16,4 +16,6 @@ retrieval-augmented generation.
 
 I am also interested in open-source research tools, training researchers
 in computational methods, and leading small engineering teams on funded
-research projects with academic and industry partners. I currently work at the National University of Singapore (NUS), and previously at King's Digital Lab, King's College London.
+research projects with academic and industry partners. I currently work at
+the National University of Singapore (NUS), and previously at
+King's Digital Lab, King's College London.
