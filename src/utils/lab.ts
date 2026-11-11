@@ -45,3 +45,47 @@ function metaDescription(html: string): string | null {
   }
   return null;
 }
+
+/* Astro lab pages (src/pages/lab/<slug>.astro, index.astro excluded) are
+   listed by their own markup: the single <h1> is the display name and the
+   description attribute on Base is the card text. Same loud contract as
+   the public prototypes — a lab page without either fails the build. */
+export function discoverAstroLabEntries(pagesDir: string): LabEntry[] {
+  return readdirSync(pagesDir, { withFileTypes: true })
+    .filter(
+      (d) =>
+        d.isFile() && d.name.endsWith(".astro") && d.name !== "index.astro",
+    )
+    .map((d) => {
+      const file = join(pagesDir, d.name);
+      const src = readFileSync(file, "utf8");
+      const h1 = src.match(/<h1[^>]*>([^<]+)<\/h1>/);
+      if (!h1 || !h1[1].trim()) {
+        throw new Error(
+          `${file}: lab pages need one <h1> for the index listing`,
+        );
+      }
+      const desc = src.match(/<Base\b[^>]*?description="([^"]+)"/);
+      if (!desc) {
+        throw new Error(
+          `${file}: lab pages need a description on Base for the index listing`,
+        );
+      }
+      return {
+        slug: d.name.replace(/\.astro$/, ""),
+        title: h1[1].trim(),
+        description: desc[1],
+      };
+    });
+}
+
+/* The /lab/ index lists both kinds of experiment, merged and sorted. */
+export function discoverAllLabEntries(
+  publicDir: string,
+  pagesDir: string,
+): LabEntry[] {
+  return [
+    ...discoverLabEntries(publicDir),
+    ...discoverAstroLabEntries(pagesDir),
+  ].sort((a, b) => a.slug.localeCompare(b.slug));
+}

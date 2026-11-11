@@ -53,21 +53,40 @@ Before committing, run `pnpm format` and `pnpm lint` to match CI. CI runs `pnpm 
 
 ## Prototypes (`/lab/`)
 
-Quick prototypes live at `public/lab/<name>/index.html` and are served verbatim at `/lab/<name>/` — no Astro processing, so inline CSS/JS stays intact. Files here are the source of truth (copied from
-`../sandbox/` and formatted, or authored in place).
+Two kinds of lab entry live under `/lab/`, both indexed automatically by `/lab/`:
 
-Because they are plain assets with no test coverage:
+- **Static prototypes** at `public/lab/<name>/index.html`, served verbatim (no
+  Astro processing; inline CSS/JS stays intact). Contract: a `<title>` and a
+  non-empty `<meta name="description">` — the index reads them from the file.
+- **Astro lab pages** at `src/pages/lab/<name>.astro` (not `index.astro`).
+  Contract: exactly one `<h1>` (the display name) and a `description` attr on
+  `<Base>` — the index reads them from the source.
+
+`src/utils/lab.ts` enforces both contracts loudly at build time
+(`tests/lab.test.ts` covers them). Drop a file in either place and it
+appears on the index; miss the contract and the build fails.
+
+Static-prototype gotchas:
 
 - Prettier formats them; run `pnpm format` after editing, or CI's `pnpm format:check` fails.
 - After formatting, syntax-check inline scripts (extract the `<script>` body and run `node --check`) — a bad format pass can silently break the page.
 - They are not Astro pages, so the sitemap will not list them.
-- Every prototype must carry a `<title>` and a non-empty `<meta name="description">`: the
-  `/lab/` index page lists experiments by reading these straight from the files at build time
-  (`src/utils/lab.ts`). Drop a folder into `public/lab/` and it appears on the index.
-- `/lab/now/` additionally has a boot smoke test (`tests/now-lab.test.ts`): it
-  runs the page's inline script in a VM against a stub DOM and feed fixtures,
-  catching undefined references and feed regressions. Extend it when changing
-  that page.
+
+`/lab/now/` is an Astro page (`src/pages/lab/now.astro`), converted from the
+prototype:
+
+- It renders through `Base` like every site page (fonts, analytics, metadata)
+  and is `noindex` via Base's prop; `astro.config.mjs` filters it from the
+  sitemap.
+- Its stylesheet is `<style is:global>` scoped by hand under `.now-board` so
+  `global.css` rules (section animations, `details` grid, `.wrap`, fonts)
+  cannot leak in or out; `html`'s 15px root is re-pinned to 16px for that
+  page only.
+- The script stays one `<script>` block (Astro bundles it as an ES module;
+  `// @ts-nocheck` keeps `astro check` out of runtime-DOM code).
+- The VM boot smoke test (`tests/now-lab.test.ts`) still works: it runs the
+  first `<script>` block from the `.astro` source against a stub DOM and
+  feed fixtures. Extend it when changing that page.
 
 ## pnpm workspace quirks
 

@@ -7,12 +7,14 @@ interface Props {
   title: string;
   description?: string;
   canonical?: boolean;
+  noindex?: boolean;
 }
 
 const {
   title,
   description = "Miguel Vieira — Research Software Engineer.",
   canonical = true,
+  noindex = false,
 } = Astro.props;
 
 /* JPEG rather than WebP: not all social crawlers render WebP previews. */
@@ -49,6 +51,7 @@ const ogImage = new URL(optimizedOgImage.src, Astro.site);
       crossorigin
     />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <meta name="color-scheme" content="light dark" />
     <title>{title}</title>
     {canonical && <link rel="canonical" href={Astro.url} />}

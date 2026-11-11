@@ -11,11 +11,11 @@ import { describe, expect, it } from "vitest";
    "load is not defined"). */
 
 const pageHtml = readFileSync(
-  resolve(__dirname, "../public/lab/now/index.html"),
+  resolve(__dirname, "../src/pages/lab/now.astro"),
   "utf8",
 );
 const scriptMatch = pageHtml.match(/<script>([\s\S]*?)<\/script>/);
-if (!scriptMatch) throw new Error("no inline script found in now/index.html");
+if (!scriptMatch) throw new Error("no script block found in lab/now.astro");
 const scriptCode = scriptMatch[1];
 
 interface StubEl {

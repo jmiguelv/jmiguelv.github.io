@@ -7,5 +7,11 @@ export default defineConfig({
   build: {
     format: "directory",
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      /* /lab/now/ is marked noindex — a page asked not to be listed must
+         not sit in the sitemap either. filter() receives the full URL. */
+      filter: (page) => !page.endsWith("/lab/now/"),
+    }),
+  ],
 });
