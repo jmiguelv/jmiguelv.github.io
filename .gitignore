@@ -2,6 +2,13 @@ node_modules/
 dist/
 .astro/
 .env
-.env.production
+.env.*
+!.env.example
 .DS_Store
 *.log
+
+# local working notes (design reviews, plans) — deliberately not in the repo
+tasks/
+
+# Vercel CLI
+.vercel
