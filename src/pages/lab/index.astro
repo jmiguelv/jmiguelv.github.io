@@ -1,0 +1,42 @@
+---
+import SiteFooter from "../../components/SiteFooter.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import { Content as Intro, frontmatter } from "../../content/lab/index.md";
+import Base from "../../layouts/Base.astro";
+import { discoverLabEntries } from "../../utils/lab";
+
+/* The prototypes in public/lab are their own source of truth: the listing
+   reads each one's <title> and meta description straight from the file, so
+   there is no second copy of the list to go stale. */
+const entries = discoverLabEntries("public/lab");
+---
+
+<Base title="Lab — Miguel Vieira" description={frontmatter.description}>
+  <SiteHeader />
+
+  <main id="main">
+    <section class="about" aria-labelledby="lab">
+      <h2 id="lab">Lab</h2>
+      <Intro />
+    </section>
+
+    <section aria-labelledby="experiments">
+      <h2 id="experiments">Experiments</h2>
+      <ul class="lab-list">
+        {
+          entries.map((entry) => (
+            <li>
+              <a class="lab-title" href={`/lab/${entry.slug}/`}>
+                {entry.title}
+              </a>
+              <span class="lab-slug">{`/lab/${entry.slug}/`}</span>
+              <p class="lab-desc">{entry.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+
+  <SiteFooter />
+</Base>

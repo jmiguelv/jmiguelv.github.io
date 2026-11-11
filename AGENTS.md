@@ -61,6 +61,9 @@ Because they are plain assets with no test coverage:
 - Prettier formats them; run `pnpm format` after editing, or CI's `pnpm format:check` fails.
 - After formatting, syntax-check inline scripts (extract the `<script>` body and run `node --check`) — a bad format pass can silently break the page.
 - They are not Astro pages, so the sitemap will not list them.
+- Every prototype must carry a `<title>` and a non-empty `<meta name="description">`: the
+  `/lab/` index page lists experiments by reading these straight from the files at build time
+  (`src/utils/lab.ts`). Drop a folder into `public/lab/` and it appears on the index.
 - `/lab/now/` additionally has a boot smoke test (`tests/now-lab.test.ts`): it
   runs the page's inline script in a VM against a stub DOM and feed fixtures,
   catching undefined references and feed regressions. Extend it when changing
