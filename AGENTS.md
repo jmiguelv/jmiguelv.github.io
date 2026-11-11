@@ -30,6 +30,7 @@ Before committing, run `pnpm format` and `pnpm lint` to match CI. CI runs `pnpm 
 
 - GitHub Actions `.github/workflows/deploy.yml` builds and deploys on every push to `main`.
 - CI runs `pnpm install --frozen-lockfile`, then `pnpm lint`, `pnpm format:check`, `pnpm test`, and `pnpm build`; upload path is `./dist`. Link rot checks are excluded from CI (run manually via `pnpm check:links`).
+- `api/bus.js` is a Vercel serverless function (LTA DataMall proxy for `/lab/now/`), not part of the Pages build. It needs the `LTA_ACCOUNT_KEY` env var on Vercel; `vercel.json` pins its region to `sin1`. Pages deploys ignore this directory.
 
 ## Project structure
 
@@ -52,13 +53,18 @@ Before committing, run `pnpm format` and `pnpm lint` to match CI. CI runs `pnpm 
 
 ## Prototypes (`/lab/`)
 
-Quick prototypes live at `public/lab/<name>/index.html` and are served verbatim at `/lab/<name>/` — no Astro processing, so inline CSS/JS stays intact. Files here are the source of truth (they were copied from `../sandbox/` once and then formatted).
+Quick prototypes live at `public/lab/<name>/index.html` and are served verbatim at `/lab/<name>/` — no Astro processing, so inline CSS/JS stays intact. Files here are the source of truth (copied from
+`../sandbox/` and formatted, or authored in place).
 
 Because they are plain assets with no test coverage:
 
 - Prettier formats them; run `pnpm format` after editing, or CI's `pnpm format:check` fails.
 - After formatting, syntax-check inline scripts (extract the `<script>` body and run `node --check`) — a bad format pass can silently break the page.
 - They are not Astro pages, so the sitemap will not list them.
+- `/lab/now/` additionally has a boot smoke test (`tests/now-lab.test.ts`): it
+  runs the page's inline script in a VM against a stub DOM and feed fixtures,
+  catching undefined references and feed regressions. Extend it when changing
+  that page.
 
 ## pnpm workspace quirks
 
