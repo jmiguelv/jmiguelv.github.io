@@ -69,7 +69,7 @@ describe("lab index discovery", () => {
     );
   });
 
-  it("lists Astro lab pages by their h1 and Base description", () => {
+  it("lists Astro lab pages by their labTitle and Base description", () => {
     const entries = discoverAstroLabEntries(astroPages);
     expect(entries).toEqual([
       {
@@ -80,10 +80,10 @@ describe("lab index discovery", () => {
     ]);
   });
 
-  it("fails loudly when an Astro lab page has no h1", () => {
-    expect(() => discoverAstroLabEntries(join(astroBroken, "no-h1"))).toThrow(
-      /stub\.astro[\s\S]*need one <h1>/,
-    );
+  it("fails loudly when an Astro lab page has no labTitle", () => {
+    expect(() =>
+      discoverAstroLabEntries(join(astroBroken, "no-labtitle")),
+    ).toThrow(/stub\.astro[\s\S]*need export const labTitle/);
   });
 
   it("fails loudly when an Astro lab page has no description", () => {

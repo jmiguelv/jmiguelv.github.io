@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
+import svelte from "@astrojs/svelte";
 
 export default defineConfig({
   site: "https://jmiguelv.github.io",
@@ -13,5 +14,6 @@ export default defineConfig({
          not sit in the sitemap either. filter() receives the full URL. */
       filter: (page) => !page.endsWith("/lab/now/"),
     }),
+    svelte(),
   ],
 });

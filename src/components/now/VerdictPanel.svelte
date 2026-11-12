@@ -1,0 +1,69 @@
+<script>
+  import Panel from "./Panel.svelte";
+  import { hhmm, umbrellaFor } from "./formatters.js";
+
+  /* "heading out": the 2-hour nowcast for the chosen area, with the
+     umbrella verdict. Derives straight from the cached feed — never
+     fetches. */
+  let { state } = $props();
+
+  let item = $derived(state.store.w2h?.d?.items?.[0] ?? null);
+  let mine = $derived.by(() => {
+    const forecasts = (item && item.forecasts) || [];
+    for (let i = 0; i < forecasts.length; i++) {
+      if (forecasts[i].area === state.settings.area) return forecasts[i];
+    }
+    return null;
+  });
+</script>
+
+<Panel
+  id="sec-now"
+  heading="heading out"
+  panel="w2h"
+  statusLabel="forecast fetched"
+  statusId="now-status"
+  {state}
+>
+  {#if !item}
+    <p id="verdict-big">
+      {state.errs.w2h ? "Weather unavailable" : "Loading…"}
+    </p>
+    <p id="verdict-guide"></p>
+    <p class="meta" id="now-meta"></p>
+  {:else if mine}
+    <p id="verdict-big">{mine.forecast}</p>
+    <p id="verdict-guide">{umbrellaFor(mine.forecast)}</p>
+    <p class="meta" id="now-meta">
+      {state.settings.area} · valid until
+      {hhmm(item.valid_period && item.valid_period.end)}
+    </p>
+  {:else}
+    <p id="verdict-big">Pick your area</p>
+    <p id="verdict-guide">
+      {state.settings.area
+        ? "Saved area '" +
+          state.settings.area +
+          "' is missing from this forecast — repick in settings."
+        : "The 2-hour nowcast needs an area — choose one in settings."}
+    </p>
+    <p class="meta" id="now-meta"></p>
+  {/if}
+</Panel>
+
+<style>
+  #verdict-big {
+    font-size: clamp(1.5rem, 6vw, 2.25rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.18;
+    color: var(--deep);
+    margin: 0;
+  }
+
+  #verdict-guide {
+    font-size: 1.05rem;
+    color: var(--fg);
+    margin: 0.6rem 0 0;
+  }
+</style>

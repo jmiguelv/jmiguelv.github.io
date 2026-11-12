@@ -1,5 +1,5 @@
 ---
-description: Small, self-contained experiments in plain HTML, CSS, and JavaScript, served straight from the repository — no framework, no build step, no tracking.
+description: Small, self-contained experiments.
 ---
 
 A sample of small experiments, to try one idea at a time.
