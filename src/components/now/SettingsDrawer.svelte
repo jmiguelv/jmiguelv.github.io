@@ -263,10 +263,6 @@
     outline-offset: 2px;
   }
 
-  [hidden] {
-    display: none !important;
-  }
-
   /* global.css renders every details/summary as a publication entry (grid,
      markers, padding); the drawer is a plain summary — re-declared scoped,
      these are template elements. */

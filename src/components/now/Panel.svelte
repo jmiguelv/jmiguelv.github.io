@@ -14,6 +14,7 @@
     statusId = undefined,
     id = undefined,
     state,
+    children,
   } = $props();
 
   let status = $derived.by(() => {
@@ -41,7 +42,7 @@
 
 <section {id}>
   <h2>{heading}</h2>
-  <slot />
+  {@render children?.()}
   {#if statusLabel}
     <p class={status.cls} id={statusId} role="status">{status.text}</p>
   {/if}
