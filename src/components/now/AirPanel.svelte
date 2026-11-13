@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Panel from "./Panel.svelte";
   import { pm25Band, pm25Dot, psiBand, psiDot } from "./formatters";
 
@@ -7,7 +7,7 @@
      becomes "PM2.5(1h) —" plus a status-line note, never a broken panel.
      Dots always carry a band name in text too — colour is never the only
      carrier. */
-  let { state } = $props();
+  let { state }: { state: NowState } = $props();
 
   let psiRead = $derived(state.store.aqiPsi?.d?.items?.[0]?.readings ?? null);
   let region = $derived(state.settings.region);
@@ -16,7 +16,7 @@
     state.store.aqiPm?.d?.items?.[0]?.readings?.pm25_one_hourly?.[region] ??
       null,
   );
-  const names = ["central", "east", "north", "south", "west"];
+  const names: Region[] = ["central", "east", "north", "south", "west"];
   let strip = $derived(
     names
       .map(function (n) {

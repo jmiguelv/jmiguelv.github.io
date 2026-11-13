@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import {
     addStop,
     applyConf,
@@ -14,7 +14,7 @@
      through the state module and the conf validators — nothing is guessed
      at, and every error surfaces here. */
 
-  let { state: board } = $props();
+  let { state: board }: { state: NowState } = $props();
 
   /* Area options derive from the cached 2-hour forecast (the authority on
      the valid names) — the old manual fill-once memo becomes a plain
@@ -32,19 +32,27 @@
   let armed = $state(false);
   let armTimer = 0;
 
-  function onArea(ev) {
+  function onArea(
+    ev: Event & { currentTarget: EventTarget & HTMLSelectElement },
+  ) {
     board.settings.area = ev.currentTarget.value;
     persist(board);
   }
-  function onRegion(ev) {
+  function onRegion(
+    ev: Event & { currentTarget: EventTarget & HTMLSelectElement },
+  ) {
     board.settings.region = ev.currentTarget.value;
     persist(board);
   }
-  function onProxy(ev) {
+  function onProxy(
+    ev: Event & { currentTarget: EventTarget & HTMLInputElement },
+  ) {
     proxyMsg = setProxy(board, ev.currentTarget.value);
   }
 
-  function onAddStop(ev) {
+  function onAddStop(
+    ev: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement },
+  ) {
     ev.preventDefault();
     const digits = code.replace(/\D/g, "");
     if (!/^\d{4,5}$/.test(digits)) {
@@ -101,7 +109,9 @@
     confErr = false;
   }
 
-  function onImportFile(ev) {
+  function onImportFile(
+    ev: Event & { currentTarget: EventTarget & HTMLInputElement },
+  ) {
     const file = ev.currentTarget.files && ev.currentTarget.files[0];
     if (!file) return;
     const reader = new FileReader();

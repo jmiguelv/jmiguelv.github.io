@@ -43,6 +43,11 @@ export default tseslint.config(
        unused-expression rule is off for .svelte files. */
     files: ["**/*.svelte", "src/components/now/**/*.ts"],
     languageOptions: {
+      /* svelte-eslint-parser delegates <script lang="ts"> parsing to
+         the parser given here — without it, TS syntax in components fails */
+      parserOptions: {
+        parser: tseslint.parser,
+      },
       globals: {
         console: "readonly",
         window: "readonly",
@@ -63,6 +68,8 @@ export default tseslint.config(
     },
     rules: {
       "@typescript-eslint/no-unused-expressions": "off",
+      /* TS type references live in erased positions; no-undef misreads them */
+      "no-undef": "off",
     },
   },
   {

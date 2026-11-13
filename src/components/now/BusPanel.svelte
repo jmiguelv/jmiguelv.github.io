@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { ago, hhmm, minsTo } from "./formatters";
   import Panel from "./Panel.svelte";
 
@@ -8,7 +8,7 @@
      once a minute while visible: LTA quota). Unlike feed panels, the
      status line here is not fetch-driven: it reports what is saved on
      this device, so this panel owns it directly. */
-  let { state } = $props();
+  let { state }: { state: NowState } = $props();
 
   let stops = $derived(state.settings.stops);
   let proxy = $derived(state.settings.proxy);
@@ -17,7 +17,9 @@
      time ("3 min (14:24), 9 min (14:30)"), all re-derived on the island
      clock. Late-night blanks (NextBus2/3 with no EstimatedArrival) simply
      drop out; a bus already at the stop reads "arriving" with no clock. */
-  function arrivalsFor(svc) {
+  function arrivalsFor(
+    svc: NonNullable<BusArrivalPayload["Services"]>[number],
+  ): string[] {
     state.tick; /* countdowns re-derive on the island clock */
     return ["NextBus", "NextBus2", "NextBus3"]
       .map(function (k) {

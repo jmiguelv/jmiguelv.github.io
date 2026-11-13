@@ -1,11 +1,25 @@
-<script>
+<script lang="ts">
   import { ago } from "./formatters";
+  import type { Snippet } from "svelte";
+  import type { FeedPayloads } from "./feeds";
+  import type { NowState } from "./state.svelte";
 
   /* Panel shell: rule-topped section, small-caps mono heading, the panel's
      content, and its live status line. The status derivation is shared:
      <label> + age on success, the failure + cache age on error. Panels can
      append a suffix (e.g. PM2.5 failing alongside healthy PSI) and keep
      their historical status element ids. */
+  interface Props {
+    heading: string;
+    panel: keyof FeedPayloads;
+    statusLabel?: string;
+    statusExtra?: () => string;
+    statusId?: string;
+    id?: string;
+    state: NowState;
+    children?: Snippet;
+  }
+
   let {
     heading,
     panel,
@@ -15,7 +29,7 @@
     id = undefined,
     state,
     children,
-  } = $props();
+  }: Props = $props();
 
   let status = $derived.by(() => {
     state.tick; /* ages re-derive on the island's 30s clock */

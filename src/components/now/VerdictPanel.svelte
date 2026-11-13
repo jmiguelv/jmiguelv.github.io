@@ -1,11 +1,11 @@
-<script>
+<script lang="ts">
   import Panel from "./Panel.svelte";
   import { hhmm, umbrellaFor } from "./formatters";
 
   /* "heading out": the 2-hour nowcast for the chosen area, with the
      umbrella verdict. Derives straight from the cached feed — never
      fetches. */
-  let { state } = $props();
+  let { state }: { state: NowState } = $props();
 
   let item = $derived(state.store.w2h?.d?.items?.[0] ?? null);
   let mine = $derived.by(() => {

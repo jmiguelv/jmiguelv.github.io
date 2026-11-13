@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
   import AirPanel from "./AirPanel.svelte";
   import BusPanel from "./BusPanel.svelte";
@@ -15,6 +15,7 @@
     loadSaved,
     refresh,
   } from "./state.svelte";
+  import type { NowState } from "./state.svelte";
 
   /* The now board island: one reactive state object owned here, created by
      the state factory and passed to every panel as a single prop. All
@@ -24,7 +25,7 @@
 
   /* the page mounts without props; tests inject their own state so they can
      drive mutations directly — same reactive object either way */
-  let { state: board = createNowState() } = $props();
+  let { state: board = createNowState() }: { state?: NowState } = $props();
   let refreshing = $state(false);
 
   function doRefresh() {

@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
   import Panel from "./Panel.svelte";
 
   /* Outlook: tomorrow and the day after, straight off the 4-day feed. */
-  let { state } = $props();
+  let { state }: { state: NowState } = $props();
 
   let forecasts = $derived(state.store.w4?.d?.items?.[0]?.forecasts ?? []);
 </script>

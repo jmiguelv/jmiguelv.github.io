@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Panel from "./Panel.svelte";
   import { hhmm } from "./formatters";
 
@@ -6,7 +6,7 @@
      period currently in force for the chosen region. The period check
      reads the island clock, so the row rolls over on the 30s tick rather
      than waiting for a fetch. */
-  let { state } = $props();
+  let { state }: { state: NowState } = $props();
 
   let item = $derived(state.store.w24?.d?.items?.[0] ?? null);
   let g = $derived((item && item.general) || {});
