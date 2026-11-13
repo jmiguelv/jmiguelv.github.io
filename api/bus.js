@@ -47,6 +47,8 @@ async function getStopNames(accountKey) {
   const map = {};
   let skip = 0;
   try {
+    let prevFirst = null; /* first code of the previous page — lets the
+                            walk detect a server that ignores $skip */
     for (let page = 0; page < 60; page++) {
       const r = await fetch(STOPS_URL + "?$skip=" + skip, {
         headers: { AccountKey: accountKey, Accept: "application/json" },
@@ -59,14 +61,15 @@ async function getStopNames(accountKey) {
       }
       if (body.value.length === 0) break;
       const firstCode = body.value[0].BusStopCode;
+      if (firstCode === prevFirst) {
+        /* the server ignored $skip — the same first record again */
+        break;
+      }
+      prevFirst = firstCode;
       body.value.forEach(function (s) {
         const name = [s.Description, s.RoadName].filter(Boolean).join(" · ");
         map[s.BusStopCode] = name || null;
       });
-      if (body.value[0].BusStopCode === firstCode && page > 0 && skip > 0) {
-        /* the server ignored $skip — same first record again */
-        break;
-      }
       if (body.value.length < 500) break;
       skip += body.value.length;
     }
