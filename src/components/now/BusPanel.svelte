@@ -1,6 +1,6 @@
 <script>
   import Panel from "./Panel.svelte";
-  import { ago, minsTo } from "./formatters.js";
+  import { ago, hhmm, minsTo } from "./formatters.js";
 
   /* Buses: arrivals for the saved stops through the user's proxy. Cards
      derive from the cache — countdowns re-derive on the 30s tick, no
@@ -13,13 +13,18 @@
   let stops = $derived(state.settings.stops);
   let proxy = $derived(state.settings.proxy);
 
-  function timesFor(svc) {
+  /* One bus per line: countdown plus the clock time it lands, both
+     re-derived on the island clock. Late-night blanks (NextBus2/3 with no
+     EstimatedArrival) simply drop out; a bus already at the stop reads
+     "arriving" with no clock (it has landed). */
+  function arrivalsFor(svc) {
     state.tick; /* countdowns re-derive on the island clock */
     return ["NextBus", "NextBus2", "NextBus3"]
       .map(function (k) {
-        return svc[k] && svc[k].EstimatedArrival
-          ? minsTo(svc[k].EstimatedArrival)
-          : null;
+        const iso = svc[k] && svc[k].EstimatedArrival;
+        if (!iso) return null;
+        const due = new Date(iso).getTime() <= Date.now();
+        return { iso: iso, mins: minsTo(iso), clock: hhmm(iso), due: due };
       })
       .filter(Boolean);
   }
@@ -60,10 +65,17 @@
             )}
             <ol>
               {#each shown as svc (svc.ServiceNo)}
-                <li>
-                  {svc.ServiceNo}:
-                  <b>{timesFor(svc).join(", ") || "no buses yet"}</b>
-                </li>
+                {@const times = arrivalsFor(svc)}
+                {#if times.length}
+                  {#each times as t (t.iso)}
+                    <li>
+                      <b>{svc.ServiceNo}</b> · {t.mins}{#if !t.due}
+                        <span class="eta">· arrives {t.clock}</span>{/if}
+                    </li>
+                  {/each}
+                {:else}
+                  <li><b>{svc.ServiceNo}</b> · no buses yet</li>
+                {/if}
               {/each}
               {#if !shown.length}
                 <li>no services matched</li>
@@ -111,9 +123,8 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1rem;
+    display: grid; /* one bus per line */
+    gap: 0.15rem;
   }
 
   .stop ol li {
@@ -124,5 +135,9 @@
 
   .stop ol li b {
     color: var(--deep);
+  }
+
+  .stop ol li .eta {
+    color: var(--muted);
   }
 </style>
