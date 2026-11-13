@@ -1,0 +1,20 @@
+---
+import Board from "../../layouts/Board.astro";
+import NowBoard from "../../components/now/NowBoard.svelte";
+
+/* island version: the board is one Svelte 5 island (NowBoard, client:load).
+   Presentation lives entirely in the Board layout — this page supplies only
+   metadata and the mount point. api/bus.js stays a standalone Vercel
+   function: static pages cannot run per-request code. */
+
+export const labTitle = "now";
+---
+
+<Board
+  title="now — Miguel Vieira"
+  description="A glanceable board for heading out the door — rain verdict, air quality, and live bus arrivals for Singapore."
+  noindex
+>
+  <NowBoard client:load />
+  <noscript><p>This board needs JavaScript to fetch live data.</p></noscript>
+</Board>

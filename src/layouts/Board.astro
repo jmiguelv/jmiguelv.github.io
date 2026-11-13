@@ -1,0 +1,448 @@
+---
+import Base from "./Base.astro";
+
+/* Layout for the lab "now" board — Base plus a tool-page frame. It owns
+   every board style (islands stay markup-only) and pulls its whole palette
+   from the site's --site-* tokens; the only board-local colors are the
+   three air-band accents, which are data semantics, not decoration.
+   The <style> is is:global because its rules address island-rendered DOM
+   that Astro cannot scope to this file — every selector roots at
+   .board-page, so the sheet only bites pages that use this layout. */
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { title, description, noindex = false } = Astro.props;
+---
+
+<Base title={title} description={description} noindex={noindex}>
+  <div class="board-page">
+    <slot />
+  </div>
+</Base>
+
+<style is:global>
+  /* The board is a glance page, not an editorial entry: Base's tall
+     padding is dead air above the verdict. */
+  .wrap {
+    padding-block: clamp(1.6rem, 5vh, 3rem) 3rem;
+  }
+
+  /* ────────────────── the frame ────────────────── */
+
+  .board-page {
+    color: var(--site-fg);
+  }
+
+  .board-page header.masthead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.3rem 1rem;
+    padding-block-end: 1.6rem;
+  }
+
+  .board-page header.masthead h1 {
+    flex: 0 0 100%;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: clamp(2.2rem, 7vw, 3.2rem);
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    color: var(--site-fg-deep);
+  }
+
+  /* mono data / meta lines — the site's own "role line" idiom */
+  .board-page .dateline {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--site-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .board-page .status,
+  .board-page .meta,
+  .board-page .svcs,
+  .board-page .hint {
+    font-family: var(--font-mono);
+    color: var(--site-muted);
+  }
+
+  .board-page .status,
+  .board-page .meta {
+    margin: 0.4rem 0 0;
+    font-size: 0.72rem;
+  }
+
+  .board-page .status.err {
+    color: var(--site-mark);
+  }
+
+  .board-page .empty {
+    margin: 0.2rem 0 0.5rem;
+    font-size: 0.95rem;
+    color: var(--site-muted);
+  }
+
+  /* ────────────────── verdict hero ────────────────── */
+
+  .board-page #verdict-big {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: clamp(1.5rem, 6vw, 2.3rem);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--site-fg-deep);
+    text-wrap: balance;
+  }
+
+  .board-page #verdict-guide {
+    margin: 0 0 0.5rem;
+    font-size: 1.02rem;
+  }
+
+  /* ────────────────── panel rows ──────────────────
+     Panels are ruled rows — the site's list rhythm — not cards. The site
+     styles bare <section> and <h2> for the homepage; the board redeclares
+     both because its sections are tool rows (no rise animation, hairline
+     top rule) and its headings are mono labels, not seriftitles. */
+
+  .board-page section {
+    margin-block: 1.4rem 0;
+    padding-block-start: 0.9rem;
+    border-block-start: 1px solid var(--site-rule);
+    animation: none;
+  }
+
+  .board-page section h2 {
+    margin: 0 0 0.85rem;
+    padding: 0;
+    border: 0;
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--site-muted);
+  }
+
+  .board-page section p {
+    margin-block: 0 0.5rem;
+  }
+
+  /* ────────────────── buses ────────────────── */
+
+  .board-page .stop {
+    padding-block: 0.65rem;
+    border-block-end: 1px solid var(--site-rule);
+  }
+
+  .board-page .stop h3 {
+    margin: 0 0 0.2rem;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+    color: var(--site-fg-deep);
+  }
+
+  .board-page .stop .svcs {
+    margin: 0 0 0.4rem;
+    font-size: 0.72rem;
+  }
+
+  .board-page .stop ol {
+    display: grid; /* one service per row */
+    gap: 0.3rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .board-page .stop ol li {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--site-fg);
+  }
+
+  .board-page .stop ol li b {
+    color: var(--site-fg-deep);
+  }
+
+  /* ────────────────── air ────────────────── */
+
+  .board-page #air .lead {
+    margin-block: 0 0.55rem;
+    font-size: 0.95rem;
+  }
+
+  .board-page {
+    --air-good: #1e8e3e;
+    --air-elev: #b45309;
+    --air-high: #b91c1c;
+  }
+
+  .board-page .dot {
+    display: inline-block;
+    width: 0.62em;
+    height: 0.62em;
+    margin-right: 0.3em;
+    vertical-align: baseline;
+    border-radius: 50%;
+    background: var(--site-rule);
+  }
+
+  .board-page .dot.g {
+    background: var(--air-good);
+  }
+
+  .board-page .dot.e {
+    background: var(--air-elev);
+  }
+
+  .board-page .dot.h {
+    background: var(--air-high);
+  }
+
+  /* the air bands follow the site's double theme dance: OS preference
+     plus the checkbox override — same selectors as the site tokens */
+  :root:has(.theme-input:checked) .board-page {
+    --air-good: #34d399;
+    --air-elev: #fbbf24;
+    --air-high: #f87171;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .board-page {
+      --air-good: #34d399;
+      --air-elev: #fbbf24;
+      --air-high: #f87171;
+    }
+
+    :root:has(.theme-input:checked) .board-page {
+      --air-good: #1e8e3e;
+      --air-elev: #b45309;
+      --air-high: #b91c1c;
+    }
+  }
+
+  /* ────────────────── today ────────────────── */
+
+  .board-page #today .summary {
+    margin-block: 0 0.6rem;
+    font-size: 1.02rem;
+  }
+
+  .board-page .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.4rem;
+    margin-block: 0.2rem 0.5rem;
+  }
+
+  .board-page .chip {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--site-fg);
+  }
+
+  .board-page .chip b {
+    color: var(--site-fg-deep);
+  }
+
+  .board-page .chip small {
+    display: block;
+    font-size: 0.64rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--site-muted);
+  }
+
+  /* ────────────────── outlook ────────────────── */
+
+  .board-page #days .day {
+    margin-block: 0 0.45rem;
+    font-size: 0.98rem;
+    line-height: 1.45;
+  }
+
+  /* ────────────────── controls ────────────────── */
+
+  .board-page .btn {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--site-fg-deep);
+    background: transparent;
+    border: 1px solid var(--site-rule);
+    border-radius: 2px;
+    min-height: 44px;
+    padding: 0.45em 0.9em;
+    cursor: pointer;
+  }
+
+  .board-page .btn:hover {
+    border-color: var(--site-mark);
+    color: var(--site-mark);
+  }
+
+  .board-page .btn:focus-visible,
+  .board-page select:focus-visible,
+  .board-page input:focus-visible,
+  .board-page textarea:focus-visible {
+    outline: 2px solid var(--site-mark);
+    outline-offset: 2px;
+  }
+
+  .board-page .btn.danger {
+    color: var(--site-mark);
+  }
+
+  /* ────────────────── settings ──────────────────
+     global.css styles every details/summary as a publication entry; the
+     drawer is a form container — reset to a plain ruled row. */
+
+  .board-page details {
+    margin-block: 1.4rem 0;
+    padding: 0.9rem 0 0;
+    border-block-start: 1px solid var(--site-rule);
+  }
+
+  .board-page details > summary {
+    display: block;
+    cursor: pointer;
+    padding: 0;
+    min-height: 44px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--site-muted);
+  }
+
+  .board-page details[open] > summary {
+    margin-block-end: 1rem;
+  }
+
+  .board-page .field {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem 0.6rem;
+    margin-block-end: 0.8rem;
+  }
+
+  .board-page label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--site-muted);
+  }
+
+  .board-page select,
+  .board-page input {
+    flex: 1 1 10rem;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0.45em 0.8em;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--site-fg-deep);
+    background: transparent;
+    border: 1px solid var(--site-rule);
+    border-radius: 2px;
+  }
+
+  .board-page select:hover,
+  .board-page input:hover,
+  .board-page textarea:hover {
+    border-color: var(--site-muted);
+  }
+
+  .board-page #stopform {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-block-end: 0.6rem;
+  }
+
+  .board-page #stopform input {
+    flex: 1 1 8rem;
+  }
+
+  .board-page textarea {
+    width: 100%;
+    min-height: 9rem;
+    margin-block-end: 0.8rem;
+    padding: 0.6em;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    line-height: 1.45;
+    color: var(--site-fg-deep);
+    background: transparent;
+    border: 1px solid var(--site-rule);
+    border-radius: 2px;
+  }
+
+  .board-page #stops-list {
+    margin: 0.4rem 0 0.8rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .board-page #stops-list li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+    margin-block-end: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--site-fg);
+  }
+
+  .board-page #stops-list .rm {
+    margin-inline-start: auto;
+    padding: 0.15em 0;
+    border: 0;
+    background: none;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--site-link);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+    cursor: pointer;
+  }
+
+  .board-page #stops-list .rm:hover {
+    color: var(--site-link-hover);
+    text-decoration-color: currentColor;
+  }
+
+  .board-page .hint {
+    margin: 0.9rem 0 0;
+    font-size: 0.72rem;
+    line-height: 1.55;
+  }
+
+  /* ────────────────── footline ────────────────── */
+
+  .board-page footer#footline {
+    margin-block-start: 2.4rem;
+    padding-block-start: 1rem;
+    border-block-start: 1px solid var(--site-rule);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--site-muted);
+  }
+</style>

@@ -5,6 +5,9 @@ This is a small Astro 6 static site (personal portfolio) deployed to GitHub Page
 ## Toolchain
 
 - Package manager: `pnpm` 11.0.4 (pinned in `package.json#packageManager`).
+- UI island framework: Svelte 5 via `@astrojs/svelte` (the now board is the
+  only island; everything else stays static Astro). Prettier formats
+  `.svelte` via `prettier-plugin-svelte`; ESLint uses `eslint-plugin-svelte`.
 - Node: CI uses Node 22.
 - Linter: ESLint (`eslint.config.mjs`) with `@eslint/js`, `typescript-eslint`, and `eslint-plugin-astro`.
 - Formatter: Prettier (`.prettierrc`) with `prettier-plugin-astro`.
@@ -53,18 +56,79 @@ Before committing, run `pnpm format` and `pnpm lint` to match CI. CI runs `pnpm 
 
 ## Prototypes (`/lab/`)
 
-Quick prototypes live at `public/lab/<name>/index.html` and are served verbatim at `/lab/<name>/` — no Astro processing, so inline CSS/JS stays intact. Files here are the source of truth (copied from
-`../sandbox/` and formatted, or authored in place).
+Two kinds of lab entry live under `/lab/`, both indexed automatically by `/lab/`:
 
-Because they are plain assets with no test coverage:
+- **Static prototypes** at `public/lab/<name>/index.html`, served verbatim (no
+  Astro processing; inline CSS/JS stays intact). Contract: a `<title>` and a
+  non-empty `<meta name="description">` — the index reads them from the file.
+- **Astro lab pages** at `src/pages/lab/<name>.astro` (not `index.astro`).
+  Contract: exactly one `<h1>` (the display name) and a `description` attr on
+  `<Base>` — the index reads them from the source.
+
+`src/utils/lab.ts` enforces both contracts loudly at build time
+(`tests/lab.test.ts` covers them). Drop a file in either place and it
+appears on the index; miss the contract and the build fails.
+
+Static-prototype gotchas:
 
 - Prettier formats them; run `pnpm format` after editing, or CI's `pnpm format:check` fails.
 - After formatting, syntax-check inline scripts (extract the `<script>` body and run `node --check`) — a bad format pass can silently break the page.
 - They are not Astro pages, so the sitemap will not list them.
-- `/lab/now/` additionally has a boot smoke test (`tests/now-lab.test.ts`): it
-  runs the page's inline script in a VM against a stub DOM and feed fixtures,
-  catching undefined references and feed regressions. Extend it when changing
-  that page.
+
+`/lab/now/` is an Astro page (`src/pages/lab/now.astro`) whose entire UI
+is one Svelte 5 island (`src/components/now/`), mounted with
+`client:load`:
+
+- `now.astro` keeps only metadata: the `Board` layout, `noindex`, and the
+  `labTitle` export (the `/lab/` index reads it — it renders inside the
+  island at runtime, where markup scraping can't reach).
+- `src/layouts/Board.astro` (built on Base, not a Base copy) owns every
+  board style in one place — its `is:global` sheet roots every selector at
+  `.board-page`, pulls all colors from the site's `--site-*` tokens
+  (only the air-band accents are board-local: they are data semantics),
+  and re-declares the inherited `section`/`h2`/`details` rules from
+  `global.css` because the board's rows are tool chrome. The island
+  components (`src/components/now/*.svelte`) carry zero `<style>` blocks —
+  markup only.
+- `state.svelte.ts` owns all reactivity and mutations: one `$state`
+  object built by `createNowState()`, plus `loadSaved`/`persist`/`refresh`/
+  `fetchBuses`/`applyConf`/`wipe` as plain functions. `NowBoard.svelte`
+  owns the clock (30s tick, 5-min feeds, 1-min visible bus polls) and
+  passes the state object to `Panel.svelte` (the shared section shell)
+  and the panel components as a single prop.
+- The TypeScript modules are the island's real contracts: `feeds.ts`
+  holds the endpoint pins plus payload interfaces for every feed
+  (verified against live responses); `formatters.ts`, `conf.ts` (the
+  versioned JSON funnel with true discriminated-union types), and
+  `state.svelte.ts` (typed `NowState`) are framework-free and
+  unit-tested directly. Endpoint URLs are pinned there and in tests —
+  the 2026-11-10 `/24-hour-forecast` 403 typo incident is why.
+- The island renders through `Base` (metadata, analytics, site fonts)
+  and is excluded from the sitemap via the `astro.config.mjs` filter.
+- `tests/now-board.test.ts` mounts the real component tree (Svelte 5
+  `mount`) with recorded fetch and seeded localStorage — the successor
+  of the old VM smoke test, same rendered-text assertions.
+  `tests/now-conf.test.ts` covers the conf funnel and endpoint pins.
+
+Svelte gotchas this repo's toolchain has hit (all documented fixes):
+
+- **Never name a local binding `state` in a component that also calls
+  `$state(...)`** — the runes auto-detector reads the pair as legacy
+  store syntax and compiles the whole file legacy (runtime dies with
+  `store_invalid_shape`). The island calls its state object `board`
+  internally; children destructure `{ state: board }`.
+- `svelte.config.js` pins `runes: true` (`@sveltejs/vite-plugin-svelte`
+  AST auto-detection stays out of the picture).
+- `vitest.config.mts` sets `pool: "vmForks"` + `environment: "jsdom"`:
+  vitest 4 otherwise runs modules through a server-consumer environment,
+  which makes the svelte plugin emit server builds. The vmForks pool
+  gets `consumer: "client"` from vitest itself, and its fresh VM context
+  also sidesteps this Node runtime's experimental (broken) globals for
+  `window`/`localStorage` shadowing vitest's jsdom population. The jsdom
+  `url` option exists because an opaque origin has no storage.
+- ESLint turns off `no-unused-expressions` for `.svelte` (the `board.tick;`
+  dependency-touch idiom is legal rune usage) and declares the browser
+  globals island scripts read.
 
 ## pnpm workspace quirks
 
