@@ -2,6 +2,7 @@
   import {
     addStop,
     applyConf,
+    fetchBuses,
     persist,
     removeStop,
     setProxy,
@@ -68,6 +69,10 @@
     proxyMsg = "";
     code = "";
     services = "";
+    /* fetch immediately: a stop added after mount must not wait for the
+       30s tick to catch the 60s throttle before its first arrivals (and
+       the proxy-provided stop name) arrive */
+    fetchBuses(board);
   }
 
   function onExport() {

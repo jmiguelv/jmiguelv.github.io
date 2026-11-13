@@ -1,7 +1,11 @@
 import { mount, tick, unmount } from "svelte";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import NowBoard from "../src/components/now/NowBoard.svelte";
-import { applyConf, createNowState } from "../src/components/now/state.svelte";
+import {
+  applyConf,
+  createNowState,
+  setProxy,
+} from "../src/components/now/state.svelte";
 import { parseConfText } from "../src/components/now/conf";
 import { LS_SETTINGS } from "../src/components/now/state.svelte";
 import { buildFeeds, drain } from "./now-fixtures";
@@ -195,5 +199,41 @@ describe("lab/now board boots and renders", () => {
     expect(page.text("verdict-big")).toBe("Partly Cloudy (Day)");
     expect(page.text("buses")).toContain("Stop 17009");
     expect(page.text("buses")).toContain("Stop 07011");
+  });
+});
+
+describe("lab/now stop added after mount", () => {
+  it("resolves the first stop and its name when added after mount", async () => {
+    const page = await boot({ settings: {} });
+    /* the drawer's own flow — set the proxy via the model, then type a
+       stop code and submit the form exactly as a keyboard user does */
+    setProxy(page.state, "https://x.test/api/bus");
+    await drain();
+
+    const codeInput = document.getElementById("stop-code") as HTMLInputElement;
+    codeInput.value = "17009";
+    /* bind:value listens for input events — a bare DOM write does not
+       reach the bound $state, so emit them like a keyboard would */
+    codeInput.dispatchEvent(new window.Event("input", { bubbles: true }));
+    const svcInput = document.getElementById(
+      "stop-services",
+    ) as HTMLInputElement;
+    svcInput.value = "96";
+    svcInput.dispatchEvent(new window.Event("input", { bubbles: true }));
+    const form = document.getElementById("stopform") as HTMLFormElement;
+    form.dispatchEvent(
+      new window.Event("submit", { bubbles: true, cancelable: true }),
+    );
+    await drain();
+    await tick();
+
+    /* arrivals plus the proxy-provided stop name, without waiting for the
+       30s tick — adding a stop fetches immediately (this was the gap: the
+       add flow relied on the tick catching the 60s throttle) */
+    expect(page.text("buses")).toContain("17009 · Blk 409 · Jurong East Ave 1");
+    expect(page.text("buses")).toContain("96 · 3 min");
+    expect(page.text("stops-list")).toContain(
+      "17009 · Blk 409 · Jurong East Ave 1 · 96",
+    );
   });
 });
