@@ -61,33 +61,3 @@
     <p class={status.cls} id={statusId} role="status">{status.text}</p>
   {/if}
 </section>
-
-<style>
-  section {
-    margin-block: 2.1rem;
-    padding-block-start: 0.85rem;
-    border-block-start: 1px solid var(--rule);
-    animation: none; /* the site rises bare `section`s; the board sits still */
-  }
-
-  h2 {
-    font-family: "Space Mono", monospace;
-    font-size: 0.68rem;
-    font-weight: 400;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin: 0 0 0.85rem;
-  }
-
-  p.status {
-    font-family: "Space Mono", monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin: 0.5rem 0 0;
-  }
-
-  p.status.err {
-    color: var(--mark);
-  }
-</style>

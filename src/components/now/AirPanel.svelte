@@ -59,31 +59,3 @@
     </div>
   {/if}
 </Panel>
-
-<style>
-  .lead {
-    margin-block: 0 1.05rem;
-  }
-
-  .dot {
-    display: inline-block;
-    width: 0.62em;
-    height: 0.62em;
-    border-radius: 50%;
-    margin-right: 0.3em;
-    vertical-align: baseline;
-    background: var(--rule);
-  }
-
-  .dot.g {
-    background: var(--aqi-good);
-  }
-
-  .dot.e {
-    background: var(--aqi-elev);
-  }
-
-  .dot.h {
-    background: var(--aqi-high);
-  }
-</style>

@@ -1,129 +1,20 @@
 ---
-import Base from "../../layouts/Base.astro";
+import Board from "../../layouts/Board.astro";
 import NowBoard from "../../components/now/NowBoard.svelte";
 
 /* island version: the board is one Svelte 5 island (NowBoard, client:load).
-   The page supplies the frame (Base, metadata, 16px root, palette vars),
-   the island supplies everything reactive. The old controller script and
-   the per-panel is:global CSS are gone — state lives in a runes module and
-   runtime DOM is rendered by templates, so all styles are scoped to the
-   components that own them. api/bus.js stays a standalone Vercel function:
-   static pages cannot run per-request code. */
+   Presentation lives entirely in the Board layout — this page supplies only
+   metadata and the mount point. api/bus.js stays a standalone Vercel
+   function: static pages cannot run per-request code. */
 
 export const labTitle = "now";
 ---
 
-<Base
+<Board
   title="now — Miguel Vieira"
   description="A glanceable board for heading out the door — rain verdict, air quality, and live bus arrivals for Singapore."
   noindex
 >
   <NowBoard client:load />
   <noscript><p>This board needs JavaScript to fetch live data.</p></noscript>
-</Base>
-
-<style is:global>
-  /* Everything below ships solely with this page, so tweaking the page
-     frame here cannot leak onto the rest of the site. */
-  :root {
-    --bg: #f6f3ed;
-    --fg: #143a86;
-    --deep: #0a2466;
-    --muted: #5a6b82;
-    --rule: #c9c2b3;
-    --mark: #b03c0d;
-    --panel: #fffdf8;
-    --aqi-good: #1e8e3e;
-    --aqi-elev: #b45309;
-    --aqi-high: #b91c1c;
-  }
-
-  /* Palette from the site, with the accent darkened per the design review so
-     every text pair clears 4.5:1 (ratios measured, see plan). */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #0a1a35;
-      --fg: #e8ecf5;
-      --deep: #ffffff;
-      --muted: #8a96a8;
-      --rule: #1f2d4a;
-      --mark: #ff8a4c;
-      --panel: #0e2140;
-      --aqi-good: #34d399;
-      --aqi-elev: #fbbf24;
-      --aqi-high: #f87171;
-    }
-  }
-
-  /* the prototype was drawn against a 16px root, the site runs 15px */
-  html {
-    font-size: 16px;
-  }
-
-  body {
-    margin: 0;
-    background: var(--bg);
-  }
-
-  .wrap {
-    padding-block: 0;
-  }
-
-  /* shared meta/status/empty lines, plus the button look used by both the
-     masthead and the settings drawer — rendered by island templates */
-  .now-board .status {
-    font-family: "Space Mono", monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin: 0.5rem 0 0;
-  }
-
-  .now-board .status.err {
-    color: var(--mark);
-  }
-
-  .now-board .meta {
-    font-family: "Space Mono", monospace;
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin: 0.4rem 0 0;
-  }
-
-  .now-board .empty {
-    font-size: 0.9rem;
-    color: var(--muted);
-    margin: 0.2rem 0 0;
-  }
-
-  .now-board .btn {
-    font-family: "Space Mono", monospace;
-    font-size: 0.82rem;
-    color: var(--fg);
-    background: var(--panel);
-    border: 2px solid var(--rule);
-    border-radius: 10px;
-    min-height: 44px;
-    padding: 0.45em 0.8em;
-    cursor: pointer;
-  }
-
-  .now-board .btn:hover {
-    border-color: var(--mark);
-  }
-
-  .now-board .btn:focus-visible {
-    outline: 3px solid var(--mark);
-    outline-offset: 2px;
-  }
-
-  .now-board .btn.danger {
-    color: var(--mark);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    * {
-      animation: none !important;
-      transition: none !important;
-    }
-  }
-</style>
+</Board>

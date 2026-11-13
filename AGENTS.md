@@ -79,11 +79,17 @@ Static-prototype gotchas:
 is one Svelte 5 island (`src/components/now/`), mounted with
 `client:load`:
 
-- `now.astro` keeps only the frame: `Base`, metadata, `noindex`, the
+- `now.astro` keeps only metadata: the `Board` layout, `noindex`, and the
   `labTitle` export (the `/lab/` index reads it — it renders inside the
-  island at runtime, where markup scraping can't reach), the palette
-  `:root` vars, the 16px root pin, and the page-shared utility styles
-  (`.status`, `.meta`, `.btn`) under `.now-board`.
+  island at runtime, where markup scraping can't reach).
+- `src/layouts/Board.astro` (built on Base, not a Base copy) owns every
+  board style in one place — its `is:global` sheet roots every selector at
+  `.board-page`, pulls all colors from the site's `--site-*` tokens
+  (only the air-band accents are board-local: they are data semantics),
+  and re-declares the inherited `section`/`h2`/`details` rules from
+  `global.css` because the board's rows are tool chrome. The island
+  components (`src/components/now/*.svelte`) carry zero `<style>` blocks —
+  markup only.
 - `state.svelte.ts` owns all reactivity and mutations: one `$state`
   object built by `createNowState()`, plus `loadSaved`/`persist`/`refresh`/
   `fetchBuses`/`applyConf`/`wipe` as plain functions. `NowBoard.svelte`

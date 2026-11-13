@@ -70,12 +70,20 @@ describe("lab index discovery", () => {
   });
 
   it("lists Astro lab pages by their labTitle and Base description", () => {
-    const entries = discoverAstroLabEntries(astroPages);
+    /* readdirSync order is OS-dependent — assertions sort by slug */
+    const entries = discoverAstroLabEntries(astroPages).sort((a, b) =>
+      a.slug.localeCompare(b.slug),
+    );
     expect(entries).toEqual([
       {
         slug: "alpha",
         title: "Alpha",
         description: "Alpha fixture description.",
+      },
+      {
+        slug: "board",
+        title: "Board",
+        description: "Board fixture description.",
       },
     ]);
   });
@@ -94,6 +102,11 @@ describe("lab index discovery", () => {
 
   it("merges and sorts both sources for the index", () => {
     const merged = discoverAllLabEntries(fixtures, astroPages);
-    expect(merged.map((e) => e.slug)).toEqual(["alpha", "gadget", "widget"]);
+    expect(merged.map((e) => e.slug)).toEqual([
+      "alpha",
+      "board",
+      "gadget",
+      "widget",
+    ]);
   });
 });

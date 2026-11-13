@@ -78,34 +78,3 @@
     {/if}
   </div>
 </Panel>
-
-<style>
-  .summary {
-    margin-block: 0 0.3rem;
-  }
-
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.2rem;
-    margin: 0.3rem 0 0;
-  }
-
-  .chip {
-    font-family: "Space Mono", monospace;
-    font-size: 0.78rem;
-    color: var(--fg);
-  }
-
-  .chip b {
-    color: var(--deep);
-  }
-
-  .chip small {
-    display: block;
-    font-size: 0.64rem;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--muted);
-  }
-</style>

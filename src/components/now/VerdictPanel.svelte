@@ -50,20 +50,3 @@
     <p class="meta" id="now-meta"></p>
   {/if}
 </Panel>
-
-<style>
-  #verdict-big {
-    font-size: clamp(1.5rem, 6vw, 2.25rem);
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 1.18;
-    color: var(--deep);
-    margin: 0;
-  }
-
-  #verdict-guide {
-    font-size: 1.05rem;
-    color: var(--fg);
-    margin: 0.6rem 0 0;
-  }
-</style>

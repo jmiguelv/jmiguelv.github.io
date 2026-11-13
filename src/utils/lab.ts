@@ -67,10 +67,12 @@ export function discoverAstroLabEntries(pagesDir: string): LabEntry[] {
           `${file}: lab pages need export const labTitle = "…" for the index listing`,
         );
       }
-      const desc = src.match(/<Base\b[^>]*?description="([^"]+)"/);
+      /* Board is a layout built on Base and must declare the same
+         description contract for the index listing */
+      const desc = src.match(/<(?:Base|Board)\b[^>]*?description="([^"]+)"/);
       if (!desc) {
         throw new Error(
-          `${file}: lab pages need a description on Base for the index listing`,
+          `${file}: lab pages need a description on Base (or a layout on Base) for the index listing`,
         );
       }
       return {
