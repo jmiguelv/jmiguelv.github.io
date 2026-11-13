@@ -163,11 +163,11 @@ describe("lab/now board boots and renders", () => {
       "17009 · Blk 409 · Jurong East Ave 1 · 96",
     );
     expect(page.text("buses")).not.toContain("Stop 17009");
-    /* one bus per line: countdown and its arrival clock time */
-    expect(page.text("buses")).toMatch(/96 · 3 min\s*· arrives \d{2}:\d{2}/);
-    expect(page.text("buses")).toMatch(/96 · 9 min\s*· arrives \d{2}:\d{2}/);
-    expect(page.text("buses")).toMatch(/96 · 22 min\s*· arrives \d{2}:\d{2}/);
-    expect(page.text("buses")).not.toContain("170 ·");
+    /* one service per row: countdowns with their arrival clock times */
+    expect(page.text("buses")).toMatch(
+      /96 · 3 min \(\d{1,2}:\d{2}[^)]*\), 9 min \(\d{1,2}:\d{2}[^)]*\), 22 min \(\d{1,2}:\d{2}[^)]*\)/,
+    );
+    expect(page.text("buses")).not.toContain("170 · ");
     expect(page.text("buses")).toContain("arrivals fetched just now");
     expect(page.text("buses")).not.toContain("5 min");
     expect(page.requested).toContain("/api/bus?BusStopCode=17009");
