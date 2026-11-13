@@ -1,12 +1,9 @@
 import { mount, tick, unmount } from "svelte";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import NowBoard from "../src/components/now/NowBoard.svelte";
-import {
-  applyConf,
-  createNowState,
-} from "../src/components/now/state.svelte.js";
-import { parseConfText } from "../src/components/now/conf.js";
-import { LS_SETTINGS } from "../src/components/now/state.svelte.js";
+import { applyConf, createNowState } from "../src/components/now/state.svelte";
+import { parseConfText } from "../src/components/now/conf";
+import { LS_SETTINGS } from "../src/components/now/state.svelte";
 import { buildFeeds, drain } from "./now-fixtures";
 import type { Settings } from "./now-fixtures";
 

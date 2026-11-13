@@ -1,5 +1,5 @@
 <script>
-  import { ago } from "./formatters.js";
+  import { ago } from "./formatters";
 
   /* Panel shell: rule-topped section, small-caps mono heading, the panel's
      content, and its live status line. The status derivation is shared:

@@ -1,6 +1,6 @@
 <script>
   import Panel from "./Panel.svelte";
-  import { pm25Band, pm25Dot, psiBand, psiDot } from "./formatters.js";
+  import { pm25Band, pm25Dot, psiBand, psiDot } from "./formatters";
 
   /* Air / haze: PSI 24h per region (5 regions, no national reading) plus
      PM2.5 1-hourly — two feeds degrading independently: a PM2.5 failure

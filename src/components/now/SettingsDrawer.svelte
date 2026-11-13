@@ -6,8 +6,8 @@
     removeStop,
     setProxy,
     wipe,
-  } from "./state.svelte.js";
-  import { parseConfText, serializeConf } from "./conf.js";
+  } from "./state.svelte";
+  import { parseConfText, serializeConf } from "./conf";
 
   /* The settings drawer owns every input the board persists: area, region,
      proxy URL, stop codes, and the versioned JSON conf. Everything funnels

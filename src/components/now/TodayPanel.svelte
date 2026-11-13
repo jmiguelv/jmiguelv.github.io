@@ -1,6 +1,6 @@
 <script>
   import Panel from "./Panel.svelte";
-  import { hhmm } from "./formatters.js";
+  import { hhmm } from "./formatters";
 
   /* Today: the 24-hour forecast — general summary, chips, and the weather
      period currently in force for the chosen region. The period check

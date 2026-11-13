@@ -4,9 +4,9 @@ import {
   BUS_FETCH_MS,
   REFRESH_MS,
   API,
-} from "../src/components/now/feeds.js";
-import { parseConfText, serializeConf } from "../src/components/now/conf.js";
-import { createNowState } from "../src/components/now/state.svelte.js";
+} from "../src/components/now/feeds";
+import { parseConfText, serializeConf } from "../src/components/now/conf";
+import { createNowState } from "../src/components/now/state.svelte";
 import type { Settings } from "./now-fixtures";
 
 /* Conf export/import, endpoint pinning, and pacing constants — all pure

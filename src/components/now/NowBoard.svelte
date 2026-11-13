@@ -6,19 +6,19 @@
   import SettingsDrawer from "./SettingsDrawer.svelte";
   import TodayPanel from "./TodayPanel.svelte";
   import VerdictPanel from "./VerdictPanel.svelte";
-  import { REFRESH_MS } from "./feeds.js";
-  import { hhmm } from "./formatters.js";
+  import { REFRESH_MS } from "./feeds";
+  import { hhmm } from "./formatters";
   import {
     busesDue,
     createNowState,
     fetchBuses,
     loadSaved,
     refresh,
-  } from "./state.svelte.js";
+  } from "./state.svelte";
 
   /* The now board island: one reactive state object owned here, created by
      the state factory and passed to every panel as a single prop. All
-     mutations live in state.svelte.js; this component owns the clock
+     mutations live in state.svelte.ts; this component owns the clock
      (30s tick for ages/countdowns, 5-min feed refresh, 1-min visible bus
      polls) and the masthead. */
 

@@ -84,15 +84,17 @@ is one Svelte 5 island (`src/components/now/`), mounted with
   island at runtime, where markup scraping can't reach), the palette
   `:root` vars, the 16px root pin, and the page-shared utility styles
   (`.status`, `.meta`, `.btn`) under `.now-board`.
-- `state.svelte.js` owns all reactivity and mutations: one `$state`
+- `state.svelte.ts` owns all reactivity and mutations: one `$state`
   object built by `createNowState()`, plus `loadSaved`/`persist`/`refresh`/
   `fetchBuses`/`applyConf`/`wipe` as plain functions. `NowBoard.svelte`
   owns the clock (30s tick, 5-min feeds, 1-min visible bus polls) and
   passes the state object to `Panel.svelte` (the shared section shell)
   and the panel components as a single prop.
-- The pure modules (`feeds.js` — endpoints and `fetchJson`;
-  `formatters.js` — bands/ages; `conf.js` — the versioned JSON conf
-  funnel with JSDoc discriminated-union types) are framework-free and
+- The TypeScript modules are the island's real contracts: `feeds.ts`
+  holds the endpoint pins plus payload interfaces for every feed
+  (verified against live responses); `formatters.ts`, `conf.ts` (the
+  versioned JSON funnel with true discriminated-union types), and
+  `state.svelte.ts` (typed `NowState`) are framework-free and
   unit-tested directly. Endpoint URLs are pinned there and in tests —
   the 2026-11-10 `/24-hour-forecast` 403 typo incident is why.
 - The island renders through `Base` (metadata, analytics, site fonts)

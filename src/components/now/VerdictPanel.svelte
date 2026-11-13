@@ -1,6 +1,6 @@
 <script>
   import Panel from "./Panel.svelte";
-  import { hhmm, umbrellaFor } from "./formatters.js";
+  import { hhmm, umbrellaFor } from "./formatters";
 
   /* "heading out": the 2-hour nowcast for the chosen area, with the
      umbrella verdict. Derives straight from the cached feed — never

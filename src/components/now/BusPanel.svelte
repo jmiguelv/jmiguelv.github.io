@@ -1,10 +1,10 @@
 <script>
+  import { ago, hhmm, minsTo } from "./formatters";
   import Panel from "./Panel.svelte";
-  import { ago, hhmm, minsTo } from "./formatters.js";
 
   /* Buses: arrivals for the saved stops through the user's proxy. Cards
      derive from the cache — countdowns re-derive on the 30s tick, no
-     render-time requests. Fetches happen in state.svelte.js (poll at most
+     render-time requests. Fetches happen in state.svelte.ts (poll at most
      once a minute while visible: LTA quota). Unlike feed panels, the
      status line here is not fetch-driven: it reports what is saved on
      this device, so this panel owns it directly. */

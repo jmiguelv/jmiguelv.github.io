@@ -9,6 +9,15 @@ export default tseslint.config(
   ...astro.configs.recommended,
   ...svelte.configs["flat/recommended"],
   {
+    /* eslint-plugin-svelte claims *.svelte.ts modules for its own parser,
+       which cannot read TypeScript — the runes module is plain TS plus
+       $state, so parse it with the TS parser like every other .ts. */
+    files: ["**/*.svelte.ts"],
+    languageOptions: {
+      parser: tseslint.parser,
+    },
+  },
+  {
     ignores: ["dist/", ".astro/", "node_modules/"],
   },
   {
@@ -32,7 +41,7 @@ export default tseslint.config(
        browser: they need browser globals, and `board.tick;` style reads are
        deliberate (they wire the 30s clock into derivations), so the
        unused-expression rule is off for .svelte files. */
-    files: ["**/*.svelte", "src/components/now/**/*.js"],
+    files: ["**/*.svelte", "src/components/now/**/*.ts"],
     languageOptions: {
       globals: {
         console: "readonly",
